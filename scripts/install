@@ -16,7 +16,7 @@ echo "Checking for prerequisites..."
 # Installing necessary dependencies
 echo "Installing necessary dependencies..."
 sudo apt-get update
-sudo apt-get install -y autoconf make gcc
+sudo apt-get install -y autoconf make gcc libatf
 
 # Downloading and installing mlmmj
 echo "Downloading and installing mlmmj..."
