@@ -5,7 +5,7 @@
 # -------------------------------------------------------------
 
 # Variables
-SOURCE_URL="https://codeberg.org/mlmmj/listtexts"
+SOURCE_URL="https://codeberg.org/mlmmj/mlmmj"
 SPOOL_DIR="/var/spool/mlmmj"
 MLMMJ_USER="mlmmj"
 MLMMJ_GROUP="mlmmj"
