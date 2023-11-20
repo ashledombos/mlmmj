@@ -10,6 +10,8 @@ source /usr/share/yunohost/helpers
 # Variables
 RELEASE_URL="https://codeberg.org/mlmmj/mlmmj/archive/RELEASE_1_4_0rc2.tar.gz"
 SPOOL_DIR="/var/spool/mlmmj"
+INSTALL_FLAG=false
+REQUIRED_VERSION="1.4.0.rc2"
 
 # Checking prerequisites existing mlmmj binaries…
 ynh_script_progression --message="Checking existing mlmmj binaries;"
@@ -17,26 +19,27 @@ ynh_script_progression --message="Checking existing mlmmj binaries;"
 # Checking if mlmmj is already installed
 if command -v mlmmj-list >/dev/null 2>&1; then
     INSTALLED_VERSION=$(mlmmj-list -V | cut -d ' ' -f3)
-    REQUIRED_VERSION="1.4.0.rc2"
-
     ynh_script_progression --message="mlmmj is already installed with version: $INSTALLED_VERSION"
+    
     if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
         ynh_script_progression --message="Updating mlmmj to the required version;"
-        
-        # Installing dependencies
-        ynh_install_app_dependencies autoconf make gcc libatf-dev
-
-        # Downloading the specific release
-        ynh_script_progression --message="Downloading mlmmj release;"
-        ynh_setup_source "$RELEASE_URL" mlmmj-release
-        tar xzf mlmmj-release/RELEASE_1_4_0rc2.tar.gz -C mlmmj-release
-        pushd mlmmj-release/mlmmj-1.4.0rc2
-        autoreconf -i && ./configure && make && sudo make install
-        popd
-        ynh_secure_remove mlmmj-release
+        INSTALL_FLAG=true
     fi
 else
-    ynh_print_err --message="mlmmj is already installed."
+    ynh_script_progression --message="mlmmj is not installed, proceeding with installation;"
+    INSTALL_FLAG=true
+fi
+
+# Installation update of mlmmj if necessary
+if [ "$INSTALL_FLAG" = true ]; then
+    ynh_install_app_dependencies autoconf make gcc libatf-dev
+    ynh_script_progression --message="Downloading mlmmj release;"
+    ynh_setup_source "$RELEASE_URL" mlmmj-release
+    tar xzf mlmmj-release/RELEASE_1_4_0rc2.tar.gz -C mlmmj-release
+    pushd mlmmj-release/mlmmj-1.4.0rc2
+    autoreconf -i && ./configure && make && sudo make install
+    popd
+    ynh_secure_remove mlmmj-release
 fi
 
 # Retrieve arguments from TOML configuration
