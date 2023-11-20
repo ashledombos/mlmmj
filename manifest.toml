@@ -7,7 +7,7 @@ name = "mlmmj"
 description.en = "Mailing List Manager Made Joyful, a simple and efficient mailing list manager."
 description.fr = "Gestionnaire de listes de diffusion efficace et simple d'utilisation."
 version = "1.3.99~ynh1"
-maintainers = [{ name = "VotreNom", email = "votre@email.com" }]
+maintainers = [{ name = "Raph", email = "raph@raph" }]
 
 [upstream]
 license = "GPL-2.0-or-later"
@@ -55,24 +55,3 @@ ram.runtime = "50M"
         url = "https://codeberg.org/mlmmj/mlmmj/archive/1.3.99.tar.gz"
         sha256 = "<sha256sum>"
         # autoupdate.strategy = "latest_github_tag"
-
-    [resources.system_user]
-    # ...
-
-    [resources.install_dir]
-    # ...
-
-    [resources.data_dir]
-    # ...
-
-    [resources.permissions]
-    main.url = "/"
-
-    [resources.ports]
-    # …
-
-    [resources.apt]
-    packages = "mlmmj"
-
-    [resources.database]
-    # …
