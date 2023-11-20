@@ -49,9 +49,10 @@ ram.runtime = "50M"
     choices = ["fr", "en"]
     default = "en"
 
-#[resources]
-#    [resources.sources]
-#        [resources.sources.main]
-#        url = "https://codeberg.org/mlmmj/mlmmj/archive/1.3.99.tar.gz"
-#        sha256 = "<sha256sum>"
-        # autoupdate.strategy = "latest_github_tag"
+[resources]
+  [resources.sources]
+    [resources.sources.main]
+    url = "https://codeberg.org/mlmmj/mlmmj/archive/RELEASE_1_4_0rc2.tar.gz"
+    sha256 = "4109feb70ed3ed0fa8d0808c5cb054c46ccd76d41f25d81e2cb9a96467dfbbec"
+    format = "tar.gz"
+    in_subdir = true
