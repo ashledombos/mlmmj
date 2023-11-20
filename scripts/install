@@ -34,12 +34,11 @@ fi
 if [ "$INSTALL_FLAG" = true ]; then
     ynh_install_app_dependencies autoconf make gcc libatf-dev
     ynh_script_progression --message="Downloading mlmmj release;"
-    ynh_setup_source "$RELEASE_URL" mlmmj-release
-    tar xzf mlmmj-release/RELEASE_1_4_0rc2.tar.gz -C mlmmj-release
-    pushd mlmmj-release/mlmmj-1.4.0rc2
+    ynh_setup_source --dest_dir="mlmmj-latest"
+    pushd mlmmj-latest
     autoreconf -i && ./configure && make && sudo make install
     popd
-    ynh_secure_remove mlmmj-release
+    ynh_secure_remove mlmmj-latest
 fi
 
 # Retrieve arguments from TOML configuration
