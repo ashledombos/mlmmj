@@ -87,7 +87,7 @@ ynh_script_progression --message="Updating permissions"
 chown -R nobody:nogroup "$LISTDIR"
 
 ynh_script_progression --message="Activating and starting the mlmmj-maintd service;"
-ynh_systemd_action --service_name=mlmmj-maintd@$list_name.service --action=enable
-ynh_systemd_action --service_name=mlmmj-maintd@$list_name.service --action=start || ynh_die "Failed to start mlmmj-maintd service"
+ynh_systemd_action --service_name=mlmmj-maintd@$LISTNAME.service --action=enable
+ynh_systemd_action --service_name=mlmmj-maintd@$LISTNAME.service --action=start || ynh_die "Failed to start mlmmj-maintd service"
 
 ynh_script_progression --message="Mailing list $LISTDIR was created successfully."
