@@ -59,6 +59,6 @@ newaliases
 # Activating and starting the mlmmj-maintd service
 echo "Activating and starting the mlmmj-maintd service..."
 ynh_systemd_action --service_name=mlmmj-maintd@$list_name.service --action=enable
-ynh_systemd_action --service_name=mlmmj-maintd@list_name.service --action=start
+ynh_systemd_action --service_name=mlmmj-maintd@$list_name.service --action=start
 
 echo "mlmmj installation and configuration completed."
