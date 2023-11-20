@@ -61,7 +61,7 @@ fi
 
 # 2. MAILING LIST CREATION AND ACTIVATION
 
-ynh_script_progression --message="Creating the necessary directories;"
+ynh_script_progression --message="Creating the necessary directories to $LISTDIR;"
 mkdir -p "$LISTDIR"
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
@@ -70,16 +70,16 @@ do
     mkdir -p "$LISTDIR/$DIR"
 done
 
-ynh_script_progression --message="Configuring the list"
+ynh_script_progression --message="Configuring the list $LISTNAME@$FQDN"
 echo "postmaster" > "$LISTDIR/control/owner"
 echo "$LISTNAME@$FQDN" > "$LISTDIR/control/listaddress"
 
-ynh_script_progression --message="Copying localized content in the list;"
+ynh_script_progression --message="Copying localized content ($LANG) into $TEXTPATH;"
 if [ -d "$TEXTPATH" ]; then
     cp "$TEXTPATH"/* "$LISTDIR/text"
 fi
 
-ynh_script_progression --message="Running newaliases to update aliases;"
+ynh_script_progression --message="Updating $ALIASFILE and runngin newaliases;"
 printf "$ALIAS" >> $ALIASFILE
 newaliases || ynh_die "Failed to run newaliases"
 
