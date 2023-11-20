@@ -36,8 +36,7 @@ if command -v mlmmj-list >/dev/null 2>&1; then
         ynh_secure_remove mlmmj-release
     fi
 else
-    ynh_print_err --message="mlmmj is not installed. Aborting."
-    exit 1
+    ynh_print_err --message="mlmmj is already installed."
 fi
 
 # Retrieve arguments from TOML configuration
