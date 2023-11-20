@@ -7,16 +7,31 @@
 # Import YunoHost helpers
 source /usr/share/yunohost/helpers
 
+# Retrieve arguments from TOML configuration
+LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name)
+FQDN=$(ynh_app_setting_get --app=$app --key=domain)
+LANG=$(ynh_app_setting_get --app=$app --key=language)
+
 # Variables
 RELEASE_URL="https://codeberg.org/mlmmj/mlmmj/archive/RELEASE_1_4_0rc2.tar.gz"
-SPOOL_DIR="/var/spool/mlmmj"
+SPOOLDIR="/var/spool/mail"
+ALIASFILE="/etc/aliases"
+TEXTLIBDIR="/usr/local/share/mlmmj/text.skel"
+LISTDIR="$SPOOLDIR/$LISTNAME"
+TEXTPATH="$TEXTLIBDIR/$LANG"
+MLMMJRECEIVE=/usr/local/bin/mlmmj-receive
+MLMMJMAINTD=/usr/local/bin/mlmmj-maintd
+ALIAS="$LISTNAME:  \"|$MLMMJRECEIVE -L $LISTDIR/\""
 INSTALL_FLAG=false
 REQUIRED_VERSION="1.4.0.rc2"
 
-# Checking prerequisites existing mlmmj binaries…
+
+
+# -------------------------------------------------------------
+# 1. INSTALLING MLMMJ BINARIES IF NECESSARY
+
 ynh_script_progression --message="Checking existing mlmmj binaries;"
 
-# Checking if mlmmj is already installed
 if command -v mlmmj-list >/dev/null 2>&1; then
     INSTALLED_VERSION=$(mlmmj-list -V | cut -d ' ' -f3)
     ynh_script_progression --message="mlmmj is already installed with version: $INSTALLED_VERSION"
@@ -32,30 +47,47 @@ fi
 
 # Installation update of mlmmj if necessary
 if [ "$INSTALL_FLAG" = true ]; then
-    ynh_install_app_dependencies autoconf make gcc libatf-dev
-    ynh_script_progression --message="Downloading mlmmj release;"
-    ynh_setup_source --dest_dir="mlmmj-latest"
+    ynh_script_progression --message="Installing necessary packages"
+    ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
+    ynh_script_progression --message="Downloading and installing mlmmj release;"
+    ynh_setup_source --dest_dir="mlmmj-latest"|| ynh_die "Failed to download mlmmj"
     pushd mlmmj-latest
-    autoreconf -i && ./configure && make && sudo make install
+    autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
     popd
     ynh_secure_remove mlmmj-latest
 fi
 
-# Retrieve arguments from TOML configuration
-list_name=$(ynh_app_setting_get --app=$app --key=list_name)
-domain=$(ynh_app_setting_get --app=$app --key=domain)
+# -------------------------------------------------------------
 
-# Creating the mailing list
-ynh_script_progression --message="Creating the mailing list;"
-/usr/local/bin/mlmmj-make-ml -L $list_name -d $domain -a || ynh_die "Failed to create the mailing list."
+# 2. MAILING LIST CREATION AND ACTIVATION
 
-# Running newaliases
-ynh_script_progression --message="Running newaliases to update aliases."
+ynh_script_progression --message="Creating the necessary directories;"
+mkdir -p "$LISTDIR"
+for DIR in incoming queue queue/discarded archive text subconf unsubconf \
+           bounce control moderation subscribers.d digesters.d requeue \
+           nomailsubs.d
+do
+    mkdir -p "$LISTDIR/$DIR"
+done
+
+ynh_script_progression --message="Configuring the list"
+echo "postmaster" > "$LISTDIR/control/owner"
+echo "$LISTNAME@$FQDN" > "$LISTDIR/control/listaddress"
+
+ynh_script_progression --message="Copying localized content in the list;"
+if [ -d "$TEXTPATH" ]; then
+    cp "$TEXTPATH"/* "$LISTDIR/text"
+fi
+
+ynh_script_progression --message="Running newaliases to update aliases;"
+printf "$ALIAS" >> $ALIASFILE
 newaliases || ynh_die "Failed to run newaliases"
 
-# Activating and starting the mlmmj-maintd service
+ynh_script_progression --message="Updating permissions"
+chown -R nobody:nogroup "$LISTDIR"
+
 ynh_script_progression --message="Activating and starting the mlmmj-maintd service;"
 ynh_systemd_action --service_name=mlmmj-maintd@$list_name.service --action=enable
 ynh_systemd_action --service_name=mlmmj-maintd@$list_name.service --action=start || ynh_die "Failed to start mlmmj-maintd service"
 
-ynh_script_progression --message="mlmmj installation and configuration completed."
+ynh_script_progression --message="Mailing list $LISTDIR was created successfully."
