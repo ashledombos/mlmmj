@@ -24,7 +24,7 @@ if command -v mlmmj-list >/dev/null 2>&1; then
         ynh_script_progression --message="Updating mlmmj to the required version;"
         
         # Installing dependencies
-        ynh_install_app_dependencies autoconf make gcc libatf
+        ynh_install_app_dependencies autoconf make gcc libatf-dev
 
         # Downloading the specific release
         ynh_script_progression --message="Downloading mlmmj release;"
