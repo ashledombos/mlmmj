@@ -7,39 +7,58 @@
 # Variables
 SOURCE_URL="https://codeberg.org/mlmmj/mlmmj"
 SPOOL_DIR="/var/spool/mlmmj"
-MLMMJ_USER="mlmmj"
-MLMMJ_GROUP="mlmmj"
+# MLMMJ_USER="nobody"
+# MLMMJ_GROUP="nogroup"
 
 # Checking prerequisites
 echo "Checking for prerequisites..."
 
-# Installing necessary dependencies
-echo "Installing necessary dependencies..."
-sudo apt-get update
-sudo apt-get install -y autoconf make gcc libatf
+# Function to compare versions
+version_gt() { test "$(echo "$@" | tr " " "\n" | sort -Vr | head -n 1)" == "$1"; }
 
-# Downloading and installing mlmmj
-echo "Downloading and installing mlmmj..."
-git clone $SOURCE_URL mlmmj-source
-pushd mlmmj-source
-autoreconf -i && ./configure && make && sudo make install
-popd
-rm -rf mlmmj-source
+# Checking if mlmmj is already installed and at the correct version
+if command -v mlmmj-list >/dev/null 2>&1; then
+    INSTALLED_VERSION=$(mlmmj-list -V | cut -d ' ' -f3)  # Extraction de la version
+    REQUIRED_VERSION="1.4.0 rc2"  # Remplacez par la version requise pour votre package
 
-# Creating mlmmj user and group
-echo "Creating mlmmj user and group..."
-sudo groupadd -f $MLMMJ_GROUP
-sudo useradd -g $MLMMJ_GROUP -d $SPOOL_DIR -s /usr/sbin/nologin -r $MLMMJ_USER
+    echo "mlmmj is already installed with version: $INSTALLED_VERSION"
+    if version_gt $REQUIRED_VERSION $INSTALLED_VERSION; then
+        echo "Updating mlmmj to the required version..."
+            # Compiling latest version of mlmmj
+            echo "Installing necessary dependencies..."
+            ynh_install_app_dependencies autoconf make gcc libatf
+        
+            # Downloading and installing mlmmj
+            echo "Downloading and installing mlmmj..."
+            ynh_setup_source "$SOURCE_URL" mlmmj-source
+            pushd mlmmj-source
+            autoreconf -i && ./configure && make && sudo make install
+            popd
+            ynh_secure_remove mlmmj-source
+    fi
+fi
 
 # Creating spool directory for mlmmj
-echo "Creating spool directory for mlmmj..."
-sudo mkdir -p $SPOOL_DIR
-sudo chown $MLMMJ_USER:$MLMMJ_GROUP $SPOOL_DIR
-sudo chmod 750 $SPOOL_DIR
+# echo "Creating spool directory for mlmmj..."
+# sudo mkdir -p $SPOOL_DIR
+# sudo chown $MLMMJ_USER:$MLMMJ_GROUP $SPOOL_DIR
+# sudo chmod 750 $SPOOL_DIR
 
-# Configuring Postfix for mlmmj
-echo "Configuring Postfix for mlmmj..."
-# At this stage, the configuration of Postfix for mlmmj is deferred
-# until specific mailing lists are created via the configuration panel.
+# Retrieve arguments from TOML configuration
+list_name=$(ynh_app_setting_get --app=$app --key=list_name)
+domain=$(ynh_app_setting_get --app=$app --key=domain)
 
-echo "mlmmj installation completed."
+# Creating the mailing list
+echo "Creating the mailing list..."
+/usr/local/bin/mlmmj-make-ml -L $list_name -d $domain -a
+
+# Running newaliases
+echo "Running newaliases to update aliases..."
+newaliases
+
+# Activating and starting the mlmmj-maintd service
+echo "Activating and starting the mlmmj-maintd service..."
+ynh_systemd_action --service_name=mlmmj-maintd.service --action=enable
+ynh_systemd_action --service_name=mlmmj-maintd.service --action=start
+
+echo "mlmmj installation and configuration completed."
