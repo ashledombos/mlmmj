@@ -22,37 +22,35 @@ fund = "N/A"
 [integration]
 yunohost = ">= 4.0"
 architectures = "all"
-multi_instance = false
-ldap = "not_relevant"
-sso = "not_relevant"
+multi_instance = true
+ldap = "N/A"
+sso = "N/A"
 disk = "50M"
 ram.build = "50M"
 ram.runtime = "50M"
 
-[arguments]
-  [arguments.install]
-    [arguments.install.list_name]
-    ask.en = "Enter the name of the mailing list:"
-    ask.fr = "Entrez le nom de la liste de diffusion :"
-    type = "string"
+[install]
+  [install.list_name]
+  ask.en = "Enter the name of the mailing list:"
+  ask.fr = "Entrez le nom de la liste de diffusion :"
+  type = "string"
 
-    [arguments.install.domain]
-    ask.en = "Select the domain for the mailing list:"
-    ask.fr = "Sélectionnez le domaine pour la liste de diffusion :"
-    type = "domain"
-    choices = "__DOMAINS__"
+  [install.domain]
+  ask.en = "Select the domain for the mailing list:"
+  ask.fr = "Sélectionnez le domaine pour la liste de diffusion :"
+  type = "domain"
+  choices = "__DOMAINS__"
 
-    [arguments.install.language]
-    ask.en = "Choose the application language"
-    ask.fr = "Choisissez la langue de l'application"
-    type = "select"
-    choices = ["fr", "en"]
-    default = "en"
+  [install.language]
+  ask.en = "Choose the application language"
+  ask.fr = "Choisissez la langue de l'application"
+  type = "select"
+  choices = ["fr", "en"]
+  default = "en"
 
 [resources]
-  [resources.sources]
-    [resources.sources.main]
-    url = "https://codeberg.org/mlmmj/mlmmj/archive/RELEASE_1_4_0rc2.tar.gz"
-    sha256 = "4109feb70ed3ed0fa8d0808c5cb054c46ccd76d41f25d81e2cb9a96467dfbbec"
-    format = "tar.gz"
-    in_subdir = true
+  [resources.sources.main]
+  url = "https://codeberg.org/mlmmj/mlmmj/archive/RELEASE_1_4_0rc2.tar.gz"
+  sha256 = "4109feb70ed3ed0fa8d0808c5cb054c46ccd76d41f25d81e2cb9a96467dfbbec"
+  format = "tar.gz"
+  in_subdir = true
