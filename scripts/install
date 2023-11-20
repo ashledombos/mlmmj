@@ -4,61 +4,57 @@
 # mlmmj installation script for YunoHost
 # -------------------------------------------------------------
 
+# Import YunoHost helpers
+source /usr/share/yunohost/helpers
+
 # Variables
-SOURCE_URL="https://codeberg.org/mlmmj/mlmmj"
+RELEASE_URL="https://codeberg.org/mlmmj/mlmmj/archive/RELEASE_1_4_0rc2.tar.gz"
 SPOOL_DIR="/var/spool/mlmmj"
-# MLMMJ_USER="nobody"
-# MLMMJ_GROUP="nogroup"
 
-# Checking prerequisites
-echo "Checking for prerequisites..."
+# Checking prerequisites existing mlmmj binaries…
+ynh_script_progression --message="Checking existing mlmmj binaries;"
 
-# Function to compare versions
-version_gt() { test "$(echo "$@" | tr " " "\n" | sort -Vr | head -n 1)" == "$1"; }
-
-# Checking if mlmmj is already installed and at the correct version
+# Checking if mlmmj is already installed
 if command -v mlmmj-list >/dev/null 2>&1; then
-    INSTALLED_VERSION=$(mlmmj-list -V | cut -d ' ' -f3)  # Extraction de la version
-    REQUIRED_VERSION="1.4.0 rc2"  # Remplacez par la version requise pour votre package
+    INSTALLED_VERSION=$(mlmmj-list -V | cut -d ' ' -f3)
+    REQUIRED_VERSION="1.4.0 rc2"
 
-    echo "mlmmj is already installed with version: $INSTALLED_VERSION"
-    if version_gt $REQUIRED_VERSION $INSTALLED_VERSION; then
-        echo "Updating mlmmj to the required version..."
-            # Compiling latest version of mlmmj
-            echo "Installing necessary dependencies..."
-            ynh_install_app_dependencies autoconf make gcc libatf
+    ynh_script_progression --message="mlmmj is already installed with version: $INSTALLED_VERSION"
+    if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
+        ynh_script_progression --message="Updating mlmmj to the required version;"
         
-            # Downloading and installing mlmmj
-            echo "Downloading and installing mlmmj..."
-            ynh_setup_source "$SOURCE_URL" mlmmj-source
-            pushd mlmmj-source
-            autoreconf -i && ./configure && make && sudo make install
-            popd
-            ynh_secure_remove mlmmj-source
-    fi
-fi
+        # Installing dependencies
+        ynh_install_app_dependencies autoconf make gcc libatf
 
-# Creating spool directory for mlmmj
-# echo "Creating spool directory for mlmmj..."
-# sudo mkdir -p $SPOOL_DIR
-# sudo chown $MLMMJ_USER:$MLMMJ_GROUP $SPOOL_DIR
-# sudo chmod 750 $SPOOL_DIR
+        # Downloading the specific release
+        ynh_script_progression --message="Downloading mlmmj release;"
+        ynh_setup_source "$RELEASE_URL" mlmmj-release
+        tar xzf mlmmj-release/RELEASE_1_4_0rc2.tar.gz -C mlmmj-release
+        pushd mlmmj-release/mlmmj-1.4.0rc2
+        autoreconf -i && ./configure && make && sudo make install
+        popd
+        ynh_secure_remove mlmmj-release
+    fi
+else
+    ynh_print_err --message="mlmmj is not installed. Aborting."
+    exit 1
+fi
 
 # Retrieve arguments from TOML configuration
 list_name=$(ynh_app_setting_get --app=$app --key=list_name)
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 
 # Creating the mailing list
-echo "Creating the mailing list..."
-/usr/local/bin/mlmmj-make-ml -L $list_name -d $domain -a
+ynh_script_progression --message="Creating the mailing list;"
+/usr/local/bin/mlmmj-make-ml -L $list_name -d $domain -a || ynh_die "Failed to create the mailing list."
 
 # Running newaliases
-echo "Running newaliases to update aliases..."
-newaliases
+ynh_script_progression --message="Running newaliases to update aliases."
+newaliases || ynh_die "Failed to run newaliases"
 
 # Activating and starting the mlmmj-maintd service
-echo "Activating and starting the mlmmj-maintd service..."
+ynh_script_progression --message="Activating and starting the mlmmj-maintd service;"
 ynh_systemd_action --service_name=mlmmj-maintd@$list_name.service --action=enable
-ynh_systemd_action --service_name=mlmmj-maintd@$list_name.service --action=start
+ynh_systemd_action --service_name=mlmmj-maintd@$list_name.service --action=start || ynh_die "Failed to start mlmmj-maintd service"
 
-echo "mlmmj installation and configuration completed."
+ynh_script_progression --message="mlmmj installation and configuration completed."
