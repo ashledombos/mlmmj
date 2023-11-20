@@ -17,7 +17,7 @@ ynh_script_progression --message="Checking existing mlmmj binaries;"
 # Checking if mlmmj is already installed
 if command -v mlmmj-list >/dev/null 2>&1; then
     INSTALLED_VERSION=$(mlmmj-list -V | cut -d ' ' -f3)
-    REQUIRED_VERSION="1.4.0 rc2"
+    REQUIRED_VERSION="1.4.0.rc2"
 
     ynh_script_progression --message="mlmmj is already installed with version: $INSTALLED_VERSION"
     if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
