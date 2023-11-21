@@ -2,6 +2,7 @@
 Description=Run mlmmj-maintd every two hours
 
 [Timer]
+Unit=mlmmj-maintd@$LISTNAME.service
 OnCalendar=*-*-* 00/2:00:00
 Persistent=true
 
