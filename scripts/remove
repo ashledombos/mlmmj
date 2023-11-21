@@ -52,11 +52,11 @@ if [ "$mlmmj_instances" -eq 1 ]; then
 
     for file in "$dirbin$pattern"; do
         ynh_script_progression --message="$file"
-        ynh_secure_remove --file="$file"
+        #ynh_secure_remove --file="$file"
     done
 
     for file in "$dirman$pattern"; do
-        ynh_secure_remove --file="$file"
+        #ynh_secure_remove --file="$file"
     done
 
     #ynh_secure_remove --file="/usr/local/share/mlmmj"
