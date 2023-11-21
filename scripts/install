@@ -103,7 +103,7 @@ if [ -d "$TEXTPATH" ]; then
 fi
 
 ynh_script_progression --message="Updating $ALIASFILE and runngin newaliases;" -t
-printf "$ALIAS" >> $ALIASFILE
+printf "$ALIAS\n" >> $ALIASFILE
 newaliases || ynh_die "Failed to run newaliases"
 
 ynh_script_progression --message="Updating permissions" -t
