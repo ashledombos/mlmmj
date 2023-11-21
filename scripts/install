@@ -26,6 +26,29 @@ INSTALL_FLAG=false
 REQUIRED_VERSION="1.4.0.rc2"
 
 
+# Function to check if the list name is valid
+is_valid_listname() {
+    if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
+        # Choose the error message based on the user's language preference
+        case $user_language in
+            fr)
+                ynh_print_err --message="Le nom de la liste de diffusion n'est pas valide. Il doit être en minuscules et ne peut contenir que des lettres, des chiffres, des points et des tirets."
+                ;;
+            es)
+                ynh_print_err --message="The mailing list name is invalid. It must be lowercase and can only contain letters, numbers, dots, and dashes."
+                ;;
+            *)
+                ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
+                ;;
+        esac
+        return 1
+    fi
+    return 0
+}
+# Check the list name
+if ! is_valid_listname "$list_name"; then
+    exit 1
+fi
 
 # -------------------------------------------------------------
 # 1. INSTALLING MLMMJ BINARIES IF NECESSARY
