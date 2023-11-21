@@ -47,7 +47,7 @@ fi
 
 # Installation update of mlmmj if necessary
 if [ "$INSTALL_FLAG" = true ]; then
-    ynh_script_progression --message="Installing necessary packages" -t
+    ynh_script_progression --message="Installing necessary packages" -t -w 5
     ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
     ynh_script_progression --message="Downloading and installing mlmmj release;" -t
     ynh_setup_source --dest_dir="mlmmj-latest"|| ynh_die "Failed to download mlmmj"
@@ -90,6 +90,7 @@ ynh_script_progression --message="Adding cron file;" -t
 # Generate random minute execution (between 0 and 59)
 rand_min=$(shuf -i 0-59 -n 1)
 cron_path="/etc/cron.d/$app"
+mkdir -p $cron_path
 printf "$rand_min */2 * * * root /usr/bin/mlmmj-maintd -F -L /var/spool/mlmmj/\$LISTNAME" > "$cron_path/mlmmj.cron" 
 chown root:root "$cron_path"
 chmod 644 "$cron_path"
