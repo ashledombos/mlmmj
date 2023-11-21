@@ -88,8 +88,10 @@ chown -R nobody:nogroup "$LISTDIR"
 
 ynh_script_progression --message="Activating and starting the mlmmj-maintd service;"
 ynh_add_systemd_config --service mlmmj-maintd@$LISTNAME --template mlmmj-maintd@.service
-ynh_add_systemd_config --service=mlmmj-maintd@$LISTNAME --template=mlmmj-maintd.timer
-yunohost service add mlmmj-maintd@$LISTNAME
+ynh_add_systemd_config --service=mlmmj-maintd@$LISTNAME.timer --template=mlmmj-maintd@.timer
+yunohost service add mlmmj-maintd@$LISTNAME.service
+yunohost service add mlmmj-maintd@$LISTNAME.timer
+
 
 ynh_systemd_action --service_name=mlmmj-maintd@$LISTNAME.service --action=enable
 ynh_systemd_action --service_name=mlmmj-maintd@$LISTNAME.service --action=start || ynh_die "Failed to start mlmmj-maintd service"
