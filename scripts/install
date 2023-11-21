@@ -14,7 +14,7 @@ LANG=$(ynh_app_setting_get --app=$app --key=language)
 
 # Variables
 RELEASE_URL="https://codeberg.org/mlmmj/mlmmj/archive/RELEASE_1_4_0rc2.tar.gz"
-SPOOLDIR="/var/spool/mail"
+SPOOLDIR="/var/spool/mlmmj"
 ALIASFILE="/etc/aliases"
 TEXTLIBDIR="/usr/local/share/mlmmj/text.skel"
 LISTDIR="$SPOOLDIR/$LISTNAME"
