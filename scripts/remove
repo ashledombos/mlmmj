@@ -62,7 +62,7 @@ if [ "$mlmmj_instances" -eq 1 ]; then
 
     for file in "$dirbin$pattern"; do
         ynh_script_progression --message="$file"
-        echo $
+        echo $file
         #ynh_secure_remove --file="$file"
     done
 
