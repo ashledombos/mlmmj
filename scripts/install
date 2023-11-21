@@ -41,15 +41,15 @@ if command -v mlmmj-list >/dev/null 2>&1; then
         INSTALL_FLAG=true
     fi
 else
-    ynh_script_progression --message="mlmmj is not installed, proceeding with installation;"
+    ynh_script_progression --message="mlmmj is not installed, proceeding with installation;" -t
     INSTALL_FLAG=true
 fi
 
 # Installation update of mlmmj if necessary
 if [ "$INSTALL_FLAG" = true ]; then
-    ynh_script_progression --message="Installing necessary packages"
+    ynh_script_progression --message="Installing necessary packages" -t
     ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
-    ynh_script_progression --message="Downloading and installing mlmmj release;"
+    ynh_script_progression --message="Downloading and installing mlmmj release;" -t
     ynh_setup_source --dest_dir="mlmmj-latest"|| ynh_die "Failed to download mlmmj"
     pushd mlmmj-latest
     autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
@@ -61,7 +61,7 @@ fi
 
 # 2. MAILING LIST CREATION AND ACTIVATION
 
-ynh_script_progression --message="Creating the necessary directories to $LISTDIR;"
+ynh_script_progression --message="Creating the necessary directories to $LISTDIR;" -t
 mkdir -p "$LISTDIR"
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
@@ -70,28 +70,28 @@ do
     mkdir -p "$LISTDIR/$DIR"
 done
 
-ynh_script_progression --message="Configuring the list $LISTNAME@$FQDN"
+ynh_script_progression --message="Configuring the list $LISTNAME@$FQDN" -t
 echo "postmaster" > "$LISTDIR/control/owner"
 echo "$LISTNAME@$FQDN" > "$LISTDIR/control/listaddress"
 
-ynh_script_progression --message="Copying localized content ($LANG) into $TEXTPATH;"
+ynh_script_progression --message="Copying localized content ($LANG) into $TEXTPATH;" -t
 if [ -d "$TEXTPATH" ]; then
     cp "$TEXTPATH"/* "$LISTDIR/text"
 fi
 
-ynh_script_progression --message="Updating $ALIASFILE and runngin newaliases;"
+ynh_script_progression --message="Updating $ALIASFILE and runngin newaliases;" -t
 printf "$ALIAS" >> $ALIASFILE
 newaliases || ynh_die "Failed to run newaliases"
 
-ynh_script_progression --message="Updating permissions"
+ynh_script_progression --message="Updating permissions" -t
 chown -R nobody:nogroup "$LISTDIR"
 
-ynh_script_progression --message="Adding cron file;"
+ynh_script_progression --message="Adding cron file;" -t
 # Generate random minute execution (between 0 and 59)
 rand_min=$(shuf -i 0-59 -n 1)
 cron_path="/etc/cron.d/$app"
-printf "$rand_min */2 * * * root /usr/bin/mlmmj-maintd -F -L /var/spool/mlmmj/\$LISTNAME" > "$cron_path"
+printf "$rand_min */2 * * * root /usr/bin/mlmmj-maintd -F -L /var/spool/mlmmj/\$LISTNAME" > "$cron_path/mlmmj.cron" 
 chown root:root "$cron_path"
 chmod 644 "$cron_path"
 
-ynh_script_progression --message="Mailing list $LISTDIR was created successfully." --last
+ynh_script_progression --message="Mailing list $LISTDIR was created successfully." --last -t
