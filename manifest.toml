@@ -31,8 +31,8 @@ ram.runtime = "50M"
 
 [install]
   [install.list_name]
-  ask.en = "Enter the name of the mailing list:"
-  ask.fr = "Entrez le nom de la liste de diffusion :"
+  ask.en = "Enter the name of the mailing list"
+  ask.fr = "Entrez le nom de la liste de diffusion"
   type = "string"
 
   [install.domain]
