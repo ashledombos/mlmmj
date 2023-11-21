@@ -44,7 +44,7 @@ mlmmj_instances=$(sudo yunohost app list | grep -c 'id: mlmmj')
 # Remove mlmmj binaries and man pages only if this is the last instance
 if [ "$mlmmj_instances" -eq 1 ]; then
     shopt -s nullglob
-
+    echo totototo
     dirbin="/usr/local/bin/"
     dirman="/usr/local/share/man/man1/"
     pattern="mlmmj-*"
