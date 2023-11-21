@@ -61,11 +61,6 @@ if [ "$mlmmj_instances" -eq 1 ]; then
 
     ynh_secure_remove --file="/usr/local/share/mlmmj"
 fi
-
-# Remove other various files specific to the app
-ynh_secure_remove --file="/etc/$app"
-ynh_secure_remove --file="/var/log/$app"
-
 #=================================================
 # END OF SCRIPT
 #=================================================
