@@ -36,7 +36,7 @@ fi
 #=================================================
 # REMOVE MLMMJ IF LAST INSTANCE
 #=================================================
-ynh_script_progression --message="Removing mlmmj;" --weight=10
+ynh_script_progression --message="Removing mlmmj;"
 
 # Count the number of mlmmj instances
 mlmmj_instances=$(sudo yunohost app list | grep -c 'id: mlmmj')
