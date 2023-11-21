@@ -86,15 +86,12 @@ newaliases || ynh_die "Failed to run newaliases"
 ynh_script_progression --message="Updating permissions"
 chown -R nobody:nogroup "$LISTDIR"
 
-ynh_script_progression --message="Activating and starting the mlmmj-maintd service;"
-ynh_add_systemd_config --service mlmmj-maintd@$LISTNAME --template mlmmj-maintd@.service
-ynh_add_systemd_config --service=mlmmj-maintd@$LISTNAME.timer --template=mlmmj-maintd@.timer
-yunohost service add mlmmj-maintd@$LISTNAME.service
-yunohost service add mlmmj-maintd@$LISTNAME.timer
+ynh_script_progression --message="Adding cron file;"
+# Generate random minute execution (between 0 and 59)
+rand_min=$(shuf -i 0-59 -n 1)
+cron_path="/etc/cron.d/$app"
+printf "$rand_min */2 * * * root /usr/bin/mlmmj-maintd -F -L /var/spool/mlmmj/\$LISTNAME" > "$cron_path"
+chown root:root "$cron_path"
+chmod 644 "$cron_path"
 
-
-ynh_systemd_action --service_name=mlmmj-maintd@$LISTNAME.service --action=enable
-ynh_systemd_action --service_name=mlmmj-maintd@$LISTNAME.service --action=start || ynh_die "Failed to start mlmmj-maintd service"
-ynh_systemd_action --service_name=mlmmj-maintd@$LISTNAME.timer --action=enable
-ynh_systemd_action --service_name=mlmmj-maintd@$LISTNAME.timer --action=start
-ynh_script_progression --message="Mailing list $LISTDIR was created successfully."
+ynh_script_progression --message="Mailing list $LISTDIR was created successfully." --last
