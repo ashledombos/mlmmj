@@ -91,7 +91,7 @@ ynh_script_progression --message="Adding cron file;" -t
 rand_min=$(shuf -i 0-59 -n 1)
 cron_path="/etc/cron.d/$app"
 mkdir -p $cron_path
-printf "$rand_min */2 * * * root /usr/bin/mlmmj-maintd -F -L /var/spool/mlmmj/\$LISTNAME" > "$cron_path/mlmmj.cron" 
+printf "$rand_min */2 * * * root /usr/bin/mlmmj-maintd -F -L /var/spool/mlmmj/$LISTNAME" > "$cron_path/mlmmj.cron" 
 chown root:root "$cron_path"
 chmod 644 "$cron_path"
 
