@@ -10,10 +10,33 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# REMOVE SYSTEM CONFIGURATIONS
+# REMOVE LIST
 #=================================================
+ynh_script_progression --message="Removing system configurations related to $app;" --weight=10
+# Retrieve arguments from YunoHost configuration
+app=$YNH_APP_INSTANCE_NAME
+LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name)
+SPOOLDIR="/var/spool/mlmmj"
 
-ynh_script_progression --message="Removing system configurations related to $app..." --weight=1
+# Remove the mailing list spool directory
+ynh_secure_remove --file="$SPOOLDIR/$LISTNAME"
+
+# Remove the text library directory if it's no longer needed
+ynh_secure_remove --file="$TEXTLIBDIR"
+
+# Remove the cron job
+ynh_secure_remove --file="/etc/cron.d/$app"
+
+# Remove the alias from /etc/aliases and regenerate aliases
+if grep -q "^$LISTNAME:" /etc/aliases; then
+    sed -i "/^$LISTNAME:/d" /etc/aliases
+    newaliases
+fi
+
+#=================================================
+# REMOVE MLMMJ IF LAST INSTANCE
+#=================================================
+ynh_script_progression --message="Removing mlmmj;" --weight=10
 
 # Count the number of mlmmj instances
 mlmmj_instances=$(sudo yunohost app list | grep -c 'id: mlmmj')
@@ -35,16 +58,6 @@ if [ "$mlmmj_instances" -eq 1 ]; then
     done
 
     ynh_secure_remove --file="/usr/local/share/mlmmj"
-fi
-
-
-# Remove the cron job
-ynh_secure_remove --file="/etc/cron.d/$app"
-
-# Remove the alias from /etc/aliases and regenerate aliases
-if grep -q "^$LISTNAME:" /etc/aliases; then
-    sed -i "/^$LISTNAME:/d" /etc/aliases
-    newaliases
 fi
 
 # Remove other various files specific to the app
