@@ -38,6 +38,20 @@ ynh_script_progression --message="Removing mlmmj;"
 # Count the number of mlmmj instances
 mlmmj_instances=$(sudo yunohost app list | grep -c 'id: mlmmj')
 ynh_script_progression --message="$mlmmj_instances"
+echo $mlmmj_instances
+# Remove mlmmj binaries and man pages only if this is the last instance
+if [ "$mlmmj_instances" -eq 1 ]; then
+    shopt -s nullglob
+    echo toto
+
+    dirbin="/usr/local/bin/"
+    dirman="/usr/local/share/man/man1/"
+    pattern="mlmmj-*"
+    echo $dirbin$pattern
+    for file in "$dirbin$pattern"; do
+        echo $file
+    done
+fi
 
 # Remove mlmmj binaries and man pages only if this is the last instance
 if [ "$mlmmj_instances" -eq 1 ]; then
@@ -48,6 +62,7 @@ if [ "$mlmmj_instances" -eq 1 ]; then
 
     for file in "$dirbin$pattern"; do
         ynh_script_progression --message="$file"
+        echo $
         #ynh_secure_remove --file="$file"
     done
 
