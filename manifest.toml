@@ -12,19 +12,19 @@ maintainers = [{ name = "Raph", email = "raph@raph" }]
 [upstream]
 license = "GPL-2.0-or-later"
 website = "https://codeberg.org/mlmmj/mlmmj"
-demo = "N/A"
+demo = false
 admindoc = "https://yunohost.org/packaging_apps"
 userdoc = "https://yunohost.org/apps"
 code = "https://codeberg.org/mlmmj/mlmmj"
-cpe = "N/A"
-fund = "N/A"
+cpe = false
+fund = false
 
 [integration]
 yunohost = ">= 4.0"
 architectures = "all"
 multi_instance = true
-ldap = "N/A"
-sso = "N/A"
+ldap = false
+sso = false
 disk = "50M"
 ram.build = "50M"
 ram.runtime = "50M"
@@ -34,6 +34,10 @@ ram.runtime = "50M"
   ask.en = "Enter the name of the mailing list"
   ask.fr = "Entrez le nom de la liste de diffusion"
   type = "string"
+  pattern.regexp = '^[a-zA-Z0-9.-]+$'
+  pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
+  pattern.error.fr = "Le nom de la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
+
 
   [install.domain]
   ask.en = "Select the domain for the mailing list:"
