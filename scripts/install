@@ -8,7 +8,7 @@
 source /usr/share/yunohost/helpers
 
 # Retrieve arguments from TOML configuration
-LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name)
+LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name | tr '[:upper:]' '[:lower:]') # Convert to lowercase
 FQDN=$(ynh_app_setting_get --app=$app --key=domain)
 LANG=$(ynh_app_setting_get --app=$app --key=language)
 
@@ -27,27 +27,27 @@ REQUIRED_VERSION="1.4.0.rc2"
 
 
 # Function to check if the list name is valid
+# Check if the list name is a valid and not a user name
 is_valid_listname() {
+    # Check format
     if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
-        # Choose the error message based on the user's language preference
-        case $user_language in
-            fr)
-                ynh_print_err --message="Le nom de la liste de diffusion n'est pas valide. Il doit être en minuscules et ne peut contenir que des lettres, des chiffres, des points et des tirets."
-                ;;
-            es)
-                ynh_print_err --message="The mailing list name is invalid. It must be lowercase and can only contain letters, numbers, dots, and dashes."
-                ;;
-            *)
-                ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
-                ;;
-        esac
+        ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
         return 1
     fi
+
+    # Check if name is a username
+    if yunohost user list --output-as plain | grep -q "^$1$"; then
+        ynh_print_err --message="The mailing list name '$1' is already in use as a username. Please choose a different name."
+        return 1
+    fi
+
     return 0
 }
+
 # Check the list name
-if ! is_valid_listname "$list_name"; then
-    exit 1
+ynh_print_info --message="Validating list name: $LISTNAME"
+if ! is_valid_listname "$LISTNAME"; then
+    ynh_die --message="Validation failed for list name: $LISTNAME"
 fi
 
 # -------------------------------------------------------------
