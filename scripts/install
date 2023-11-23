@@ -13,11 +13,12 @@ source /usr/share/yunohost/helpers
 LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name | tr '[:upper:]' '[:lower:]') # Convert to lowercase
 FQDN=$(ynh_app_setting_get --app=$app --key=domain)
 LANG=$(ynh_app_setting_get --app=$app --key=language)
+INSTALL_DIR=$(ynh_app_setting_get --app=$app --key=install_dir)
 
 TEXTPATH="/usr/local/share/mlmmj/text.skel/$LANG"
 MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
 MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
-ALIAS="$LISTNAME: \"|$MLMMJRECEIVE -L __INSTALL_DIR__/\""
+ALIAS="$LISTNAME: \"|$MLMMJRECEIVE -L $INSTALL_DIR/\""
 ALIASFILE="/etc/aliases"
 
 INSTALLED_VERSION=""
@@ -79,21 +80,21 @@ fi
 # -------------------------------------------------------------
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
-ynh_script_progression --message="Creating the necessary directories in __INSTALL_DIR__;" -t
+ynh_script_progression --message="Creating the necessary directories in $INSTALL_DIR;" -t
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
            nomailsubs.d
 do
-    mkdir -p "__INSTALL_DIR__/$DIR"
+    mkdir -p "$INSTALL_DIR/$DIR"
 done
 
 ynh_script_progression --message="Configuring the list $LISTNAME@$FQDN" -t
-echo "postmaster" > "__INSTALL_DIR__/control/owner"
-echo "$LISTNAME@$FQDN" > "__INSTALL_DIR__/control/listaddress"
+echo "postmaster" > "$INSTALL_DIR/control/owner"
+echo "$LISTNAME@$FQDN" > "$INSTALL_DIR/control/listaddress"
 
 ynh_script_progression --message="Copying localized content ($LANG) into $TEXTPATH;" -t
 if [ -d "$TEXTPATH" ]; then
-    cp "$TEXTPATH"/* "__INSTALL_DIR__/text"
+    cp "$TEXTPATH"/* "$INSTALL_DIR/text"
 fi
 
 ynh_script_progression --message="Updating $ALIASFILE and running newaliases;" -t
@@ -101,18 +102,18 @@ printf "$ALIAS\n" >> $ALIASFILE
 newaliases || ynh_die "Failed to run newaliases"
 
 ynh_script_progression --message="Updating permissions" -t
-chown -R nobody:nogroup "__INSTALL_DIR__"
+chown -R nobody:nogroup "$INSTALL_DIR"
 
 ynh_script_progression --message="Adding cron file;" -t
 # Generate random minute execution (between 0 and 59)
 rand_min=$(shuf -i 0-59 -n 1)
 cron_path="/etc/cron.d/$app"
 mkdir -p $cron_path
-printf "$rand_min */2 * * * root $MLMMJMAINTD -F -L __INSTALL_DIR__" > "$cron_path/mlmmj.cron" 
+printf "$rand_min */2 * * * root $MLMMJMAINTD -F -L $INSTALL_DIR" > "$cron_path/mlmmj.cron" 
 chown root:root "$cron_path"
 chmod 644 "$cron_path"
 
-echo "$LISTNAME@$FQDN" > "__INSTALL_DIR__/README_$LISTNAME.md"
+echo "$LISTNAME@$FQDN" > "$INSTALL_DIR/README_$LISTNAME.md"
 # -------------------------------------------------------------
 # mlmmj installation script for YunoHost
 # -------------------------------------------------------------
