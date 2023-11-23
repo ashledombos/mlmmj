@@ -7,13 +7,12 @@
 # Import YunoHost helpers
 source /usr/share/yunohost/helpers
 
-# -------------------------------------------------------------
-# Variables
-# -------------------------------------------------------------
+# Retrieve arguments from TOML configuration
 LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name | tr '[:upper:]' '[:lower:]') # Convert to lowercase
 FQDN=$(ynh_app_setting_get --app=$app --key=domain)
 LANG=$(ynh_app_setting_get --app=$app --key=language)
 
+# Define variables
 TEXTPATH="/usr/local/share/mlmmj/text.skel/$LANG"
 MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
 MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
@@ -21,9 +20,7 @@ ALIAS="$LISTNAME: \"|$MLMMJRECEIVE -L __INSTALL_DIR__/\""
 ALIASFILE="/etc/aliases"
 REQUIRED_VERSION="1.4.0.rc2"
 
-# -------------------------------------------------------------
-# Check name validity
-# -------------------------------------------------------------
+# Function to check if the list name is valid
 # Check if the list name is a valid and not a user name
 is_valid_listname() {
     # Check format
@@ -47,9 +44,7 @@ if ! is_valid_listname "$LISTNAME"; then
     ynh_die --message="Validation failed for list name: $LISTNAME"
 fi
 
-# -------------------------------------------------------------
 # Installing MLMMJ Binaries If Necessary
-# -------------------------------------------------------------
 ynh_script_progression --message="Checking existing mlmmj binaries;"
 
 if command -v mlmmj-list >/dev/null 2>&1; then
@@ -63,6 +58,7 @@ else
     ynh_script_progression --message="mlmmj is not installed, proceeding with installation;" -t
 fi
 
+# Installation update of mlmmj if necessary
 if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
     ynh_script_progression --message="Installing necessary packages" -t -w 5
     ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
@@ -74,9 +70,7 @@ if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
     ynh_secure_remove mlmmj-latest
 fi
 
-# -------------------------------------------------------------
 # Mailing List Creation and Activation
-# -------------------------------------------------------------
 ynh_script_progression --message="Creating the necessary directories in __INSTALL_DIR__;" -t
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
@@ -89,30 +83,31 @@ ynh_script_progression --message="Configuring the list $LISTNAME@$FQDN" -t
 echo "postmaster" > "__INSTALL_DIR__/control/owner"
 echo "$LISTNAME@$FQDN" > "__INSTALL_DIR__/control/listaddress"
 
+# Copying localized content
 ynh_script_progression --message="Copying localized content ($LANG) into $TEXTPATH;" -t
 if [ -d "$TEXTPATH" ]; then
     cp "$TEXTPATH"/* "__INSTALL_DIR__/text"
 fi
 
+# Updating aliases file and running newaliases
 ynh_script_progression --message="Updating $ALIASFILE and running newaliases;" -t
 printf "$ALIAS\n" >> $ALIASFILE
 newaliases || ynh_die "Failed to run newaliases"
 
+# Updating permissions
 ynh_script_progression --message="Updating permissions" -t
 chown -R nobody:nogroup "__INSTALL_DIR__"
 
+# Adding cron file
 ynh_script_progression --message="Adding cron file;" -t
-# Generate random minute execution (between 0 and 59)
-rand_min=$(shuf -i 0-59 -n 1)
+rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
 cron_path="/etc/cron.d/$app"
 mkdir -p $cron_path
-printf "$rand_min */2 * * * root /usr/bin/mlmmj-maintd -F -L __INSTALL_DIR__" > "$cron_path/mlmmj.cron" 
+printf "$rand_min */2 * * * root $MLMMJMAINTD -F -L __INSTALL_DIR__" > "$cron_path/mlmmj.cron" 
 chown root:root "$cron_path"
 chmod 644 "$cron_path"
 
-echo "$LISTNAME@$FQDN" > "__INSTALL_DIR__/README_$LISTNAME.md"
-# -------------------------------------------------------------
-# mlmmj installation script for YunoHost
-# -------------------------------------------------------------
+# Create README file
+echo "$LISTNAME@$FQDN" > "__INSTALL_DIR__/README"
 
 ynh_script_progression --message="Mailing list $LISTNAME@$FQDN was created successfully." --last -t
