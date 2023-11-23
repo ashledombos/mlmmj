@@ -6,38 +6,38 @@ version = "1.0"
         [main.general.list_address]
         ask.en = "List Address"
         type = "string"
-        bind = ":__INSTALL_DIR__/control/listaddress"
+        #bind = ":__INSTALL_DIR__/control/listaddress"
 
         [main.general.list_open]
         ask.en = "Is the list open for subscription?"
         type = "boolean"
-        bind = ":__INSTALL_DIR__/control/closedlist"
+        #bind = ":__INSTALL_DIR__/control/closedlist"
 
     [main.subscription]
         [main.subscription.moderate_subscriptions]
         ask.en = "Moderate subscriptions?"
         type = "boolean"
-        bind = ":__INSTALL_DIR__/control/submod"
+        #bind = ":__INSTALL_DIR__/control/submod"
 
     [main.moderation]
         [main.moderation.moderate_messages]
         ask.en = "Moderate messages?"
         type = "boolean"
-        bind = ":__INSTALL_DIR__/control/moderated"
+        #bind = ":__INSTALL_DIR__/control/moderated"
 
     [main.notifications]
         [main.notifications.notify_subscription]
         ask.en = "Notify owners about subscriptions/unsubscriptions?"
         type = "boolean"
-        bind = ":__INSTALL_DIR__/control/notifysub"
+        #bind = ":__INSTALL_DIR__/control/notifysub"
 
         [main.notifications.notify_moderation]
         ask.en = "Notify owners about message moderation?"
         type = "boolean"
-        bind = ":__INSTALL_DIR__/control/notifymod"
+        #bind = ":__INSTALL_DIR__/control/notifymod"
 
     [main.digest]
         [main.digest.digest_interval]
         ask.en = "Digest interval (in seconds)"
         type = "number"
-        bind = ":__INSTALL_DIR__/control/digestinterval"
+        #bind = ":__INSTALL_DIR__/control/digestinterval"
