@@ -7,26 +7,23 @@
 # Import YunoHost helpers
 source /usr/share/yunohost/helpers
 
-# Retrieve arguments from TOML configuration
+# -------------------------------------------------------------
+# Variables
+# -------------------------------------------------------------
 LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name | tr '[:upper:]' '[:lower:]') # Convert to lowercase
 FQDN=$(ynh_app_setting_get --app=$app --key=domain)
 LANG=$(ynh_app_setting_get --app=$app --key=language)
 
-# Variables
-RELEASE_URL="https://codeberg.org/mlmmj/mlmmj/archive/RELEASE_1_4_0rc2.tar.gz"
-SPOOLDIR="/var/spool/mlmmj"
+TEXTPATH="/usr/local/share/mlmmj/text.skel/$LANG"
+MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
+MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
+ALIAS="$LISTNAME: \"|$MLMMJRECEIVE -L __INSTALL_DIR__/\""
 ALIASFILE="/etc/aliases"
-TEXTLIBDIR="/usr/local/share/mlmmj/text.skel"
-LISTDIR="$SPOOLDIR/$LISTNAME"
-TEXTPATH="$TEXTLIBDIR/$LANG"
-MLMMJRECEIVE=/usr/local/bin/mlmmj-receive
-MLMMJMAINTD=/usr/local/bin/mlmmj-maintd
-ALIAS="$LISTNAME:  \"|$MLMMJRECEIVE -L $LISTDIR/\""
-INSTALL_FLAG=false
 REQUIRED_VERSION="1.4.0.rc2"
 
-
-# Function to check if the list name is valid
+# -------------------------------------------------------------
+# Check name validity
+# -------------------------------------------------------------
 # Check if the list name is a valid and not a user name
 is_valid_listname() {
     # Check format
@@ -51,8 +48,8 @@ if ! is_valid_listname "$LISTNAME"; then
 fi
 
 # -------------------------------------------------------------
-# 1. INSTALLING MLMMJ BINARIES IF NECESSARY
-
+# Installing MLMMJ Binaries If Necessary
+# -------------------------------------------------------------
 ynh_script_progression --message="Checking existing mlmmj binaries;"
 
 if command -v mlmmj-list >/dev/null 2>&1; then
@@ -61,15 +58,12 @@ if command -v mlmmj-list >/dev/null 2>&1; then
     
     if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
         ynh_script_progression --message="Updating mlmmj to the required version;"
-        INSTALL_FLAG=true
     fi
 else
     ynh_script_progression --message="mlmmj is not installed, proceeding with installation;" -t
-    INSTALL_FLAG=true
 fi
 
-# Installation update of mlmmj if necessary
-if [ "$INSTALL_FLAG" = true ]; then
+if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
     ynh_script_progression --message="Installing necessary packages" -t -w 5
     ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
     ynh_script_progression --message="Downloading and installing mlmmj release;" -t
@@ -81,41 +75,44 @@ if [ "$INSTALL_FLAG" = true ]; then
 fi
 
 # -------------------------------------------------------------
-
-# 2. MAILING LIST CREATION AND ACTIVATION
-
-ynh_script_progression --message="Creating the necessary directories to $LISTDIR;" -t
-mkdir -p "$LISTDIR"
+# Mailing List Creation and Activation
+# -------------------------------------------------------------
+ynh_script_progression --message="Creating the necessary directories in __INSTALL_DIR__;" -t
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
            nomailsubs.d
 do
-    mkdir -p "$LISTDIR/$DIR"
+    mkdir -p "__INSTALL_DIR__/$DIR"
 done
 
 ynh_script_progression --message="Configuring the list $LISTNAME@$FQDN" -t
-echo "postmaster" > "$LISTDIR/control/owner"
-echo "$LISTNAME@$FQDN" > "$LISTDIR/control/listaddress"
+echo "postmaster" > "__INSTALL_DIR__/control/owner"
+echo "$LISTNAME@$FQDN" > "__INSTALL_DIR__/control/listaddress"
 
 ynh_script_progression --message="Copying localized content ($LANG) into $TEXTPATH;" -t
 if [ -d "$TEXTPATH" ]; then
-    cp "$TEXTPATH"/* "$LISTDIR/text"
+    cp "$TEXTPATH"/* "__INSTALL_DIR__/text"
 fi
 
-ynh_script_progression --message="Updating $ALIASFILE and runngin newaliases;" -t
+ynh_script_progression --message="Updating $ALIASFILE and running newaliases;" -t
 printf "$ALIAS\n" >> $ALIASFILE
 newaliases || ynh_die "Failed to run newaliases"
 
 ynh_script_progression --message="Updating permissions" -t
-chown -R nobody:nogroup "$LISTDIR"
+chown -R nobody:nogroup "__INSTALL_DIR__"
 
 ynh_script_progression --message="Adding cron file;" -t
 # Generate random minute execution (between 0 and 59)
 rand_min=$(shuf -i 0-59 -n 1)
 cron_path="/etc/cron.d/$app"
 mkdir -p $cron_path
-printf "$rand_min */2 * * * root /usr/bin/mlmmj-maintd -F -L /var/spool/mlmmj/$LISTNAME" > "$cron_path/mlmmj.cron" 
+printf "$rand_min */2 * * * root /usr/bin/mlmmj-maintd -F -L __INSTALL_DIR__" > "$cron_path/mlmmj.cron" 
 chown root:root "$cron_path"
 chmod 644 "$cron_path"
 
-ynh_script_progression --message="Mailing list $LISTDIR was created successfully." --last -t
+echo "$LISTNAME@$FQDN" > "__INSTALL_DIR__/README_$LISTNAME.md"
+# -------------------------------------------------------------
+# mlmmj installation script for YunoHost
+# -------------------------------------------------------------
+
+ynh_script_progression --message="Mailing list $LISTNAME@$FQDN was created successfully." --last -t
