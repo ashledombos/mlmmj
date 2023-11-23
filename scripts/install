@@ -19,6 +19,8 @@ MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
 MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
 ALIAS="$LISTNAME: \"|$MLMMJRECEIVE -L __INSTALL_DIR__/\""
 ALIASFILE="/etc/aliases"
+
+INSTALLED_VERSION=""
 REQUIRED_VERSION="1.4.0.rc2"
 
 # -------------------------------------------------------------
