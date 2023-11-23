@@ -38,7 +38,6 @@ ram.runtime = "50M"
   pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
   pattern.error.fr = "Le nom de la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
 
-
   [install.domain]
   ask.en = "Select the domain for the mailing list:"
   ask.fr = "Sélectionnez le domaine pour la liste de diffusion :"
@@ -58,3 +57,6 @@ ram.runtime = "50M"
   sha256 = "4109feb70ed3ed0fa8d0808c5cb054c46ccd76d41f25d81e2cb9a96467dfbbec"
   format = "tar.gz"
   in_subdir = true
+  
+  [resources.install_dir]
+  dir = "/var/spool/lists/__APP__"
