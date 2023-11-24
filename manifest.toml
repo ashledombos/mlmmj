@@ -59,6 +59,8 @@ ram.runtime = "50M"
   in_subdir = true
 
   [resources.system_user]
+
+  [resource.permission]
   
   [resources.install_dir]
   dir = "/var/spool/lists/__APP__"
