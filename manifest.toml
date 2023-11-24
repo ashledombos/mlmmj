@@ -60,4 +60,4 @@ ram.runtime = "1M"
   [resources.permissions]
 
   [resources.install_dir]
-  dir = "/var/spool/lists/__APP__"
+  dir = "/var/spool/mlmmj/lists/__APP__"
