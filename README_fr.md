@@ -28,8 +28,8 @@ Ceci est une fausse description des fonctionalités de l'app
 ## Documentations et ressources
 
 * Site officiel de l’app : <https://codeberg.org/mlmmj/mlmmj>
-* Documentation officielle utilisateur : <https://yunohost.org/apps>
-* Documentation officielle de l’admin : <https://yunohost.org/packaging_apps>
+* Documentation officielle utilisateur : <https://codeberg.org/mlmmj/mlmmj>
+* Documentation officielle de l’admin : <https://codeberg.org/mlmmj/mlmmj>
 * Dépôt de code officiel de l’app : <https://codeberg.org/mlmmj/mlmmj>
 * YunoHost Store: <https://apps.yunohost.org/app/mlmmj>
 * Signaler un bug : <https://github.com/YunoHost-Apps/mlmmj_ynh/issues>
