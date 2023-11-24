@@ -61,5 +61,3 @@ ram.runtime = "1M"
 
   [resources.install_dir]
   dir = "/var/spool/lists/__APP__"
-  owner = "nobody"
-  group = "nogroup"
