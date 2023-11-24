@@ -57,7 +57,7 @@ ram.runtime = "1M"
 
   [resources.system_user]
 
-  [resources.permission]
+  [resources.permissions]
 
   [resources.install_dir]
   dir = "/var/spool/lists/__APP__"
