@@ -10,10 +10,10 @@ source /usr/share/yunohost/helpers
 # -------------------------------------------------------------
 # Variables
 # -------------------------------------------------------------
-LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name | tr '[:upper:]' '[:lower:]') # Convert to lowercase
-FQDN=$(ynh_app_setting_get --app=$app --key=domain)
-LANG=$(ynh_app_setting_get --app=$app --key=language)
-INSTALL_DIR=$(ynh_app_setting_get --app=$app --key=install_dir)
+#LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name | tr '[:upper:]' '[:lower:]') # Convert to lowercase
+#FQDN=$(ynh_app_setting_get --app=$app --key=domain)
+#LANG=$(ynh_app_setting_get --app=$app --key=language)
+#INSTALL_DIR=$(ynh_app_setting_get --app=$app --key=install_dir)
 
 TEXTPATH="/usr/local/share/mlmmj/text.skel/$language"
 MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
@@ -45,9 +45,9 @@ is_valid_listname() {
 }
 
 # Check the list name
-ynh_print_info --message="Validating list name: $LISTNAME"
-if ! is_valid_listname "$LISTNAME"; then
-    ynh_die --message="Validation failed for list name: $LISTNAME"
+ynh_print_info --message="Validating list name: $list_name"
+if ! is_valid_listname "$list_name"; then
+    ynh_die --message="Validation failed for list name: $list_name"
 fi
 
 # -------------------------------------------------------------
@@ -80,21 +80,21 @@ fi
 # -------------------------------------------------------------
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
-ynh_script_progression --message="Creating the necessary directories in $INSTALL_DIR;" -t
+ynh_script_progression --message="Creating the necessary directories in $install_dir;" -t
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
            nomailsubs.d
 do
-    mkdir -p "$INSTALL_DIR/$DIR"
+    mkdir -p "$install_dir/$DIR"
 done
 
-ynh_script_progression --message="Configuring the list $LISTNAME@$FQDN" -t
-echo "postmaster" > "$INSTALL_DIR/control/owner"
-echo "$LISTNAME@$FQDN" > "$INSTALL_DIR/control/listaddress"
+ynh_script_progression --message="Configuring the list $list_name@$domain" -t
+echo "postmaster" > "$install_dir/control/owner"
+echo "$list_name@$domain" > "$install_dir/control/listaddress"
 
-ynh_script_progression --message="Copying localized content ($LANG) into $TEXTPATH;" -t
+ynh_script_progression --message="Copying localized content ($language) into $TEXTPATH;" -t
 if [ -d "$TEXTPATH" ]; then
-    cp "$TEXTPATH"/* "$INSTALL_DIR/text"
+    cp "$TEXTPATH"/* "$install_dir/text"
 fi
 
 ynh_script_progression --message="Updating $ALIASFILE and running newaliases;" -t
@@ -102,20 +102,20 @@ printf "$ALIAS\n" >> $ALIASFILE
 newaliases || ynh_die "Failed to run newaliases"
 
 ynh_script_progression --message="Updating permissions" -t
-chown -R nobody:nogroup "$INSTALL_DIR"
+chown -R nobody:nogroup "$install_dir"
 
 ynh_script_progression --message="Adding cron file;" -t
 # Generate random minute execution (between 0 and 59)
 rand_min=$(shuf -i 0-59 -n 1)
 cron_path="/etc/cron.d/$app"
 mkdir -p $cron_path
-printf "$rand_min */2 * * * root $MLMMJMAINTD -F -L $INSTALL_DIR" > "$cron_path/mlmmj.cron" 
+printf "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_path/mlmmj.cron" 
 chown root:root "$cron_path"
 chmod 644 "$cron_path"
 
-echo "$LISTNAME@$FQDN" > "$INSTALL_DIR/README_$LISTNAME.md"
+echo "$list_name@$domain" > "$install_dir/README_$list_name.md"
 # -------------------------------------------------------------
 # mlmmj installation script for YunoHost
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Mailing list $LISTNAME@$FQDN was created successfully." --last -t
+ynh_script_progression --message="Mailing list $list_name@$domain was created successfully." --last -t
