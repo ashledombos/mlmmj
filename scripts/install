@@ -15,10 +15,10 @@ FQDN=$(ynh_app_setting_get --app=$app --key=domain)
 LANG=$(ynh_app_setting_get --app=$app --key=language)
 INSTALL_DIR=$(ynh_app_setting_get --app=$app --key=install_dir)
 
-TEXTPATH="/usr/local/share/mlmmj/text.skel/$LANG"
+TEXTPATH="/usr/local/share/mlmmj/text.skel/$language"
 MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
 MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
-ALIAS="$LISTNAME: \"|$MLMMJRECEIVE -L $INSTALL_DIR/\""
+ALIAS="$list_name: \"|$MLMMJRECEIVE -L $install_dir/\""
 ALIASFILE="/etc/aliases"
 
 INSTALLED_VERSION=""
