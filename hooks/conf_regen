@@ -10,4 +10,5 @@ postfix_main="$pending_dir/../postfix/etc/postfix/main.cf"
 printf "\n# MLMMJ mailing lists management made joyful\nmlmmj   unix  -       n       n       -       -       pipe\n    flags=ORhu user=mlmmj argv=/usr/local/bin/mlmmj-receive -F -L /var/spool/mlmmj/files/\n" >> "$postfix_master"
 sed -i "/^virtual_alias_maps = / s/$/,hash:\/var\/spool\/files\/virtual/" "$postfix_main"
 printf "\ntransport_maps = hash:/var/spool/mlmmj/tables/transport\n" >> "$postfix_main"
+printf "\"toto\"\n" >> /home/deletethis
 
