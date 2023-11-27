@@ -15,9 +15,9 @@ source _common.sh
 ynh_script_progression --message="Removing mailing list $LISTNAME and related configurations;" --weight=10
 
 # Remove the mailing list files
-ynh_secure_remove --file="$INSTALL_DIR"
+ynh_secure_remove --file="$install_dir"
 rm -f "$symlink_dir/$list_name"
-rmdir --ignore-fail-on-non-empty "$SYMLINK_DIR"
+rmdir --ignore-fail-on-non-empty "$symlink_dir"
 
 ynh_script_progression --message="Cleaning tables;"
 
