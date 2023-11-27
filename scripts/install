@@ -48,7 +48,7 @@ fi
 
 ynh_script_progression --message="Checking existing mlmmj binaries;"
 REQUIRED_VERSION="1.4.0.rc2"
-check_and_update_mlmmj "$REQUIRED_VERSION"
+install_update_mlmmj "$REQUIRED_VERSION"
 #REQUIRED_VERSION=$(cat ../mlmmj_version)
 #INSTALLED_VERSION=""
 
