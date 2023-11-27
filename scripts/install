@@ -110,11 +110,13 @@ if [ ! -d "$TABLES_DIR" ]; then
 fi
 
 if ! grep -qF "$TRANSPORT_ENTRY" "$TRANSPORT_FILE"; then
-    echo "$TRANSPORT_ENTRY" >> "$TRANSPORT_FILE"
+    echo "$TRANSPORT_ENTRY" >> "$TRANSPORT_FI
+    postmap /var/spool/mlmmj/tables/transport
 fi
 
 if ! grep -qF "$VIRTUAL_ENTRY" "$VIRTUAL_FILE"; then
     echo "$VIRTUAL_ENTRY" >> "$VIRTUAL_FILE"
+    postmap /var/spool/mlmmj/tables/virtual
 fi
 
 # -------------------------------------------------------------
