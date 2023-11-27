@@ -98,6 +98,7 @@ fi
 # -------------------------------------------------------------
 
 ynh_script_progression --message="Conf files update;" -t
+APP_ROOT="/var/spool/mlmmj/conf"
 CONF_DIR="$APP_ROOT/$conf"
 TRANSPORT_FILE="$CONF_DIR/transport"
 VIRTUAL_FILE="$CONF_DIR/virtual"
