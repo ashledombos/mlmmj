@@ -8,7 +8,7 @@ MLMMJ_ROOT="/var/spool/mlmmj"
 TABLES_DIR="$MLMMJ_ROOT/tables"
 TRANSPORT_FILE="$TABLES_DIR/transport"
 VIRTUAL_FILE="$TABLES_DIR/virtual"
-symlink_dir="$APP_ROOT/$domain"
+symlink_dir="$MLMMJ_ROOT/$domain"
 
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$domain    $app@localhost.mlmmj"
