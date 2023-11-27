@@ -49,7 +49,7 @@ install_update_mlmmj() {
         pushd mlmmj-latest
         autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
         popd
-        ynh_secure_remove "mlmmj-latest"
+        #ynh_secure_remove "mlmmj-latest"
         yunohost tools regen-conf
     fi
 }
