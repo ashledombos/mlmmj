@@ -47,38 +47,14 @@ fi
 # -------------------------------------------------------------
 
 ynh_script_progression --message="Checking existing mlmmj binaries;"
-#REQUIRED_VERSION="1.4.0.rc2"
+
 install_update_mlmmj "$REQUIRED_VERSION"
-#REQUIRED_VERSION=$(cat ../mlmmj_version)
-#INSTALLED_VERSION=""
-
-#if command -v mlmmj-list >/dev/null 2>&1; then
-#    INSTALLED_VERSION=$(mlmmj-list -V | cut -d ' ' -f3)
-#    ynh_script_progression --message="mlmmj is already installed with version: $INSTALLED_VERSION"    
-#    if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
-#        ynh_script_progression --message="Updating mlmmj to the required version;"
-#    fi
-#else
-#    ynh_script_progression --message="mlmmj is not installed, proceeding with installation;" -t
-#fi
-
-#if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
-#    ynh_script_progression --message="Installing necessary packages" -t -w 5
-#    ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
-#    ynh_script_progression --message="Downloading and installing mlmmj release;" -t
-#    ynh_setup_source --dest_dir="mlmmj-latest"|| ynh_die "Failed to download mlmmj"
-#    pushd mlmmj-latest
-#    autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
-#    popd
-#    ynh_secure_remove mlmmj-latest
-#fi
 
 # -------------------------------------------------------------
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
 
 ynh_script_progression --message="Creating the necessary directories in $install_dir;" -t
-TEXTPATH="/usr/local/share/mlmmj/text.skel/$language"
 
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
@@ -92,8 +68,8 @@ ynh_script_progression --message="Configuring the list $list_name@$domain" -t
 echo "postmaster" > "$install_dir/control/owner"
 echo "$list_name@$domain" > "$install_dir/control/listaddress"
 
-if [ -d "$TEXTPATH" ]; then
-    cp "$TEXTPATH"/* "$install_dir/text"
+if [ -d "$text_dir" ]; then
+    cp "$text_dir"/* "$install_dir/text"
 fi
 
 # -------------------------------------------------------------
