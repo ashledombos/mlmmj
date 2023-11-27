@@ -10,16 +10,8 @@ source /usr/share/yunohost/helpers
 # -------------------------------------------------------------
 # Variables
 # -------------------------------------------------------------
-#LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name | tr '[:upper:]' '[:lower:]') # Convert to lowercase
-#FQDN=$(ynh_app_setting_get --app=$app --key=domain)
-#LANG=$(ynh_app_setting_get --app=$app --key=language)
-#INSTALL_DIR=$(ynh_app_setting_get --app=$app --key=install_dir)
 
-TEXTPATH="/usr/local/share/mlmmj/text.skel/$language"
-MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
-MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
-ALIAS="$list_name: \"|$MLMMJRECEIVE -L $install_dir/\""
-ALIASFILE="/etc/aliases"
+
 
 INSTALLED_VERSION=""
 REQUIRED_VERSION="1.4.0.rc2"
@@ -80,6 +72,9 @@ fi
 # -------------------------------------------------------------
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
+
+TEXTPATH="/usr/local/share/mlmmj/text.skel/$language"
+
 ynh_script_progression --message="Creating the necessary directories in $install_dir;" -t
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
@@ -97,12 +92,46 @@ if [ -d "$TEXTPATH" ]; then
     cp "$TEXTPATH"/* "$install_dir/text"
 fi
 
-ynh_script_progression --message="Updating $ALIASFILE and running newaliases;" -t
-printf "$ALIAS\n" >> $ALIASFILE
-newaliases || ynh_die "Failed to run newaliases"
+# -------------------------------------------------------------
+# Setting up conf files transport et virtual
+# -------------------------------------------------------------
 
-ynh_script_progression --message="Updating permissions" -t
-chown -R nobody:nogroup "$install_dir"
+CONF_DIR="$APP_ROOT/$conf"
+TRANSPORT_FILE="$CONF_DIR/transport"
+VIRTUAL_FILE="$CONF_DIR/virtual"
+TRANSPORT_ENTRY="$domain--$list_name@localhost.mlmmj       mlmmj:$app"
+VIRTUAL_ENTRY="$list_name@$domain    $domain--$list_name@localhost.mlmmj"
+
+if [ ! -d "$CONF_DIR" ]; then
+    mkdir -p "$CONF_DIR"
+fi
+
+ynh_script_progression --message="Conf files update;" -t
+if ! grep -qF "$TRANSPORT_ENTRY" "$TRANSPORT_FILE"; then
+    echo "$TRANSPORT_ENTRY" >> "$TRANSPORT_FILE"
+fi
+
+# Ajouter l'entrée dans virtual si elle n'existe pas
+if ! grep -qF "$VIRTUAL_ENTRY" "$VIRTUAL_FILE"; then
+    echo "$VIRTUAL_ENTRY" >> "$VIRTUAL_FILE"
+fi
+
+# -------------------------------------------------------------
+# Symlinks for easier CLI administration
+# -------------------------------------------------------------
+SYMLINK_DIR="$APP_ROOT/$domain"
+if [ ! -d "$SYMLINK_DIR" ]; then
+    mkdir -p "$SYMLINK_DIR"
+fi
+ln -s "$install_dir" "$SYMLINK_DIR/$list_name"
+
+
+# -------------------------------------------------------------
+# Cron
+# -------------------------------------------------------------
+
+MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
+MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
 
 ynh_script_progression --message="Adding cron file;" -t
 # Generate random minute execution (between 0 and 59)
