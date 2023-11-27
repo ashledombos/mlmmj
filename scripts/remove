@@ -1,65 +1,71 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
+# -------------------------------------------------------------
+# mlmmj Removal Script for YunoHost
+# -------------------------------------------------------------
 
-source _common.sh
+# Import YunoHost helpers
 source /usr/share/yunohost/helpers
+source _common.sh
 
-#=================================================
-# REMOVE LIST
-#=================================================
-ynh_script_progression --message="Removing system configurations related to $app;" --weight=10
 # Retrieve arguments from YunoHost configuration
 app=$YNH_APP_INSTANCE_NAME
 LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name)
-SPOOLDIR="/var/spool/mlmmj"
 
-# Remove the mailing list spool directory
-ynh_secure_remove --file="$SPOOLDIR/$LISTNAME"
+# Define paths
+APP_ROOT="/var/spool/mlmmj"
+SYMLINK_DIR="$APP_ROOT/$domain"
+INSTALL_DIR="$APP_ROOT/$LISTNAME"
+
+# -------------------------------------------------------------
+# Remove Mailing List and Related Configurations
+# -------------------------------------------------------------
+
+ynh_script_progression --message="Removing mailing list $LISTNAME and related configurations;" --weight=10
+
+# Remove the mailing list directory
+ynh_secure_remove --file="$INSTALL_DIR"
+
+# Remove the symbolic link
+if [ -L "$SYMLINK_DIR/$LISTNAME" ]; then
+    ynh_secure_remove --file="$SYMLINK_DIR/$LISTNAME"
+fi
+
+# Check and remove domain directory if empty
+if [ -d "$SYMLINK_DIR" ] && [ ! "$(ls -A $SYMLINK_DIR)" ]; then
+    ynh_secure_remove --file="$SYMLINK_DIR"
+fi
 
 # Remove the cron job
 ynh_secure_remove --file="/etc/cron.d/$app"
 
-# Remove the alias from /etc/aliases and regenerate aliases
-if grep -q "^$LISTNAME:" /etc/aliases; then
-    sed -i "/^$LISTNAME:/d" /etc/aliases
-    newaliases
-fi
+# -------------------------------------------------------------
+# Check for Remaining mlmmj Instances and Remove Binaries
+# -------------------------------------------------------------
 
-#=================================================
-# REMOVE MLMMJ IF LAST INSTANCE
-#=================================================
-ynh_script_progression --message="Removing mlmmj;"
+ynh_script_progression --message="Checking for remaining mlmmj instances;" --weight=10
 
-# Count the number of mlmmj instances
 mlmmj_instances=$(sudo yunohost app list | grep -c 'id: mlmmj')
 
 # Remove mlmmj binaries and man pages only if this is the last instance
 if [ "$mlmmj_instances" -eq 1 ]; then
-    shopt -s nullglob
+    ynh_script_progression --message="Removing mlmmj binaries and man pages as this is the last instance;" --weight=10
+
     dirbin="/usr/local/bin/"
     dirman="/usr/local/share/man/man1/"
     pattern="mlmmj-*"
 
     for file in $dirbin$pattern; do
-        echo "Removing binary file: $file"
         ynh_secure_remove --file="$file"
     done
 
     for file in $dirman$pattern; do
-        echo "Removing man page: $file"
         ynh_secure_remove --file="$file"
     done
-
-    # ynh_secure_remove --file="/usr/local/share/mlmmj"
 fi
 
-#=================================================
-# END OF SCRIPT
-#=================================================
+# -------------------------------------------------------------
+# Completion of Script
+# -------------------------------------------------------------
 
 ynh_script_progression --message="Removal of $app completed" --last
