@@ -17,6 +17,7 @@ transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$domain    $app@localhost.mlmmj"
 
 installed_version=""
+REQUIRED_VERSION=$(cat ../mlmmj_version)
 
 #=================================================
 # PERSONAL HELPERS
