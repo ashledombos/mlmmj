@@ -14,7 +14,7 @@ transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$domain    $app@localhost.mlmmj"
 
 CRON_DIR="/etc/cron.d/mlmmj"
-cron_file="CRON_DIR/$app.cron"
+cron_file="$CRON_DIR/$app.cron"
 MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
 MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
 
