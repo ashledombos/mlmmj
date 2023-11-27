@@ -5,7 +5,7 @@
 #=================================================
 # Global variables
 MLMMJ_ROOT="/var/spool/mlmmj"
-TABLES_DIR="$APP_ROOT/tables"
+TABLES_DIR="$MLMMJ_ROOT/tables"
 TRANSPORT_FILE="$TABLES_DIR/transport"
 VIRTUAL_FILE="$TABLES_DIR/virtual"
 symlink_dir="$APP_ROOT/$domain"
