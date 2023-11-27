@@ -8,18 +8,17 @@
 source /usr/share/yunohost/helpers
 
 # -------------------------------------------------------------
-# Variables
+# Current version
 # -------------------------------------------------------------
 
-
-
-INSTALLED_VERSION=""
 REQUIRED_VERSION="1.4.0.rc2"
 
 # -------------------------------------------------------------
 # Check name validity
 # -------------------------------------------------------------
-# Check if the list name is a valid and not a user name
+
+ynh_script_progression --message="Checking name validity;"
+
 is_valid_listname() {
     # Check format
     if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
@@ -36,21 +35,22 @@ is_valid_listname() {
     return 0
 }
 
-# Check the list name
 ynh_print_info --message="Validating list name: $list_name"
+
 if ! is_valid_listname "$list_name"; then
     ynh_die --message="Validation failed for list name: $list_name"
 fi
 
 # -------------------------------------------------------------
-# Installing MLMMJ Binaries If Necessary
+# Install MLMMJ binaries if necessary
 # -------------------------------------------------------------
+
 ynh_script_progression --message="Checking existing mlmmj binaries;"
+INSTALLED_VERSION=""
 
 if command -v mlmmj-list >/dev/null 2>&1; then
     INSTALLED_VERSION=$(mlmmj-list -V | cut -d ' ' -f3)
-    ynh_script_progression --message="mlmmj is already installed with version: $INSTALLED_VERSION"
-    
+    ynh_script_progression --message="mlmmj is already installed with version: $INSTALLED_VERSION"    
     if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
         ynh_script_progression --message="Updating mlmmj to the required version;"
     fi
@@ -73,9 +73,9 @@ fi
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
 
+ynh_script_progression --message="Creating the necessary directories in $install_dir;" -t
 TEXTPATH="/usr/local/share/mlmmj/text.skel/$language"
 
-ynh_script_progression --message="Creating the necessary directories in $install_dir;" -t
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
            nomailsubs.d
@@ -84,10 +84,10 @@ do
 done
 
 ynh_script_progression --message="Configuring the list $list_name@$domain" -t
+
 echo "postmaster" > "$install_dir/control/owner"
 echo "$list_name@$domain" > "$install_dir/control/listaddress"
 
-ynh_script_progression --message="Copying localized content ($language) into $TEXTPATH;" -t
 if [ -d "$TEXTPATH" ]; then
     cp "$TEXTPATH"/* "$install_dir/text"
 fi
@@ -96,6 +96,7 @@ fi
 # Setting up conf files transport et virtual
 # -------------------------------------------------------------
 
+ynh_script_progression --message="Conf files update;" -t
 CONF_DIR="$APP_ROOT/$conf"
 TRANSPORT_FILE="$CONF_DIR/transport"
 VIRTUAL_FILE="$CONF_DIR/virtual"
@@ -106,12 +107,10 @@ if [ ! -d "$CONF_DIR" ]; then
     mkdir -p "$CONF_DIR"
 fi
 
-ynh_script_progression --message="Conf files update;" -t
 if ! grep -qF "$TRANSPORT_ENTRY" "$TRANSPORT_FILE"; then
     echo "$TRANSPORT_ENTRY" >> "$TRANSPORT_FILE"
 fi
 
-# Ajouter l'entrée dans virtual si elle n'existe pas
 if ! grep -qF "$VIRTUAL_ENTRY" "$VIRTUAL_FILE"; then
     echo "$VIRTUAL_ENTRY" >> "$VIRTUAL_FILE"
 fi
@@ -119,6 +118,7 @@ fi
 # -------------------------------------------------------------
 # Symlinks for easier CLI administration
 # -------------------------------------------------------------
+
 SYMLINK_DIR="$APP_ROOT/$domain"
 if [ ! -d "$SYMLINK_DIR" ]; then
     mkdir -p "$SYMLINK_DIR"
@@ -130,19 +130,17 @@ ln -s "$install_dir" "$SYMLINK_DIR/$list_name"
 # Cron
 # -------------------------------------------------------------
 
+ynh_script_progression --message="Adding cron file;" -t
 MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
 MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
 
-ynh_script_progression --message="Adding cron file;" -t
-# Generate random minute execution (between 0 and 59)
-rand_min=$(shuf -i 0-59 -n 1)
-cron_path="/etc/cron.d/$app"
-mkdir -p $cron_path
-printf "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_path/mlmmj.cron" 
-chown root:root "$cron_path"
-chmod 644 "$cron_path"
+RAND_MIN=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
+CRON_PATH="/etc/cron.d/$app"
+mkdir -p $CRON_PATH
+printf "$RAND_MIN */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$CRON_PATH/mlmmj.cron" 
+chown root:root "$CRON_PATH"
+chmod 644 "$CRON_PATH"
 
-echo "$list_name@$domain" > "$install_dir/README_$list_name.md"
 # -------------------------------------------------------------
 # mlmmj installation script for YunoHost
 # -------------------------------------------------------------
