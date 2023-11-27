@@ -111,10 +111,10 @@ ynh_script_progression --message="Adding cron file;" -t
 rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
 if [ ! -d "$CRON_DIR" ]; then
     mkdir -p "$CRON_DIR"
+    chmod 644 "$CRON_DIR"
 fi
 echo "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_file" 
-#chown root:root "$CRON_PATH"
-#chmod 644 "$CRON_PATH"
+
 
 # -------------------------------------------------------------
 # mlmmj installation script for YunoHost
