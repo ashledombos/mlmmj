@@ -19,6 +19,9 @@ virtual_entry="$list_name@$domain    $app@localhost.mlmmj"
 installed_version=""
 REQUIRED_VERSION=$(cat ../mlmmj_version)
 
+LANG_ROOT="/usr/local/share/mlmmj/text.skel"
+lang_dir="$LANG_ROOT/$language"
+
 #=================================================
 # PERSONAL HELPERS
 #=================================================
