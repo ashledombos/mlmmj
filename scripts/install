@@ -105,7 +105,7 @@ VIRTUAL_FILE="$TABLES_DIR/virtual"
 TRANSPORT_ENTRY="$app@localhost.mlmmj       mlmmj:$app"
 VIRTUAL_ENTRY="$list_name@$domain    $app@localhost.mlmmj"
 
-if [ ! -d "$CONF_DIR" ]; then
+if [ ! -d "$TABLES_DIR" ]; then
     mkdir -p "$TABLES_DIR"
 fi
 
