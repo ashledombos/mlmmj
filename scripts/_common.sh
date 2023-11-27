@@ -4,7 +4,7 @@
 # COMMON VARIABLES
 #=================================================
 # Global variables
-APP_ROOT="/var/spool/mlmmj"
+MLMMJ_ROOT="/var/spool/mlmmj"
 TABLES_DIR="$APP_ROOT/tables"
 TRANSPORT_FILE="$TABLES_DIR/transport"
 VIRTUAL_FILE="$TABLES_DIR/virtual"
