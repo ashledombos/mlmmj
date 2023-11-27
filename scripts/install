@@ -99,14 +99,14 @@ fi
 
 ynh_script_progression --message="Conf files update;" -t
 APP_ROOT="/var/spool/mlmmj/conf"
-CONF_DIR="$APP_ROOT/$conf"
-TRANSPORT_FILE="$CONF_DIR/transport"
-VIRTUAL_FILE="$CONF_DIR/virtual"
+TABLES_DIR="$APP_ROOT/tables"
+TRANSPORT_FILE="$TABLES_DIR/transport"
+VIRTUAL_FILE="$TABLES_DIR/virtual"
 TRANSPORT_ENTRY="$app@localhost.mlmmj       mlmmj:$app"
 VIRTUAL_ENTRY="$list_name@$domain    $app@localhost.mlmmj"
 
 if [ ! -d "$CONF_DIR" ]; then
-    mkdir -p "$CONF_DIR"
+    mkdir -p "$TABLES_DIR"
 fi
 
 if ! grep -qF "$TRANSPORT_ENTRY" "$TRANSPORT_FILE"; then
