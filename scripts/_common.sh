@@ -13,8 +13,8 @@ symlink_dir="$APP_ROOT/$domain"
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$domain    $app@localhost.mlmmj"
 
-CRON_ROOT="/etc/cron.d/mlmmj"
-cron_dir="CRON_ROOT/$app"
+CRON_DIR="/etc/cron.d/mlmmj"
+cron_file="CRON_DIR/$app.cron"
 
 installed_version=""
 REQUIRED_VERSION=$(cat ../mlmmj_version)
