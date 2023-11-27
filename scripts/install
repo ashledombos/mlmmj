@@ -96,11 +96,10 @@ fi
 # Symlinks for easier CLI administration
 # -------------------------------------------------------------
 
-SYMLINK_DIR="$APP_ROOT/$domain"
-if [ ! -d "$SYMLINK_DIR" ]; then
-    mkdir -p "$SYMLINK_DIR"
+if [ ! -d "$symlink_dir" ]; then
+    mkdir -p "$symlink_dir"
 fi
-ln -s "$install_dir" "$SYMLINK_DIR/$list_name"
+ln -s "$install_dir" "$symlink_dir/$list_name"
 
 
 # -------------------------------------------------------------
@@ -108,15 +107,14 @@ ln -s "$install_dir" "$SYMLINK_DIR/$list_name"
 # -------------------------------------------------------------
 
 ynh_script_progression --message="Adding cron file;" -t
-MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
-MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
 
-RAND_MIN=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
-CRON_PATH="/etc/cron.d/$app"
-mkdir -p $CRON_PATH
-printf "$RAND_MIN */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$CRON_PATH/mlmmj.cron" 
-chown root:root "$CRON_PATH"
-chmod 644 "$CRON_PATH"
+rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
+if [ ! -d "$CRON_DIR" ]; then
+    mkdir -p "$CRON_DIR"
+fi
+printf "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_file" 
+#chown root:root "$CRON_PATH"
+#chmod 644 "$CRON_PATH"
 
 # -------------------------------------------------------------
 # mlmmj installation script for YunoHost
