@@ -21,8 +21,8 @@ MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
 installed_version=""
 REQUIRED_VERSION=$(cat ../mlmmj_version)
 
-LANG_ROOT="/usr/local/share/mlmmj/text.skel"
-lang_dir="$LANG_ROOT/$language"
+MLMMJ_SHARE="/usr/local/share/mlmmj"
+lang_dir="$MLMMJ_SHARE/text.skel/$language"
 
 #=================================================
 # PERSONAL HELPERS
