@@ -19,11 +19,14 @@ ynh_secure_remove --file="$INSTALL_DIR"
 rm -f "$symlink_dir/$list_name"
 rmdir --ignore-fail-on-non-empty "$SYMLINK_DIR"
 
+ynh_script_progression --message="Cleaning tables;"
+
 sed -i "/$transport_entry/d" "$TRANSPORT_FILE"
 sed -i "/$virtual_entry/d" "$VIRTUAL_FILE"
 postmap "$TRANSPORT_FILE"
 postmap "$VIRTUAL_FILE"
 
+ynh_script_progression --message="Cleaning CRON tasks;"
 # Remove the cron job
 ynh_secure_remove --file="$cron_file"
 rmdir --ignore-fail-on-non-empty "$CRON_DIR"
