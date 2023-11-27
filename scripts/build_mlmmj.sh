@@ -1,4 +1,10 @@
-ynh_script_progression --message="Checking existing mlmmj binaries;"
+#!/bin/bash
+
+# -------------------------------------------------------------
+# building/installing mlmmj if necessary
+# -------------------------------------------------------------
+
+REQUIRED_VERSION=$(cat ../mlmmj_version)
 INSTALLED_VERSION=""
 
 if command -v mlmmj-list >/dev/null 2>&1; then
