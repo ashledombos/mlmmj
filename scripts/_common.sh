@@ -19,7 +19,7 @@ MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
 MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
 
 installed_version=""
-REQUIRED_VERSION=$(cat ../mlmmj_version)
+REQUIRED_VERSION=$(cat mlmmj_version)
 
 MLMMJ_SHARE="/usr/local/share/mlmmj"
 lang_dir="$MLMMJ_SHARE/text.skel/$language"
