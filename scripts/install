@@ -47,7 +47,7 @@ fi
 
 ynh_script_progression --message="Checking existing mlmmj binaries;"
 REQUIRED_VERSION=$(cat ../mlmmj_version)
-#INSTALLED_VERSION=""
+INSTALLED_VERSION=""
 
 if command -v mlmmj-list >/dev/null 2>&1; then
     INSTALLED_VERSION=$(mlmmj-list -V | cut -d ' ' -f3)
