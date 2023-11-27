@@ -10,11 +10,11 @@ TRANSPORT_FILE="$TABLES_DIR/transport"
 VIRTUAL_FILE="$TABLES_DIR/virtual"
 symlink_dir="$APP_ROOT/$domain"
 
-CRON_ROOT="/etc/cron.d/mlmmj"
-cron_dir="CRON_ROOT/$app"
-
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$domain    $app@localhost.mlmmj"
+
+CRON_ROOT="/etc/cron.d/mlmmj"
+cron_dir="CRON_ROOT/$app"
 
 installed_version=""
 REQUIRED_VERSION=$(cat ../mlmmj_version)
