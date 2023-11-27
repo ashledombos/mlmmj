@@ -84,12 +84,12 @@ fi
 
 if ! grep -qF "$transport_entry" "$TRANSPORT_FILE"; then
     echo "$transport_entry" >> "$TRANSPORT_FILE"
-    postmap /var/spool/mlmmj/tables/transport
+    postmap "$TRANSPORT_FILE"
 fi
 
 if ! grep -qF "$virtual_entry" "$VIRTUAL_FILE"; then
     echo "$virtual_entry" >> "$VIRTUAL_FILE"
-    postmap /var/spool/mlmmj/tables/virtual
+    postmap "$VIRTUAL_FILE"
 fi
 
 # -------------------------------------------------------------
