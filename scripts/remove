@@ -16,7 +16,7 @@ ynh_script_progression --message="Removing mailing list $LISTNAME and related co
 
 # Remove the mailing list files
 ynh_secure_remove --file="$INSTALL_DIR"
-rm -f "$SYMLINK_DIR/$LISTNAME"
+rm -f "$symlink_dir/$list_name"
 rmdir --ignore-fail-on-non-empty "$SYMLINK_DIR"
 
 sed -i "/$transport_entry/d" "$TRANSPORT_FILE"
