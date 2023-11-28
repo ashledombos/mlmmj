@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Import YunoHost helpers
+source /usr/share/yunohost/helpers
+
+ynh_abort_if_errors
+
+# Set up custom setters
+set__main_general_closedlist() {
+    local closedlist_file="/var/spool/mlmmj/$app/control/closedlist"
+    if [[ $main_general_closedlist == true ]]; then
+        touch "$closedlist_file"
+    else
+        ynh_secure_remove "$closedlist_file"
+    fi
+}
+
+set__main_general_moderated() {
+    local moderated_file="/var/spool/mlmmj/$app/control/moderated"
+    if [[ $main_general_moderated == true ]]; then
+        touch "$moderated_file"
+    else
+        ynh_secure_remove "$moderated_file"
+    fi
+}
+
+# Execute the appropriate step
+ynh_app_config_run $1
