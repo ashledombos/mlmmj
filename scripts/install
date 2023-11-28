@@ -101,6 +101,11 @@ if [ ! -d "$symlink_dir" ]; then
 fi
 ln -s "$install_dir" "$symlink_dir/$list_name"
 
+# -------------------------------------------------------------
+# Default settings
+# -------------------------------------------------------------
+
+ynh_app_setting_set --app=$app --key=closedlist --value=false
 
 # -------------------------------------------------------------
 # Cron
