@@ -9,6 +9,7 @@ TABLES_DIR="$MLMMJ_ROOT/tables"
 TRANSPORT_FILE="$TABLES_DIR/transport"
 VIRTUAL_FILE="$TABLES_DIR/virtual"
 symlink_dir="$MLMMJ_ROOT/$domain"
+control_dir="$install_dir/control"
 
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$domain    $app@localhost.mlmmj"
