@@ -27,7 +27,7 @@ set__main_general_closedlist() {
 }
 
 set__main_general_moderated() {
-    local closedlist_value=$(ynh_app_setting_get --app=$app --key=moderated)
+#    local moderated_value=$(ynh_app_setting_get --app=$app --key=moderated)
     local moderated_file="$control_dir/moderated"
     if [[ $main_general_moderated == true ]]; then
         touch "$moderated_file"
