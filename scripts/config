@@ -10,19 +10,19 @@ ynh_abort_if_errors
 # Validators
 # -------------------------------------------------------------
 
-#validate__moderators() {
-#    local email_regex='^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-#    local invalid_lines=""
-#    while IFS= read -r line; do
-#        if [[ ! $line =~ $email_regex ]] && [[ ! -z "$line" ]]; then
-#            invalid_lines+="$line\n"
-#        fi
-#    done <<< "$moderators"
-#
-#    if [[ ! -z "$invalid_lines" ]]; then
-#        echo -e "Invalid email addresses found in moderators list:\n$invalid_lines"
-#    fi
-#}
+validate__moderators() {
+    local email_regex='^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    local invalid_lines=""
+    while IFS= read -r line; do
+        if [[ ! $line =~ $email_regex ]] && [[ ! -z "$line" ]]; then
+            invalid_lines+="$line\n"
+        fi
+    done <<< "$moderators"
+
+    if [[ ! -z "$invalid_lines" ]]; then
+        echo -e "Invalid email addresses found in moderators list:\n$invalid_lines"
+    fi
+}
 
 # -------------------------------------------------------------
 # Getters
