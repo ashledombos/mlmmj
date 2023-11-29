@@ -4,39 +4,20 @@
 # UPGRADE
 #=================================================
 
-# Import YunoHost helpers
 source /usr/share/yunohost/helpers
+source _common.sh
 
-# Retrieve arguments from TOML configuration
-app=$YNH_APP_INSTANCE_NAME
-LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name)
+# -------------------------------------------------------------
+# Install MLMMJ binaries if necessary
+# -------------------------------------------------------------
 
-# Variables
-RELEASE_URL="https://codeberg.org/mlmmj/mlmmj/archive/RELEASE_1_4_0rc2.tar.gz"
-SPOOLDIR="/var/spool/mlmmj"
-LISTDIR="$SPOOLDIR/$LISTNAME"
-REQUIRED_VERSION="1.4.0.rc2"
+ynh_script_progression --message="Checking existing mlmmj binaries;"
 
-# Check if mlmmj is installed and get its version
-if command -v mlmmj-list >/dev/null 2>&1; then
-    INSTALLED_VERSION=$(mlmmj-list -V | cut -d ' ' -f3)
-    ynh_print_info --message="mlmmj is already installed with version: $INSTALLED_VERSION"
-else
-    ynh_die "mlmmj is not installed, upgrade cannot proceed."
-fi
+install_update_mlmmj "$REQUIRED_VERSION"
 
-# Update mlmmj if the installed version is not the required one
-if [ "$REQUIRED_VERSION" != "$INSTALLED_VERSION" ]; then
-    ynh_print_info --message="Updating mlmmj to the required version $REQUIRED_VERSION;"
 
-    ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
-    ynh_setup_source --dest_dir="mlmmj-latest" --source_url=$RELEASE_URL
-    pushd mlmmj-latest
-    autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
-    popd
-    ynh_secure_remove "mlmmj-latest"
-else
-    ynh_print_info --message="mlmmj is already at the required version $REQUIRED_VERSION, no update needed."
-fi
+# -------------------------------------------------------------
+# Upgrade completion
+# -------------------------------------------------------------
 
 ynh_script_progression --message="mlmmj upgrade completed." --last
