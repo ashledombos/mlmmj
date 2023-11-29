@@ -45,6 +45,14 @@ ynh_script_progression --message="Checking existing mlmmj binaries;"
 install_update_mlmmj "$REQUIRED_VERSION"
 
 # -------------------------------------------------------------
+# Install MLMMJ if necessary and check Postfix
+# -------------------------------------------------------------
+
+ynh_script_progression --message="Checking Postfix settings;"
+
+configure_postfix
+
+# -------------------------------------------------------------
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
 
