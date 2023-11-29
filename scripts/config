@@ -57,30 +57,6 @@ get__moderated() {
     fi
 }
 
-# first try not working: missing line breaks
-
-#get__moderators() {
-#    local moderators_file="$subscribers_dir/moderators"
-#    if [ -f "$moderators_file" ]; then
-#        cat "$moderators_file"  
-#    else
-#        echo ""  
-#    fi
-#}
-
-# 2nd try workaround (process each line independently) but same issue
-
-get__moderators() {
-    local moderators_file="$subscribers_dir/moderators"
-    if [ -f "$moderators_file" ]; then
-        while IFS= read -r line; do
-            echo "$line"
-        done < "$moderators_file"
-    else
-        echo ""
-    fi
-}
-
 # -------------------------------------------------------------
 # Setters
 # -------------------------------------------------------------
@@ -114,13 +90,6 @@ set__moderated() {
         ynh_secure_remove "$control_dir/moderated"
         ynh_print_info "--message='Removed $control_dir/moderated for moderated'"
     fi
-}
-
-set__moderators() {
-    local moderators_file="$subscribers_dir/moderators"
-    [ ! -f "$moderators_file" ] && touch "$moderators_file"
-    echo "$moderators" > "$moderators_file"
-    ynh_print_info "--message='Moderators updated in $moderators_file'"
 }
 
 # -------------------------------------------------------------
