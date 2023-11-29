@@ -98,7 +98,7 @@ set__moderated() {
 }
 
 set__moderators() {
-    local moderators_file="$control_dir/moderators"
+    local moderators_file="$subscribers_dir/moderators"
     [ ! -f "$moderators_file" ] && touch "$moderators_file"
     echo "$moderators" > "$moderators_file"
     ynh_print_info "--message='Moderators updated in $moderators_file'"
