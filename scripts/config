@@ -12,17 +12,17 @@ ynh_abort_if_errors
 
 get__closedlist() {
     if [ -f "$control_dir/closedlist" ]; then
-        echo "true"
+        echo "1"
     else
-        echo "false"
+        echo "0"
     fi
 }
 
 get__moderated() {
     if [ -f "$control_dir/moderated" ]; then
-        echo "true"
+        echo "1"
     else
-        echo "false"
+        echo "0"
     fi
 }
 
@@ -31,7 +31,7 @@ get__moderated() {
 # -------------------------------------------------------------
 
 set__closedlist() {
-    if [[ $main_general_closedlist == true ]]; then
+    if [[ $closedlist == 1 ]]; then
         touch "$control_dir/closedlist"
         ynh_print_info "--message='Created $control_dir/closedlist for closedlist'"
     else
@@ -41,7 +41,7 @@ set__closedlist() {
 }
 
 set__moderated() {
-    if [[ $main_general_moderated == true ]]; then
+    if [[ $moderated == 1 ]]; then
         touch "$control_dir/moderated"
         ynh_print_info "--message='Created $control_dir/moderated for moderated'"
     else
