@@ -61,10 +61,10 @@ set__closedlist() {
 set__prefix() {
     local prefix_file="$control_dir/prefix"
     if [ -n "$prefix" ]; then
-        echo "$prefix" > "$prefix_file"  # Écrit la valeur dans la première ligne
+        echo "$prefix" > "$prefix_file"  
         ynh_print_info "--message='Prefix set to $prefix in $prefix_file'"
     else
-        ynh_secure_remove "$prefix_file"  # Supprime le fichier si la chaîne est vide
+        ynh_secure_remove "$prefix_file"  
         ynh_print_info "--message='Prefix file $prefix_file removed'"
     fi
 }
@@ -80,10 +80,25 @@ set__moderated() {
 }
 
 set__moderators() {
-    local moderators_file="$subscribers_dir/moderators"
-    echo "$moderators" > "$moderators_file"  # Écrit les nouvelles valeurs dans le fichier
+    local moderators_file="$control_dir/moderators"
+    [ ! -f "$moderators_file" ] && touch "$moderators_file"
+    echo "$moderators" > "$moderators_file"
     ynh_print_info "--message='Moderators updated in $moderators_file'"
 }
+
+# -------------------------------------------------------------
+# Validators
+# -------------------------------------------------------------
+
+validate__moderators() {
+    local email_regex='^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    while IFS= read -r line; do
+        if [[ ! $line =~ $email_regex ]] && [[ ! -z "$line" ]]; then
+            ynh_die --message="Invalid email address in moderators list: $line"
+        fi
+    done <<< "$moderators"
+}
+
 
 # Execute the appropriate step
 ynh_app_config_run $1
