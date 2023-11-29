@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#=================================================
+# CONFIG
+#=================================================
+
 # Import YunoHost helpers
 source /usr/share/yunohost/helpers
 source _common.sh
