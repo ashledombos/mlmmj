@@ -1,38 +1,52 @@
 #!/bin/bash
 
-# -------------------------------------------------------------
-# mlmmj config
-# -------------------------------------------------------------
-
 # Import YunoHost helpers
 source /usr/share/yunohost/helpers
 source _common.sh
 
-
 ynh_abort_if_errors
+
+# -------------------------------------------------------------
+# Getters
+# -------------------------------------------------------------
+
+get__main_general_closedlist() {
+    if [ -f "$control_dir/closedlist" ]; then
+        echo "true"
+    else
+        echo "false"
+    fi
+}
+
+get__main_general_moderated() {
+    if [ -f "$control_dir/moderated" ]; then
+        echo "true"
+    else
+        echo "false"
+    fi
+}
 
 # -------------------------------------------------------------
 # Setters
 # -------------------------------------------------------------
 
 set__main_general_closedlist() {
-    local closedlist_value=$(ynh_app_setting_get --app=$app --key=closedlist)
-    local closedlist_file="$control_dir/closedlist"
-
-    if [[ $closedlist_value == true ]]; then
-        touch "$closedlist_file"
+    if [[ $main_general_closedlist == true ]]; then
+        touch "$control_dir/closedlist"
+        ynh_print_info "--message='Created $control_dir/closedlist for closedlist'"
     else
-        ynh_secure_remove "$closedlist_file"
+        ynh_secure_remove "$control_dir/closedlist"
+        ynh_print_info "--message='Removed $control_dir/closedlist for closedlist'"
     fi
 }
 
 set__main_general_moderated() {
-#    local moderated_value=$(ynh_app_setting_get --app=$app --key=moderated)
-    local moderated_file="$control_dir/moderated"
     if [[ $main_general_moderated == true ]]; then
-        touch "$moderated_file"
+        touch "$control_dir/moderated"
+        ynh_print_info "--message='Created $control_dir/moderated for moderated'"
     else
-        ynh_secure_remove "$moderated_file"
+        ynh_secure_remove "$control_dir/moderated"
+        ynh_print_info "--message='Removed $control_dir/moderated for moderated'"
     fi
 }
 
