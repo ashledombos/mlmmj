@@ -12,7 +12,6 @@ version = "1.0"
         type = "string"
 
     [main.moderation]
-
         [main.moderation.moderated]
         ask.en = "Should the list be moderated?"
         type = "boolean"
@@ -20,6 +19,5 @@ version = "1.0"
         [main.moderation.moderators]
         ask.en = "List of moderators (one email address per line)"
         type = "text"
-        pattern.regexp = '^(.+\@.+\..+)?$'
         pattern.error = "Each line must be a valid email address or left blank"
 
