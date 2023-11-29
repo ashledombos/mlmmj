@@ -18,6 +18,15 @@ get__closedlist() {
     fi
 }
 
+get__prefix() {
+    local prefix_file="$control_dir/prefix"
+    if [ -f "$prefix_file" ]; then
+        head -n 1 "$prefix_file"  # Lit uniquement la première ligne
+    else
+        echo ""  # Retourne une chaîne vide si le fichier n'existe pas
+    fi
+}
+
 get__moderated() {
     if [ -f "$control_dir/moderated" ]; then
         echo "1"
@@ -37,6 +46,17 @@ set__closedlist() {
     else
         ynh_secure_remove "$control_dir/closedlist"
         ynh_print_info "--message='Removed $control_dir/closedlist for closedlist'"
+    fi
+}
+
+set__prefix() {
+    local prefix_file="$control_dir/prefix"
+    if [ -n "$prefix" ]; then
+        echo "$prefix" > "$prefix_file"  # Écrit la valeur dans la première ligne
+        ynh_print_info "--message='Prefix set to $prefix in $prefix_file'"
+    else
+        ynh_secure_remove "$prefix_file"  # Supprime le fichier si la chaîne est vide
+        ynh_print_info "--message='Prefix file $prefix_file removed'"
     fi
 }
 
