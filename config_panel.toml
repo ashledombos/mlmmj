@@ -7,6 +7,19 @@ version = "1.0"
         ask.en = "Is the list closed for subscription?"
         type = "boolean"
 
-        [main.general.moderated]
+        [main.general.prefix]
+        ask.en = "Prefix for the Subject line of emails"
+        type = "string"
+
+    [main.moderation]
+
+        [main.moderation.moderated]
         ask.en = "Should the list be moderated?"
         type = "boolean"
+
+        [main.moderation.moderators]
+        ask.en = "List of moderators (one email address per line)"
+        type = "text"
+        pattern.regexp = '^(.+\@.+\..+)?$'
+        pattern.error = "Each line must be a valid email address or left blank"
+
