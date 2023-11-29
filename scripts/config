@@ -62,9 +62,9 @@ get__moderated() {
 #get__moderators() {
 #    local moderators_file="$subscribers_dir/moderators"
 #    if [ -f "$moderators_file" ]; then
-#        cat "$moderators_file"  # Lit le contenu complet du fichier
+#        cat "$moderators_file"  
 #    else
-#        echo ""  # Retourne une chaîne vide si le fichier n'existe pas
+#        echo ""  
 #    fi
 #}
 
