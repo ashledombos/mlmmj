@@ -57,6 +57,8 @@ get__moderated() {
     fi
 }
 
+# first try not working: missing line breaks
+
 #get__moderators() {
 #    local moderators_file="$subscribers_dir/moderators"
 #    if [ -f "$moderators_file" ]; then
@@ -66,7 +68,7 @@ get__moderated() {
 #    fi
 #}
 
-# 2nd try workaround for missing line breaks (process each line independently)
+# 2nd try workaround (process each line independently) but same issue
 
 get__moderators() {
     local moderators_file="$subscribers_dir/moderators"
