@@ -121,5 +121,8 @@ set__moderators() {
     ynh_print_info "--message='Moderators updated in $moderators_file'"
 }
 
-# Execute the appropriate step
+# -------------------------------------------------------------
+# Config apply
+# -------------------------------------------------------------
+
 ynh_app_config_run $1
