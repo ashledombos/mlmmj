@@ -105,8 +105,8 @@ ln -s "$install_dir" "$symlink_dir/$list_name"
 # Default settings
 # -------------------------------------------------------------
 
-ynh_app_setting_set --app=$app --key=closedlist --value=false
-ynh_app_setting_set --app=$app --key=moderated --value=false
+#ynh_app_setting_set --app=$app --key=closedlist --value=false
+#ynh_app_setting_set --app=$app --key=moderated --value=false
 
 # -------------------------------------------------------------
 # Cron
