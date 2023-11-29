@@ -62,7 +62,7 @@ if [ "$mlmmj_instances" -eq 1 ]; then
 fi
 
 # -------------------------------------------------------------
-# Completion of Script
+# Remove completion
 # -------------------------------------------------------------
 
 ynh_script_progression --message="Removal of $app completed" --last
