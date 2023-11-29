@@ -35,6 +35,15 @@ get__moderated() {
     fi
 }
 
+get__moderators() {
+    local moderators_file="$subscribers_dir/moderators"
+    if [ -f "$moderators_file" ]; then
+        cat "$moderators_file"  # Lit le contenu complet du fichier
+    else
+        echo ""  # Retourne une chaîne vide si le fichier n'existe pas
+    fi
+}
+
 # -------------------------------------------------------------
 # Setters
 # -------------------------------------------------------------
@@ -68,6 +77,12 @@ set__moderated() {
         ynh_secure_remove "$control_dir/moderated"
         ynh_print_info "--message='Removed $control_dir/moderated for moderated'"
     fi
+}
+
+set__moderators() {
+    local moderators_file="$subscribers_dir/moderators"
+    echo "$moderators" > "$moderators_file"  # Écrit les nouvelles valeurs dans le fichier
+    ynh_print_info "--message='Moderators updated in $moderators_file'"
 }
 
 # Execute the appropriate step
