@@ -123,7 +123,7 @@ echo "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_file"
 
 
 # -------------------------------------------------------------
-# mlmmj installation script for YunoHost
+# Install completion
 # -------------------------------------------------------------
 
 ynh_script_progression --message="Mailing list $list_name@$domain was created successfully." --last -t
