@@ -55,6 +55,30 @@ install_update_mlmmj() {
         yunohost tools regen-conf
     fi
 }
+configure_postfix() {
+    local postfix_master_cf="/etc/postfix/master.cf"
+    local postfix_main_cf="/etc/postfix/main.cf"
+    local need_reload=false
+
+    if ! grep -q "mlmmj.*mlmmj-receive" "$postfix_master_cf"; then
+        printf "\n# MLMMJ\nmlmmj   unix  -       n       n       -       -       pipe\n    flags=ORhu user=mlmmj argv=/usr/local/bin/mlmmj-receive -F -L /var/spool/mlmmj/files/\n" >> "$postfix_master_cf"
+        need_reload=true
+    fi
+
+    if ! grep -q "hash:/var/spool/mlmmj/tables/virtual" "$postfix_main_cf"; then
+        sed -i "/^virtual_alias_maps = / s/$/,hash:\/var\/spool\/mlmmj\/tables\/virtual/" "$postfix_main_cf"
+        need_reload=true
+    fi
+
+    if ! grep -q "hash:/var/spool/mlmmj/tables/transport" "$postfix_main_cf"; then
+        printf "\n# MLMMJ\ntransport_maps = hash:/var/spool/mlmmj/tables/transport\n" >> "$postfix_main_cf"
+        need_reload=true
+    fi
+
+    if [ "$need_reload" = true ]; then
+        systemctl reload postfix
+    fi
+}
 #=================================================
 # EXPERIMENTAL HELPERS
 #=================================================
