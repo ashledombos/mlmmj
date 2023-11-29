@@ -39,7 +39,7 @@ ynh_script_progression --message="Checking for remaining mlmmj instances;" --wei
 
 mlmmj_instances=$(sudo yunohost app list | grep -c 'id: mlmmj')
 
-# Remove mlmmj binaries and man pages only if this is the last instance
+# Remove mlmmj binaries and man pages only if this is the last remaining instance
 if [ "$mlmmj_instances" -eq 1 ]; then
     shopt -s nullglob
     dirbin="/usr/local/bin/"
