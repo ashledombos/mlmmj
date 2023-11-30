@@ -52,6 +52,9 @@ install_update_mlmmj() {
         autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
         popd
     fi
+    ynh_system_user_create --username=mlmmj_pfx
+    sudo setfacl -R -m u:mlmmj_pfx:rwx /var/spool/mlmmj
+    sudo setfacl -d -m u:mlmmj_pfx:rwx /var/spool/mlmmj
 }
 
 configure_postfix() {
