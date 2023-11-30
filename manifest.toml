@@ -56,9 +56,6 @@ ram.runtime = "1M"
   in_subdir = true
 
   [resources.system_user]
-  name = "mlmmj"
-  home = "/var/spool/mlmmj"
-
 
   [resources.permissions]
 
