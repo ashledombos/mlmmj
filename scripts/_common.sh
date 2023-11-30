@@ -12,6 +12,12 @@ symlink_dir="$MLMMJ_ROOT/$domain"
 control_dir="$install_dir/control"
 subscribers_dir="$install_dir/subscribers.d"
 
+POSTFIX_MASTER_CF="/etc/postfix/master.cf"
+POSTFIX_MAIN_CF="/etc/postfix/main.cf"
+MLMMJ_MASTER_STRING="# MLMMJ\nmlmmj   unix  -       n       n       -       -       pipe\n    flags=ORhu user=mlmmj_pfx argv=/usr/local/bin/mlmmj-receive -F -L /var/spool/mlmmj/files/\n"
+MLMMJ_VIRTUAL_STRING=",hash:/var/spool/mlmmj/tables/virtual"
+MLMMJ_TRANSPORT_STRING="# MLMMJ\ntransport_maps = hash:/var/spool/mlmmj/tables/transport\n"
+
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$domain    $app@localhost.mlmmj"
 
@@ -58,28 +64,35 @@ install_update_mlmmj() {
 }
 
 configure_postfix() {
-    local postfix_master_cf="/etc/postfix/master.cf"
-    local postfix_main_cf="/etc/postfix/main.cf"
     local need_reload=false
 
-    if ! grep -q "mlmmj.*mlmmj-receive" "$postfix_master_cf"; then
-        printf "\n# MLMMJ\nmlmmj   unix  -       n       n       -       -       pipe\n    flags=ORhu user=mlmmj_pfx argv=/usr/local/bin/mlmmj-receive -F -L /var/spool/mlmmj/files/\n" >> "$postfix_master_cf"
+    if ! grep -q "$MLMMJ_MASTER_STRING" "$POSTFIX_MASTER_CF"; then
+        echo "$MLMMJ_MASTER_STRING" >> "$POSTFIX_MASTER_CF"
+        need_reload=true
+    fi
+    
+    if ! grep -q "$MLMMJ_VIRTUAL_STRING" "$POSTFIX_MAIN_CF"; then
+        sed -i "/^virtual_alias_maps = / s/$/ $MLMMJ_VIRTUAL_STRING/" "$POSTFIX_MAIN_CF"
+        need_reload=true
+    fi
+    
+    if ! grep -q "$MLMMJ_TRANSPORT_STRING" "$POSTFIX_MAIN_CF"; then
+        echo "$MLMMJ_TRANSPORT_STRING" >> "$POSTFIX_MAIN_CF"
         need_reload=true
     fi
 
-    if ! grep -q "hash:/var/spool/mlmmj/tables/virtual" "$postfix_main_cf"; then
-        sed -i "/^virtual_alias_maps = / s/$/,hash:\/var\/spool\/mlmmj\/tables\/virtual/" "$postfix_main_cf"
-        need_reload=true
-    fi
+    [ "$need_reload" = true ] && systemctl reload postfix
+}
 
-    if ! grep -q "hash:/var/spool/mlmmj/tables/transport" "$postfix_main_cf"; then
-        printf "\n# MLMMJ\ntransport_maps = hash:/var/spool/mlmmj/tables/transport\n" >> "$postfix_main_cf"
-        need_reload=true
-    fi
 
-    if [ "$need_reload" = true ]; then
-        systemctl reload postfix
-    fi
+remove_mlmmj () {
+    sed -i "/$MLMMJ_MASTER_STRING/d" "$POSTFIX_MASTER_CF"
+    
+    sed -i "s/$MLMMJ_VIRTUAL_STRING//g" "$POSTFIX_MAIN_CF"
+    
+    sed -i "/$MLMMJ_TRANSPORT_STRING/d" "$POSTFIX_MAIN_CF"
+
+    systemctl reload postfix
 }
 #=================================================
 # EXPERIMENTAL HELPERS
