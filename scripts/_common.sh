@@ -51,10 +51,9 @@ install_update_mlmmj() {
         pushd mlmmj-latest
         autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
         popd
-        #ynh_secure_remove "mlmmj-latest"
-        yunohost tools regen-conf
     fi
 }
+
 configure_postfix() {
     local postfix_master_cf="/etc/postfix/master.cf"
     local postfix_main_cf="/etc/postfix/main.cf"
