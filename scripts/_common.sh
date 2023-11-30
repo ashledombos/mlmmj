@@ -60,7 +60,7 @@ configure_postfix() {
     local need_reload=false
 
     if ! grep -q "mlmmj.*mlmmj-receive" "$postfix_master_cf"; then
-        printf "\n# MLMMJ\nmlmmj   unix  -       n       n       -       -       pipe\n    flags=ORhu user=mlmmj argv=/usr/local/bin/mlmmj-receive -F -L /var/spool/mlmmj/files/\n" >> "$postfix_master_cf"
+        printf "\n# MLMMJ\nmlmmj   unix  -       n       n       -       -       pipe\n    flags=ORhu user=mlmmj-pfx argv=/usr/local/bin/mlmmj-receive -F -L /var/spool/mlmmj/files/\n" >> "$postfix_master_cf"
         need_reload=true
     fi
 
