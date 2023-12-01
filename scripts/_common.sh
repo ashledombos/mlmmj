@@ -55,17 +55,13 @@ install_update_mlmmj() {
         autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
         popd
     fi
-
-    # Définir les chemins et les noms de fichiers comme variables
-
-
-
+    
+    ynh_script_progression --message="Potfix setup"
     ! ls $HOOK_DIR/*-mlmmj 1> /dev/null 2>&1 && cp ../hooks/conf_regen $TEMP_HOOK_PATH
-    
     yunohost tools regen-conf postfix --force
-    
     [ -f $TEMP_HOOK_PATH ] && rm $TEMP_HOOK_PATH
-    
+
+    ynh_script_progression --message="Setting ACLs"
     ynh_system_user_create --username=mlmmj_pfx
     sudo setfacl -R -m u:mlmmj_pfx:rwx $MLMMJ_ROOT
     sudo setfacl -R -m o::--- $MLMMJ_ROOT
