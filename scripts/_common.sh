@@ -12,11 +12,8 @@ symlink_dir="$MLMMJ_ROOT/$domain"
 control_dir="$install_dir/control"
 subscribers_dir="$install_dir/subscribers.d"
 
-POSTFIX_MASTER_CF="/etc/postfix/master.cf"
-POSTFIX_MAIN_CF="/etc/postfix/main.cf"
-MLMMJ_MASTER_STRING="# MLMMJ\nmlmmj   unix  -       n       n       -       -       pipe\n    flags=ORhu user=mlmmj_pfx argv=/usr/local/bin/mlmmj-receive -F -L /var/spool/mlmmj/files/\n"
-MLMMJ_VIRTUAL_STRING=",hash:/var/spool/mlmmj/tables/virtual"
-MLMMJ_TRANSPORT_STRING="# MLMMJ\ntransport_maps = hash:/var/spool/mlmmj/tables/transport\n"
+HOOK_DIR="/etc/yunohost/hooks.d/conf_regen"
+TEMP_HOOK_PATH="$HOOK_DIR/99-install_mlmmj"
 
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$domain    $app@localhost.mlmmj"
@@ -58,41 +55,20 @@ install_update_mlmmj() {
         autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
         popd
     fi
+
+    # Définir les chemins et les noms de fichiers comme variables
+
+
+
+    ! ls $HOOK_DIR/*-mlmmj 1> /dev/null 2>&1 && cp ../hooks/conf_regen $TEMP_HOOK_PATH
+    
+    yunohost tools regen-conf postfix --force
+    
+    [ -f $TEMP_HOOK_PATH ] && rm $TEMP_HOOK_PATH
+    
     ynh_system_user_create --username=mlmmj_pfx
-    sudo setfacl -R -m u:mlmmj_pfx:rwx /var/spool/mlmmj
-    sudo setfacl -d -m u:mlmmj_pfx:rwx /var/spool/mlmmj
-}
-
-configure_postfix() {
-    local need_reload=false
-
-    if ! grep -q "$MLMMJ_MASTER_STRING" "$POSTFIX_MASTER_CF"; then
-        echo "$MLMMJ_MASTER_STRING" >> "$POSTFIX_MASTER_CF"
-        need_reload=true
-    fi
-    
-    if ! grep -q "$MLMMJ_VIRTUAL_STRING" "$POSTFIX_MAIN_CF"; then
-        sed -i "/^virtual_alias_maps = / s/$/ $MLMMJ_VIRTUAL_STRING/" "$POSTFIX_MAIN_CF"
-        need_reload=true
-    fi
-    
-    if ! grep -q "$MLMMJ_TRANSPORT_STRING" "$POSTFIX_MAIN_CF"; then
-        echo "$MLMMJ_TRANSPORT_STRING" >> "$POSTFIX_MAIN_CF"
-        need_reload=true
-    fi
-
-    [ "$need_reload" = true ] && systemctl reload postfix
-}
-
-
-remove_mlmmj () {
-    sed -i "/$MLMMJ_MASTER_STRING/d" "$POSTFIX_MASTER_CF"
-    
-    sed -i "s/$MLMMJ_VIRTUAL_STRING//g" "$POSTFIX_MAIN_CF"
-    
-    sed -i "/$MLMMJ_TRANSPORT_STRING/d" "$POSTFIX_MAIN_CF"
-
-    systemctl reload postfix
+    sudo setfacl -R -m u:mlmmj_pfx:rwx $MLMMJ_ROOT
+    sudo setfacl -d -m u:mlmmj_pfx:rwx $MLMMJ_ROOT
 }
 #=================================================
 # EXPERIMENTAL HELPERS
