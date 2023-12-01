@@ -68,7 +68,9 @@ install_update_mlmmj() {
     
     ynh_system_user_create --username=mlmmj_pfx
     sudo setfacl -R -m u:mlmmj_pfx:rwx $MLMMJ_ROOT
+    sudo setfacl -R -m o::--- $MLMMJ_ROOT
     sudo setfacl -d -m u:mlmmj_pfx:rwx $MLMMJ_ROOT
+    sudo setfacl -d -m o::--- $MLMMJ_ROOT
 }
 #=================================================
 # EXPERIMENTAL HELPERS
