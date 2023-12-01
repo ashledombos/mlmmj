@@ -50,7 +50,7 @@ install_update_mlmmj "$REQUIRED_VERSION"
 
 ynh_script_progression --message="Checking Postfix settings;"
 
-hook_add "conf_regen" "$(pwd)/../hooks/conf_regen"
+
 
 # -------------------------------------------------------------
 # Mailing List Creation and Activation
