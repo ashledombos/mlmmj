@@ -46,6 +46,9 @@ if [ "$mlmmj_instances" -eq 1 ]; then
     dirman="/usr/local/share/man/man1/"
     pattern="mlmmj-*"
 
+    rm -f /usr/local/bin/mlmmj-make-ml.sh
+    rm -f /usr/local/bin/mlmmj-recieve
+
     for file in $dirbin$pattern; do
         echo "Removing binary file: $file"
         ynh_secure_remove --file="$file"
