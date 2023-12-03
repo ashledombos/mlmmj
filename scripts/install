@@ -64,6 +64,7 @@ for DIR in incoming queue queue/discarded archive text subconf unsubconf \
 do
     mkdir -p "$install_dir/$DIR"
 done
+chown mlmmj_pfx $install_dir/$DIR -R
 
 ynh_script_progression --message="Configuring the list $list_name@$domain" -t
 
