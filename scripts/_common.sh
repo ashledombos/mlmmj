@@ -57,7 +57,8 @@ install_update_mlmmj() {
     fi
     
     ynh_script_progression --message="Potfix setup"
-    ! ls $HOOK_DIR/*-mlmmj 1> /dev/null 2>&1 && cp ../hooks/conf_regen $TEMP_HOOK_PATH
+    #! ls $HOOK_DIR/*-mlmmj 1> /dev/null 2>&1 &&
+    cp ../hooks/conf_regen $TEMP_HOOK_PATH
     #yunohost tools regen-conf postfix --force
     #[ -f $TEMP_HOOK_PATH ] && rm $TEMP_HOOK_PATH
 
