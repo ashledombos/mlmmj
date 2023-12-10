@@ -4,7 +4,7 @@
 # Regen config
 # -------------------------------------------------------------
 
-mlmmj_instances=$(yunohost app list | grep -c 'mlmmj')
-if [ "$mlmmj_instances" -eq 1 ]; then
-    yunohost tools regen-conf postfix mlmmj
-fi
+#mlmmj_instances=$(yunohost app list | grep -c 'mlmmj')
+#if [ "$mlmmj_instances" -eq 1 ]; then
+yunohost tools regen-conf postfix mlmmj
+#fi
