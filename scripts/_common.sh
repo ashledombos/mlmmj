@@ -56,12 +56,6 @@ install_update_mlmmj() {
         popd
     fi
 
-    current_mode=$(ynh_app_setting_get --app=$app --key=moderators_update_mode)
-    if [ -z "$current_mode" ]; then
-        ynh_app_setting_set --app=$app --key=moderators_update_mode --value="automatic"
-    fi
-
-    
     ynh_script_progression --message="Potfix setup"
     #! ls $HOOK_DIR/*-mlmmj 1> /dev/null 2>&1 &&
     cp ../hooks/conf_regen /usr/share/yunohost/hooks/conf_regen/98-mlmmj
