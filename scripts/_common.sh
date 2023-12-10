@@ -39,22 +39,33 @@ install_update_mlmmj() {
         installed_version=$(mlmmj-list -V | cut -d ' ' -f3)
 
         if [ "$required_version" != "$installed_version" ]; then
-            ynh_script_progression --message="Updating mlmmj from $installed_version to $required_version;"
+            ynh_print_info --message="Updating mlmmj from $installed_version to $required_version;"
         else 
-            ynh_script_progression --message="mlmmj is already installed with version: $installed_version"
+            ynh_print_info --message="mlmmj is already installed with version: $installed_version"
         fi
     else
-        ynh_script_progression --message="mlmmj is not installed, proceeding with installation;"
+        ynh_print_info --message="mlmmj is not installed, proceeding with installation;"
     fi
 
     if [ "$required_version" != "$installed_version" ]; then
-        ynh_script_progression --message="Building mlmmj software"
+        ynh_print_info --message="Building mlmmj software"
         ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
+    
         ynh_setup_source --dest_dir="mlmmj-latest" || ynh_die "Failed to download mlmmj"
         pushd mlmmj-latest
-        autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
+    
+        ynh_exec_and_print_stderr_only_if_error autoreconf -i
+        ynh_exec_and_print_stderr_only_if_error ./configure
+        ynh_exec_and_print_stderr_only_if_error make
+        ynh_exec_and_print_stderr_only_if_error sudo make install
+    
+        if [ $? -ne 0 ]; then
+            ynh_die "Failed to install mlmmj binaries"
+        fi
+    
         popd
     fi
+
 
     ynh_system_user_create --username=mlmmj_pfx
 
