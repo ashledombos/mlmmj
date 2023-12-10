@@ -55,6 +55,12 @@ install_update_mlmmj() {
         autoreconf -i && ./configure && make && sudo make install || ynh_die "Failed to install mlmmj binaries"
         popd
     fi
+
+    current_mode=$(ynh_app_setting_get --app=$app --key=moderators_update_mode)
+    if [ -z "$current_mode" ]; then
+        ynh_app_setting_set --app=$app --key=moderators_update_mode --value="automatic"
+    fi
+
     
     ynh_script_progression --message="Potfix setup"
     #! ls $HOOK_DIR/*-mlmmj 1> /dev/null 2>&1 &&
@@ -65,10 +71,8 @@ install_update_mlmmj() {
 
     ynh_script_progression --message="Setting ACLs"
     ynh_system_user_create --username=mlmmj_pfx
-    sudo setfacl -R -m u:mlmmj_pfx:rwx $MLMMJ_ROOT
-    sudo setfacl -R -m o::--- $MLMMJ_ROOT
-    sudo setfacl -d -m u:mlmmj_pfx:rwx $MLMMJ_ROOT
-    sudo setfacl -d -m o::--- $MLMMJ_ROOT
+
+    
 }
 #=================================================
 # EXPERIMENTAL HELPERS
