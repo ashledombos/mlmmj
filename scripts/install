@@ -12,8 +12,6 @@ source _common.sh
 # Check name validity
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Checking name validity;"
-
 is_valid_listname() {
     # Check format
     if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
@@ -44,7 +42,7 @@ install_update_mlmmj "$REQUIRED_VERSION"
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Creating the necessary directories in $install_dir;" -w 1
+ynh_script_progression --message="Creating the list $list_name@$domain at $install_dir;"
 
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
@@ -53,8 +51,6 @@ do
     mkdir -p "$install_dir/$DIR"
 done
 chown mlmmj_pfx $MLMMJ_ROOT -R
-
-ynh_script_progression --message="Configuring the list $list_name@$domain" -w 1
 
 echo "postmaster" > "$install_dir/control/owner"
 echo "$list_name@$domain" > "$install_dir/control/listaddress"
@@ -66,8 +62,6 @@ fi
 # -------------------------------------------------------------
 # Setting up conf files transport et virtual
 # -------------------------------------------------------------
-
-ynh_script_progression --message="Conf files update;" -t
 
 if [ ! -d "$TABLES_DIR" ]; then
     mkdir -p "$TABLES_DIR"
@@ -95,8 +89,6 @@ ln -s "$install_dir" "$symlink_dir/$list_name"
 # -------------------------------------------------------------
 # Cron
 # -------------------------------------------------------------
-
-ynh_script_progression --message="Adding cron file;" -w 1
 
 rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
 if [ ! -d "$CRON_DIR" ]; then
