@@ -30,8 +30,6 @@ is_valid_listname() {
     return 0
 }
 
-ynh_print_info --message="Validating list name: $list_name"
-
 if ! is_valid_listname "$list_name"; then
     ynh_die --message="Validation failed for list name: $list_name"
 fi
@@ -46,7 +44,7 @@ install_update_mlmmj "$REQUIRED_VERSION"
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Creating the necessary directories in $install_dir;" -t
+ynh_script_progression --message="Creating the necessary directories in $install_dir;" -w 1
 
 for DIR in incoming queue queue/discarded archive text subconf unsubconf \
            bounce control moderation subscribers.d digesters.d requeue \
@@ -56,7 +54,7 @@ do
 done
 chown mlmmj_pfx $MLMMJ_ROOT -R
 
-ynh_script_progression --message="Configuring the list $list_name@$domain" -t
+ynh_script_progression --message="Configuring the list $list_name@$domain" -w 1
 
 echo "postmaster" > "$install_dir/control/owner"
 echo "$list_name@$domain" > "$install_dir/control/listaddress"
@@ -98,7 +96,7 @@ ln -s "$install_dir" "$symlink_dir/$list_name"
 # Cron
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Adding cron file;" -t
+ynh_script_progression --message="Adding cron file;" -w 1
 
 rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
 if [ ! -d "$CRON_DIR" ]; then
@@ -120,4 +118,4 @@ fi
 # Install completion
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Mailing list $list_name@$domain was created successfully." --last -t
+ynh_script_progression --message="Mailing list $list_name@$domain was created successfully." --last
