@@ -107,8 +107,6 @@ if [ ! -d "$CRON_DIR" ]; then
 fi
 echo "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_file" 
 
-cp ../hooks/conf_regen /root/
-
 # -------------------------------------------------------------
 # Default settings
 # -------------------------------------------------------------
