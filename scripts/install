@@ -101,10 +101,12 @@ echo "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_file"
 # Default settings
 # -------------------------------------------------------------
 
-current_mode=$(ynh_app_setting_get --app=$app --key=moderators_update_mode)
-if [ -z "$current_mode" ]; then
-    ynh_app_setting_set --app=$app --key=moderators_update_mode --value="automatic"
-fi
+#current_mode=$(ynh_app_setting_get --app=$app --key=moderators_update_mode)
+#if [ -z "$current_mode" ]; then
+#    ynh_app_setting_set --app=$app --key=moderators_update_mode --value="automatic"
+#fi
+ynh_app_setting_set --app=$app --key=moderators_group --value="yunohost"
+
 
 # -------------------------------------------------------------
 # Install completion
