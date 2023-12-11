@@ -23,7 +23,7 @@ name.fr = "Paramètres MLMMJ"
         [main.moderation.moderators_update_mode]
         ask.en = "Select moderators update mode"
         type = "select"
-        choices = {"yunohost": "Automatic from Yunohost group", "mlmmj": "MLMMJ list manually managed"}
+        choices = {yunohost = "Automatic from Yunohost group", mlmmj = "MLMMJ list manually managed"}
         default = "yunohost"
     
         [main.moderation.moderators_group]
@@ -31,9 +31,10 @@ name.fr = "Paramètres MLMMJ"
         type = "group"
         visible = "moderators_update_mode == 'yunohost'"
     
-        [main.moderation.moderators]
-        ask.en = "List of moderators (one email per line)"
-        type = "text"
-        bind = ":__INSTALL_DIR__/control/moderators"
-        visible = "moderators_update_mode == 'manual'"
+        #[main.moderation.moderators]
+        #ask.en = "List of moderators (one email per line)"
+        #type = "text"
+        #bind = ":__INSTALL_DIR__/control/moderators"
+        #visible = "moderators_update_mode == 'mlmmj'"
     
+~          
