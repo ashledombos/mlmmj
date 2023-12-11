@@ -105,7 +105,8 @@ echo "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_file"
 #if [ -z "$current_mode" ]; then
 #    ynh_app_setting_set --app=$app --key=moderators_update_mode --value="automatic"
 #fi
-ynh_app_setting_set --app=$app --key=moderators_group --value="yunohost"
+ynh_app_setting_set --app=$app --key=mods_mode --value="yunohost"
+ynh_app_setting_set --app=$app --key=mods_group --value=""
 
 touch "$control_dir/subonlypost"
 echo "[$list_name]" > "$control_dir/prefix"
