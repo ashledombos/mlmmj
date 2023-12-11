@@ -15,7 +15,7 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Prefix for the Subject line of emails"
         type = "string"
 
-        [main.moderation.moderated]
+        [main.general.moderated]
         ask.en = "Should the list be moderated?"
         type = "boolean"
 
