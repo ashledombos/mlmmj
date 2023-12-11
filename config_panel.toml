@@ -36,5 +36,3 @@ name.fr = "Paramètres MLMMJ"
         #type = "text"
         #bind = ":__INSTALL_DIR__/control/moderators"
         #visible = "moderators_update_mode == 'mlmmj'"
-    
-~          
