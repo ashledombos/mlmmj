@@ -108,6 +108,7 @@ echo "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_file"
 ynh_app_setting_set --app=$app --key=mods_mode --value="yunohost"
 ynh_app_setting_set --app=$app --key=mods_group --value=""
 
+touch "$control_dir/moderators"
 touch "$control_dir/subonlypost"
 echo "[$list_name]" > "$control_dir/prefix"
 echo "postmaster@$domain" > "$control_dir/owner"
