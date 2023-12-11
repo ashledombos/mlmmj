@@ -15,6 +15,11 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Prefix for the Subject line of emails"
         type = "string"
 
+        [main.general.footer]
+        ask.en = "Footer content"
+        type = "text"
+        bind = "__INSTALL_DIR__/control/footer"
+
         [main.general.moderated]
         ask.en = "Should the list be moderated?"
         type = "boolean"
