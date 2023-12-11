@@ -43,9 +43,9 @@ get__closedlist() {
 get__prefix() {
     local prefix_file="$control_dir/prefix"
     if [ -f "$prefix_file" ]; then
-        head -n 1 "$prefix_file"  # Lit uniquement la première ligne
+        head -n 1 "$prefix_file"  #
     else
-        echo ""  # Retourne une chaîne vide si le fichier n'existe pas
+        echo ""  
     fi
 }
 
