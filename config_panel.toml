@@ -19,21 +19,17 @@ name.fr = "Paramètres MLMMJ"
         [main.moderation.moderated]
         ask.en = "Should the list be moderated?"
         type = "boolean"
-
-        [main.moderation.moderators]
-        ask.en = "List of moderators (one email address per line)"
-        type = "text"
     
         [main.moderation.moderators_update_mode]
         ask.en = "Select moderators update mode"
         type = "select"
-        choices = {"manual": "Manual", "automatic": "Automatic from YunoHost group"}
-        default = "manual"
+        choices = {"yunohost": "Automatic from Yunohost group", "mlmmj": "MLMMJ list manually managed"}
+        default = "yunohost"
     
         [main.moderation.moderators_group]
         ask.en = "Select YunoHost group for automatic moderators update"
         type = "group"
-        visible = "moderators_update_mode == 'automatic'"
+        visible = "moderators_update_mode == 'yunohost'"
     
         [main.moderation.moderators]
         ask.en = "List of moderators (one email per line)"
