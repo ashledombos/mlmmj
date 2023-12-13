@@ -31,9 +31,9 @@ ynh_script_progression --message="Cleaning CRON tasks;"
 ynh_secure_remove --file="$cron_file"
 rmdir --ignore-fail-on-non-empty "$CRON_DIR"
 
-yunohost user group delete "$app_owner"
-yunohost user group delete "$app_moderators"
-yunohost user group delete "$app_submod"
+yunohost user group delete "${app}_owner"
+yunohost user group delete "${app}_moderators"
+yunohost user group delete "${app}_submod"
 
 ynh_secure_remove --file="/etc/yunohost/apps/$app/users.yml"
 
