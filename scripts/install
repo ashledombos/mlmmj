@@ -59,10 +59,10 @@ if [ -d "$lang_dir" ]; then
     cp "$lang_dir"/* "$install_dir/text"
 fi
 
-yunohost user group create "$app_owner"
-yunohost user group create "$app_moderators"
-yunohost user group create "$app_submod"
-yunohost user group update "$app_owner" -m "$(ynh_app_initiator)"
+yunohost user group create "$(app)_owner"
+yunohost user group create "$(app)_moderators"
+yunohost user group create "$(app)_submod"
+yunohost user group update "$(app)_owner" -m "$(ynh_app_initiator)"
 
 echo -e "owner:\nmoderators:\nsubmod:" > "/etc/yunohost/apps/$app/users.yml"
 
