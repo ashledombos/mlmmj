@@ -36,8 +36,8 @@ ram.runtime = "1M"
   pattern.error.fr = "Le nom de la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
 
   [install.domain]
-  ask.en = "Select the domain for the mailing list:"
-  ask.fr = "Sélectionnez le domaine pour la liste de diffusion :"
+  ask.en = "Select the domain for the mailing list"
+  ask.fr = "Sélectionnez le domaine pour la liste de diffusion"
   type = "domain"
   # choices = "__DOMAINS__"
 
