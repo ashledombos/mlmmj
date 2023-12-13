@@ -62,9 +62,7 @@ fi
 yunohost user group create "${app}_owner"
 yunohost user group create "${app}_moderators"
 yunohost user group create "${app}_submod"
-for user in $(yunohost user group info admin --output-as json | jq -r '.members[]'); do
-    yunohost user group add ${app}_owner -m $user
-done
+yunohost user group add ${app}_owner -m $owner
 
 
 echo -e "owner:\nmoderators:\nsubmod:" > "/etc/yunohost/apps/$app/users.yml"
