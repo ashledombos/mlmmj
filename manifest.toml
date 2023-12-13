@@ -48,6 +48,14 @@ ram.runtime = "1M"
   choices = ["ast", "cs", "de", "en", "fi", "fr", "gr", "it", "pt", "sk", "zh-cn"]
   default = "en"
 
+  [install.owner]
+  ask.en = "Select the owner of the mailing list:"
+  ask.fr = "Sélectionnez le propriétaire de la liste de diffusion :"
+  help.en = "Owners of the mailing list can be added or removed after the initial setup through the Yunohost administration interface."
+  help.fr = "Il est possible d'ajouter ou de supprimer des propriétaires de la liste de diffusion après la configuration initiale via l'interface d'administration de Yunohost."
+  type = "user"
+
+
 [resources]
   [resources.sources.main]
   url = "https://codeberg.org/mlmmj/mlmmj/archive/RELEASE_1_4_0rc2.tar.gz"
