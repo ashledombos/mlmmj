@@ -62,6 +62,7 @@ fi
 yunohost user group create "$app-owner"
 yunohost user group create "$app-moderators"
 yunohost user group create "$app-submod"
+yunohost user group update "$app-owner" -m "$(ynh_app_initiator)"
 
 echo -e "owner:\nmoderators:\nsubmod:" > "/etc/yunohost/apps/$app/users.yml"
 
