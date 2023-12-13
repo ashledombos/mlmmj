@@ -62,7 +62,7 @@ fi
 yunohost user group create "${app}_owner"
 yunohost user group create "${app}_moderators"
 yunohost user group create "${app}_submod"
-yunohost user group update ${app}_owner --add $owner
+yunohost user group add ${app}_owner --add $owner
 
 
 echo -e "owner:\nmoderators:\nsubmod:" > "/etc/yunohost/apps/$app/users.yml"
