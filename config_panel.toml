@@ -24,6 +24,13 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Should the list be moderated?"
         type = "boolean"
 
+        #[main.general.users]
+        #name.en = "User Management"
+        #ask.en = "Manage users for different categories (owners, moderators, etc.) in YAML format"
+        #type = "text"
+        #bind = "__INSTALL_DIR__/users.yml"
+
+
     [main.moderation]
     name.en = "Moderation"
     name.fr = "Modération"
