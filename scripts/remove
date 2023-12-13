@@ -68,7 +68,6 @@ if [ "$mlmmj_instances" -eq 1 ]; then
 
     ynh_secure_remove --file="/usr/local/share/mlmmj"
 
-    yunohost tools regen-conf
 fi
 
 # -------------------------------------------------------------
