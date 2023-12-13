@@ -42,11 +42,14 @@ get__closedlist() {
 
 get__prefix() {
     local prefix_file="$control_dir/prefix"
-    if [ -f "$prefix_file" ]; then
-        head -n 1 "$prefix_file"  #
-    else
-        echo ""  
-    fi
+
+    # Crée le fichier s'il n'existe pas
+    [ -f "$prefix_file" ] || touch "$prefix_file"
+
+    # Récupère la première ligne du fichier et supprime les crochets
+#    head -n 1 "$prefix_file" | sed 's/[\[\]]//g'
+    head -n 1 "$prefix_file" | tr -d '[]'
+
 }
 
 get__moderated() {
@@ -71,24 +74,13 @@ set__closedlist() {
     fi
 }
 
-#set__prefix() {
-#    local prefix_file="$control_dir/prefix"
-#    if [ -n "$prefix" ]; then
-#        echo "$prefix" > "$prefix_file"  
-#        ynh_print_info "--message='Prefix set to $prefix in $prefix_file'"
-#    else
-#        ynh_secure_remove "$prefix_file"  
-#        ynh_print_info "--message='Prefix file $prefix_file removed'"
-#    fi
-#}
 set__prefix() {
-    local prefix_value="$1"  # La valeur à définir est passée en tant que premier argument
     local prefix_file="$control_dir/prefix"
 
     # Vérifie si le champ n'est pas vide
-    if [ -n "$prefix_value" ]; then
+    if [ -n "$prefix" ]; then
         # Ajoute des crochets autour de la valeur et l'écrit dans la première ligne du fichier
-        echo "[$prefix_value]" > "$prefix_file"
+        echo "[$prefix]" > "$prefix_file"
     else
         # Si le champ est vide, efface la première ligne du fichier
         sed -i '1d' "$prefix_file"
