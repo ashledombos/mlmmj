@@ -59,6 +59,12 @@ if [ -d "$lang_dir" ]; then
     cp "$lang_dir"/* "$install_dir/text"
 fi
 
+yunohost user group create "$app-owner"
+yunohost user group create "$app-moderators"
+yunohost user group create "$app-submod"
+
+echo -e "owner:\nmoderators:\nsubmod:" > "/etc/yunohost/apps/$app/users.yml"
+
 # -------------------------------------------------------------
 # Setting up conf files transport et virtual
 # -------------------------------------------------------------
