@@ -130,7 +130,10 @@ echo "10485760" > "$control_dir/maxmailsize"  # 10MB
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
 ynh_add_config --template="$footer_template" --destination="$install_dir/control/footer"
 
+# -------------
 
+
+ynh_add_config --template="../conf/list.tpl" --destination="$bin_dir/list_$app"
 
 # -------------------------------------------------------------
 # Install completion
