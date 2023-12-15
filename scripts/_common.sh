@@ -29,6 +29,8 @@ REQUIRED_VERSION=$(cat mlmmj_version)
 MLMMJ_SHARE="/usr/local/share/mlmmj"
 lang_dir="$MLMMJ_SHARE/text.skel/$language"
 
+bin_dir=/usr/local/bin
+
 #=================================================
 # PERSONAL HELPERS
 #=================================================
