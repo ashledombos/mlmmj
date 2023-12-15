@@ -133,19 +133,12 @@ echo "10485760" > "$control_dir/maxmailsize"  # 10MB
 
 # ------------
 
-ynh_add_config --template="$footer_template" --destination="$install_dir/control/footer"
-if [ ! -f "$app_sudoers_file" ]; then
-    touch "$app_sudoers_file"
-    chmod 440 "$app_sudoers_file"
-fi
-
-# Ajout de la règle pour www-data
-echo "www-data ALL=(mlmmj_pfx) NOPASSWD: /chemin/vers/list-$app" >> "$app_sudoers_file"
-
-# -------------
-
 
 ynh_add_config --template="../conf/list.tpl" --destination="$bin_dir/list_$app"
+
+[ ! -f "$sudoers_file" ] && { touch "$sudoers_file"; chmod 440 "$sudoers_file"; }
+echo "www-data ALL=(mlmmj_pfx) NOPASSWD: $install_dir/list-$app" >> "$sudoers_file"
+
 
 # -------------------------------------------------------------
 # Install completion
