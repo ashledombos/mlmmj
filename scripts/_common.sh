@@ -30,7 +30,7 @@ MLMMJ_SHARE="/usr/local/share/mlmmj"
 lang_dir="$MLMMJ_SHARE/text.skel/$language"
 
 bin_dir=/usr/local/bin
-sudoers_file="/etc/sudoers.d/$app"
+sudoers_file="/etc/sudoers.d/mlmmj"
 
 #=================================================
 # PERSONAL HELPERS
