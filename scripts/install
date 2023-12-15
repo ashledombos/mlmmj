@@ -128,7 +128,19 @@ touch "$control_dir/nonomailsub"
 echo "10485760" > "$control_dir/maxmailsize"  # 10MB
 
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
+
+
+
+# ------------
+
 ynh_add_config --template="$footer_template" --destination="$install_dir/control/footer"
+if [ ! -f "$app_sudoers_file" ]; then
+    touch "$app_sudoers_file"
+    chmod 440 "$app_sudoers_file"
+fi
+
+# Ajout de la règle pour www-data
+echo "www-data ALL=(mlmmj_pfx) NOPASSWD: /chemin/vers/list-$app" >> "$app_sudoers_file"
 
 # -------------
 
