@@ -133,11 +133,12 @@ echo "10485760" > "$control_dir/maxmailsize"  # 10MB
 
 # ------------
 
-
-ynh_add_config --template="../conf/list.tpl" --destination="$bin_dir/list_$app"
-
 [ ! -f "$sudoers_file" ] && { touch "$sudoers_file"; chmod 440 "$sudoers_file"; }
-echo "www-data ALL=(mlmmj_pfx) NOPASSWD: $install_dir/list-$app" >> "$sudoers_file"
+{
+    echo "www-data ALL=(mlmmj_pfx) NOPASSWD: /usr/local/bin/mlmmj-list"
+    echo "www-data ALL=(mlmmj_pfx) NOPASSWD: /usr/local/bin/mlmmj-sub"
+    echo "www-data ALL=(mlmmj_pfx) NOPASSWD: /usr/local/bin/mlmmj-unsub"
+} > "$sudoers_file"
 
 
 # -------------------------------------------------------------
