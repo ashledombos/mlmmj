@@ -67,6 +67,7 @@ if [ "$mlmmj_instances" -eq 1 ]; then
     done
 
     ynh_secure_remove --file="/usr/local/share/mlmmj"
+    ynh_secure_remove --file="/usr/share/yunohost/hooks/conf_regen/98-postfix_mlmmj"
 
 fi
 
