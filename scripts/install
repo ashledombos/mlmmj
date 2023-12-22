@@ -50,7 +50,7 @@ for DIR in incoming queue queue/discarded archive text subconf unsubconf \
 do
     mkdir -p "$install_dir/$DIR"
 done
-chown mlmmj_pfx $MLMMJ_ROOT -R
+chown list $MLMMJ_ROOT -R
 
 echo "postmaster" > "$install_dir/control/owner"
 echo "$list_name@$domain" > "$install_dir/control/listaddress"
@@ -136,9 +136,9 @@ ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
 
 [ ! -f "$sudoers_file" ] && { touch "$sudoers_file"; chmod 440 "$sudoers_file"; }
 {
-    echo "www-data ALL=(mlmmj_pfx) NOPASSWD: /usr/local/bin/mlmmj-list"
-    echo "www-data ALL=(mlmmj_pfx) NOPASSWD: /usr/local/bin/mlmmj-sub"
-    echo "www-data ALL=(mlmmj_pfx) NOPASSWD: /usr/local/bin/mlmmj-unsub"
+    echo "www-data ALL=(list) NOPASSWD: /usr/local/bin/mlmmj-list"
+    echo "www-data ALL=(list) NOPASSWD: /usr/local/bin/mlmmj-sub"
+    echo "www-data ALL=(list) NOPASSWD: /usr/local/bin/mlmmj-unsub"
 } > "$sudoers_file"
 
 
