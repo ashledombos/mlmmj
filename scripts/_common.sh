@@ -72,7 +72,7 @@ install_update_mlmmj() {
     fi
 
 
-    ynh_system_user_create --username=mlmmj_pfx
+    #ynh_system_user_create --username=mlmmj_pfx
 
     
 }
