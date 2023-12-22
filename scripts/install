@@ -50,7 +50,6 @@ for DIR in incoming queue queue/discarded archive text subconf unsubconf \
 do
     mkdir -p "$install_dir/$DIR"
 done
-chown list:list $MLMMJ_ROOT -R
 
 echo "postmaster" > "$install_dir/control/owner"
 echo "$list_name@$domain" > "$install_dir/control/listaddress"
@@ -130,10 +129,11 @@ echo "10485760" > "$control_dir/maxmailsize"  # 10MB
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
 ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
 
-
+# Note: here "list" is the system user
+chown list:list $MLMMJ_ROOT -R
 
 # ------------
-# Note: here "list" is the system user 
+ 
 [ ! -f "$sudoers_file" ] && { touch "$sudoers_file"; chmod 440 "$sudoers_file"; }
 {
     echo "www-data ALL=(list) NOPASSWD: /usr/local/bin/mlmmj-list"
