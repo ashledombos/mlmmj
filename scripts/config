@@ -77,13 +77,10 @@ set__closedlist() {
 
 set__prefix() {
     local prefix_file="$control_dir/prefix"
-
-    # Vérifie si le champ n'est pas vide
     if [ -n "$prefix" ]; then
-        # Ajoute des crochets autour de la valeur et l'écrit dans la première ligne du fichier
-        echo "[$prefix]" > "$prefix_file"
+        echo "$prefix" > "$prefix_file"
+#        echo "[$prefix]" > "$prefix_file"
     else
-        # Si le champ est vide, efface la première ligne du fichier
         sed -i '1d' "$prefix_file"
     fi
 }
