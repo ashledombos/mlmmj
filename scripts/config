@@ -48,7 +48,8 @@ get__prefix() {
 
     # Récupère la première ligne du fichier et supprime les crochets
 #    head -n 1 "$prefix_file" | sed 's/[\[\]]//g'
-    head -n 1 "$prefix_file" | tr -d '[]'
+#   head -n 1 "$prefix_file" | tr -d '[]'
+    echo "$prefix_file"
 
 }
 
