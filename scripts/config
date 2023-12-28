@@ -43,13 +43,13 @@ get__closedlist() {
 get__prefix() {
     local prefix_file="$control_dir/prefix"
 
-    # Crée le fichier s'il n'existe pas
+
     [ -f "$prefix_file" ] || touch "$prefix_file"
 
-    # Récupère la première ligne du fichier et supprime les crochets
-#    head -n 1 "$prefix_file" | sed 's/[\[\]]//g'
+    head -n 1 "$prefix_file"
+#   head -n 1 "$prefix_file" | sed 's/[\[\]]//g'
 #   head -n 1 "$prefix_file" | tr -d '[]'
-    echo "$prefix_file"
+#   cat "$prefix_file"
 
 }
 
