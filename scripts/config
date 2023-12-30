@@ -67,26 +67,26 @@ get__moderated() {
 # Setters
 # -------------------------------------------------------------
 
-set__closedlist() {
-    if [[ $closedlist == 1 ]]; then
-        touch "$control_dir/closedlist"
-        ynh_secure_remove "$control_dir/closedlistsub"
-        ynh_print_info "--message='Created $control_dir/closedlist and removed $control_dir/closedlistsub for closedlist'"
-    elif [[ $closedlist == 0 ]]; then
-        ynh_secure_remove "$control_dir/closedlist"
-        ynh_print_info "--message='Removed $control_dir/closedlist for closedlist'"
-    fi
-}
+set__list_status() {
+    case $list_status in
+        "open")
+            ynh_secure_remove "$control_dir/closedlistsub"
+            ynh_secure_remove "$control_dir/closedlist"
+            ynh_print_info "--message='List is open for subscription and unsubscription'"
+            ;;
 
-set__closedlistsub() {
-    if [[ $closedlistsub == 1 && ! -f "$control_dir/closedlist" ]]; then
-        touch "$control_dir/closedlistsub"
-        ynh_print_info "--message='Created $control_dir/closedlistsub for closedlistsub'"
-    elif [[ $closedlistsub == 0 ]]; then
-        ynh_secure_remove "$control_dir/closedlistsub"
-        ynh_secure_remove "$control_dir/closedlist"
-        ynh_print_info "--message='Removed $control_dir/closedlistsub and $control_dir/closedlist'"
-    fi
+        "closed_sub")
+            touch "$control_dir/closedlistsub"
+            ynh_secure_remove "$control_dir/closedlist"
+            ynh_print_info "--message='List is closed for subscription'"
+            ;;
+
+        "closed_sub_unsub")
+            touch "$control_dir/closedlist"
+            ynh_secure_remove "$control_dir/closedlistsub"
+            ynh_print_info "--message='List is closed for subscription and unsubscription'"
+            ;;
+    esac
 }
 
 set__prefix() {
