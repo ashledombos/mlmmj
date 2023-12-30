@@ -7,9 +7,14 @@ name.fr = "Paramètres MLMMJ"
     [main.general]
     name.en = "General"
     name.fr = "Général"
-        [main.general.closedlist]
+        [main.general.closedlistsub]
         ask.en = "Is the list closed for subscription?"
         type = "boolean"
+
+        [main.general.closedlist]
+        ask.en = "Is the list closed for unsubscription too?"
+        type = "boolean"
+        visible = "closedlistsub == true"
 
         [main.general.prefix]
         ask.en = "Prefix for the Subject line of emails"
