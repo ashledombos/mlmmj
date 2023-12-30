@@ -10,28 +10,27 @@ name.fr = "Paramètres MLMMJ"
 
         [main.general.list_status]
         ask.en = "List Subscription Status"
+        ask.fr = "Statut d'abonnement à la liste"
+        help.en = "Select the subscription status: 'Open' allows anyone to subscribe or unsubscribe by email, 'closedlistsub' restricts new subscriptions, and 'closedlist' restricts both new subscriptions and unsubscriptions."
+        help.fr = "Sélectionnez le statut d'abonnement : 'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouvelles inscriptions et 'closedlist' restreint à la fois les nouvelles inscriptions et les désinscriptions."
         type = "select"
-        choices = {"open" = "Open", "closed_sub" = "Closed to Subscription", "closed_sub_unsub" = "Closed to Subscription and Unsubscription"}
+        choices = {"open" = "open", "closed_sub" = "closedlistsub", "closed_sub_unsub" = "closedlist"}
         
         [main.general.prefix]
         ask.en = "Prefix for the Subject line of emails"
+        ask.fr = "Préfixe pour la ligne d'objet des emails"
         type = "string"
 
         [main.general.footer]
         ask.en = "Footer content"
+        ask.fr = "Contenu du pied de page"
         type = "text"
         bind = "__INSTALL_DIR__/control/footer"
 
         [main.general.moderated]
         ask.en = "Should the list be moderated?"
+        ask.fr = "La liste doit-elle être modérée ?"
         type = "boolean"
-
-        #[main.general.users]
-        #name.en = "User Management"
-        #ask.en = "Manage users for different categories (owners, moderators, etc.) in YAML format"
-        #type = "text"
-        #bind = "__INSTALL_DIR__/users.yml"
-
 
     [main.moderation]
     name.en = "Moderation"
@@ -40,16 +39,19 @@ name.fr = "Paramètres MLMMJ"
 
         [main.moderation.mods_mode]
         ask.en = "Select moderators update mode"
+        ask.fr = "Sélectionnez le mode de mise à jour des modérateurs"
         type = "select"
-        choices = {yunohost = "Automatic from Yunohost group", mlmmj = "MLMMJ list manually managed"}
+        choices = {yunohost = "Automatic from Yunohost group / Automatique à partir du groupe Yunohost", mlmmj = "MLMMJ list manually managed / Liste MLMMJ gérée manuellement"}
 
         [main.moderation.mods_group]
         ask.en = "Select YunoHost group for automatic moderators update"
+        ask.fr = "Sélectionnez le groupe YunoHost pour la mise à jour automatique des modérateurs"
         type = "group"
         visible = "mods_mode == 'yunohost'"
 
         [main.moderation.moderators]
         ask.en = "List of moderators (one email per line)"
+        ask.fr = "Liste des modérateurs (un email par ligne)"
         type = "text"
         bind = "__INSTALL_DIR__/control/moderators"
         visible = "mods_mode == 'mlmmj'"
