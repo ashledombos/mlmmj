@@ -32,6 +32,14 @@ validate__moderators() {
 # Getters
 # -------------------------------------------------------------
 
+get__closedlistsub() {
+    if [ -f "$control_dir/closedlistsub" ]; then
+        echo "1"
+    else
+        echo "0"
+    fi
+}
+
 get__closedlist() {
     if [ -f "$control_dir/closedlist" ]; then
         echo "1"
@@ -64,6 +72,16 @@ get__moderated() {
 # -------------------------------------------------------------
 # Setters
 # -------------------------------------------------------------
+
+set__closedlistsub() {
+    if [[ $closedlist == 1 ]]; then
+        touch "$control_dir/closedlist"
+        ynh_print_info "--message='Created $control_dir/closedlist for closedlist'"
+    else
+        ynh_secure_remove "$control_dir/closedlist"
+        ynh_print_info "--message='Removed $control_dir/closedlist for closedlist'"
+    fi
+}
 
 set__closedlist() {
     if [[ $closedlist == 1 ]]; then
