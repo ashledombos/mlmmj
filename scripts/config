@@ -32,19 +32,13 @@ validate__moderators() {
 # Getters
 # -------------------------------------------------------------
 
-get__closedlist() {
+get__list_status() {
     if [ -f "$control_dir/closedlist" ]; then
-        echo "1"
+        echo "closed_sub_unsub"
+    elif [ -f "$control_dir/closedlistsub" ]; then
+        echo "closed_sub"
     else
-        echo "0"
-    fi
-}
-
-get__closedlistsub() {
-    if [ -f "$control_dir/closedlistsub" ] || [ -f "$control_dir/closedlist" ]; then
-        echo "1"
-    else
-        echo "0"
+        echo "open"
     fi
 }
 
