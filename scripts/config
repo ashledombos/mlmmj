@@ -11,21 +11,40 @@ source _common.sh
 ynh_abort_if_errors
 
 # -------------------------------------------------------------
+# Generic email list validator
+# -------------------------------------------------------------
+
+# Regex pour les adresses email
+email_regex='^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+validate__email_generic() {
+    local email_list="$1"
+    local invalid_emails=""
+    while IFS= read -r email; do
+        if [[ ! $email =~ $email_regex ]] && [[ ! -z "$email" ]]; then
+            invalid_emails+="$email\n"
+        fi
+    done <<< "$email_list"
+
+    if [[ ! -z "$invalid_emails" ]]; then
+        echo -e "Invalid email addresses:\n$invalid_emails"
+    fi
+}
+
+# -------------------------------------------------------------
 # Validators
 # -------------------------------------------------------------
 
 validate__moderators() {
-    local email_regex='^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    local invalid_lines=""
-    while IFS= read -r line; do
-        if [[ ! $line =~ $email_regex ]] && [[ ! -z "$line" ]]; then
-            invalid_lines+="$line\n"
-        fi
-    done <<< "$moderators"
+    validate__email_generic "$moderators"
+}
 
-    if [[ ! -z "$invalid_lines" ]]; then
-        echo -e "Invalid email addresses found in moderators list:\n$invalid_lines"
-    fi
+validate__add() {
+    validate__email_generic "$add"
+}
+
+validate__del() {
+    validate__email_generic "$del"
 }
 
 # -------------------------------------------------------------
