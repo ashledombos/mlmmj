@@ -55,3 +55,27 @@ name.fr = "Paramètres MLMMJ"
         type = "text"
         bind = "__INSTALL_DIR__/control/moderators"
         visible = "mods_mode == 'mlmmj'"
+
+    [main.sub]
+    name.en = "Subscribers management (Simplified)"
+    name.fr = "Gestion des abonnés (Simplifiée)"
+    description.en = "This is a simplified management interface. For advanced options, please refer to the documentation."
+    description.fr = "Il s'agit d'une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation."
+
+        [main.sub.add]
+        help.en = "A welcome email will be sent to added addresses."
+        help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
+        optional = "true"
+        example = "turtle@sweethome.org"
+        ask.en = "Add addresses to the list (one per line)"
+        ask.fr = "Ajouter des adresses à la liste (une par ligne)"
+        type = "text"
+
+        [main.sub.del]
+        help.en = "Addresses will be removed from the list."
+        help.fr = "Les adresses seront retirées de la liste."
+        optional = "true"
+        example = "turtle@sweethome.org"
+        ask.en = "Remove addresses from the list (one per line)"
+        ask.fr = "Retirer des adresses de la liste (une par ligne)"
+        type = "text"
