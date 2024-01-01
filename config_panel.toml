@@ -11,50 +11,73 @@ name.fr = "Paramètres MLMMJ"
         [main.general.list_status]
         ask.en = "List Subscription Status"
         ask.fr = "Statut d'abonnement à la liste"
-        help.en = "Select the subscription status: 'Open' allows anyone to subscribe or unsubscribe by email, 'closedlistsub' restricts new subscriptions, and 'closedlist' restricts both new subscriptions and unsubscriptions."
-        help.fr = "Sélectionnez le statut d'abonnement : 'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouvelles inscriptions et 'closedlist' restreint à la fois les nouvelles inscriptions et les désinscriptions."
+        help.en = "'Open' allows anyone to subscribe or unsubscribe by email, 'closedlistsub' restricts new subscriptions, and 'closedlist' restricts both new subscriptions and unsubscriptions."
+        help.fr = "'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouvelles inscriptions et 'closedlist' restreint à la fois les nouvelles inscriptions et les désinscriptions."
         type = "select"
         choices = {"open" = "open", "closed_sub" = "closedlistsub", "closed_sub_unsub" = "closedlist"}
-        
-        [main.general.prefix]
-        ask.en = "Prefix for the Subject line of emails"
-        ask.fr = "Préfixe pour la ligne d'objet des emails"
-        type = "string"
 
-        [main.general.footer]
-        ask.en = "Footer content"
-        ask.fr = "Contenu du pied de page"
+        [main.general.whacanpost]
+        ask.en = "Who is able to post on the list"
+        ask.fr = "Qui est autorisé à publier sur la liste ?"
+        help.en = "'All' allows anyone to post, 'subonlypost' allows only people who are subscribed to the list, and 'modonlypost' allows only moderators to post (see moderation section below)."
+        help.fr = "'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouvelles inscriptions et 'closedlist' restreint à la fois les nouvelles inscriptions et les désinscriptions."
+        type = "select"
+        choices = {"all" = "All", "subonlypost" = "Subscribers Only Post", "modonlypost" = "Moderators Only Post"}
+
+    [main.owners]
+    name.en = "Owners"
+    name.fr = "Propriétaires"
+
+        [main.owners.owner]
+        ask.en = "List owners (one email per line)"
+        ask.fr = "Propriétaires de la liste (un email par ligne)"
+        help.en = "Setting name: owner"
+        help.fr = "Nom du paramètre : owner"
         type = "text"
-        bind = "__INSTALL_DIR__/control/footer"
+        bind = "__INSTALL_DIR__/control/moderators"
 
-        [main.general.moderated]
-        ask.en = "Should the list be moderated?"
-        ask.fr = "La liste doit-elle être modérée ?"
+        [main.moderation.submod]
+        ask.en = "Should subscription to the list be validated by owners first?"
+        ask.fr = "L’abonnement à la liste doit-il être validé a priori par les propriétaires?"
+        help.en = "Setting name: submod"
+        help.fr = "Nom du paramètre : submod"
         type = "boolean"
+
+        [main.moderation.submod_list]
+        ask.en = "Optional: it is possible to delegate the validation of subscriptions to addresses other than those of the owners (one e-mail address per line if used)."
+        ask.fr = "Facultatif : il est possible de déléguer la validation des abonnements à d’autres adresses que celles des propriétaires (une adresse courriel par ligne si utilisé)"
+        help.en = "Setting name: submod"
+        help.fr = "Nom du paramètre : submod"
+        optional = "true"
+        type = "text"
+        bind = "__INSTALL_DIR__/control/moderators"
+        visible = "submode == 1"
 
     [main.moderation]
     name.en = "Moderation"
     name.fr = "Modération"
-    visible = "moderated == true"
-
-        [main.moderation.mods_mode]
-        ask.en = "Select moderators update mode"
-        ask.fr = "Sélectionnez le mode de mise à jour des modérateurs"
-        type = "select"
-        choices = {yunohost = "Automatic from Yunohost group / Automatique à partir du groupe Yunohost", mlmmj = "MLMMJ list manually managed / Liste MLMMJ gérée manuellement"}
-
-        [main.moderation.mods_group]
-        ask.en = "Select YunoHost group for automatic moderators update"
-        ask.fr = "Sélectionnez le groupe YunoHost pour la mise à jour automatique des modérateurs"
-        type = "group"
-        visible = "mods_mode == 'yunohost'"
 
         [main.moderation.moderators]
-        ask.en = "List of moderators (one email per line)"
-        ask.fr = "Liste des modérateurs (un email par ligne)"
+        ask.en = "Moderators of the list (one email per line)"
+        ask.fr = "Modérateurs de la liste (une adresse courriel par ligne)"
+        help.en = "Setting name: moderated"
+        help.fr = "Nom du paramètre : moderated"
         type = "text"
         bind = "__INSTALL_DIR__/control/moderators"
-        visible = "mods_mode == 'mlmmj'"
+
+        [main.moderation.moderated]
+        ask.en = "Should the list be moderated?"
+        ask.fr = "La liste doit-elle être modérée ?"
+        help.en = "Setting name: moderated"
+        help.fr = "Nom du paramètre : moderated"
+        type = "boolean"
+
+        [main.moderation.modnonsubposts]
+        ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
+        ask.fr = "Tous les messages provenant de personnes qui ne sont pas autorisées à publier sur la liste devraient-ils être modérés au lieu d'être refusés ?"
+        help.en = "Setting name: modnonsubposts"
+        help.fr = "Nom du paramètre : modnonsubposts"
+        type = "boolean"
 
     [main.sub]
     name.en = "Subscribers management (Simplified)"
@@ -79,3 +102,23 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Remove addresses from the list (one per line)"
         ask.fr = "Retirer des adresses de la liste (une par ligne)"
         type = "text"
+
+    [main.others]
+    name.en = "Other settings"
+    name.fr = "Autres paramètres"
+
+        [main.general.prefix]
+        ask.en = "Prefix for the Subject line of emails"
+        ask.fr = "Préfixe pour la ligne d'objet des emails"
+        help.en = "Setting name: prefix"
+        help.fr = "Nom du paramètre : prefix"
+        type = "text"
+        bind = "__INSTALL_DIR__/control/prefix"
+
+        [main.general.footer]
+        ask.en = "Footer content"
+        ask.fr = "Contenu du pied de page"
+        help.en = "Setting name: footer"
+        help.fr = "Nom du paramètre : footer"
+        type = "text"
+        bind = "__INSTALL_DIR__/control/footer"
