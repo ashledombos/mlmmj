@@ -123,7 +123,7 @@ set__list_status() {
             ynh_print_info "--message='List is open for subscription and unsubscription'"
             ;;
 
-        "closed_sub")
+        "closedlistsub")
             touch "$control_dir/closedlistsub"
             ynh_secure_remove "$control_dir/closedlist"
             ynh_print_info "--message='List is closed for subscription'"
@@ -137,21 +137,7 @@ set__list_status() {
     esac
 }
 
-# Owners
-
-# Moderation
-
-set__moderated() {
-    if [[ $moderated == 1 ]]; then
-        touch "$control_dir/moderated"
-        ynh_print_info "--message='Created $control_dir/moderated for moderated'"
-    else
-        ynh_secure_remove "$control_dir/moderated"
-        ynh_print_info "--message='Removed $control_dir/moderated for moderated'"
-    fi
-}
-
-set__moderation_mode() {
+set__whocanpost() {
     case $moderation_mode in
         "all")
             ynh_secure_remove "$control_dir/subonlypost"
@@ -172,6 +158,22 @@ set__moderation_mode() {
             ;;
     esac
 }
+
+# Owners
+
+# Moderation
+
+set__moderated() {
+    if [[ $moderated == 1 ]]; then
+        touch "$control_dir/moderated"
+        ynh_print_info "--message='Created $control_dir/moderated for moderated'"
+    else
+        ynh_secure_remove "$control_dir/moderated"
+        ynh_print_info "--message='Removed $control_dir/moderated for moderated'"
+    fi
+}
+
+
 
 
 # -------------------------------------------------------------
