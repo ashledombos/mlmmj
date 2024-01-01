@@ -129,7 +129,7 @@ set__list_status() {
             ynh_print_info "--message='List is closed for subscription'"
             ;;
 
-        "closed_sub_unsub")
+        "closedlist")
             touch "$control_dir/closedlist"
             ynh_secure_remove "$control_dir/closedlistsub"
             ynh_print_info "--message='List is closed for subscription and unsubscription'"
