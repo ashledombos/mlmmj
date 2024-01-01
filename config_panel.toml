@@ -35,23 +35,39 @@ name.fr = "Paramètres MLMMJ"
         help.fr = "Nom du paramètre : owner"
         type = "text"
         bind = "__INSTALL_DIR__/control/moderators"
+        
+        [main.owners.notifysub]
+        ask.en = "Should owners get an email with the address of someone sub/unsubscribing to the list?"
+        ask.fr = "Le propriétaire doit-il recevoir un courrier avec l'adresse de d'une personne qui s'est inscrite ou désinscrite à une liste ?"
+        help.en = "Setting name: notifysub"
+        help.fr = "Nom du paramètre : submod"
+        type = "boolean"
 
-        [main.moderation.submod]
-        ask.en = "Should subscription to the list be validated by owners first?"
-        ask.fr = "L’abonnement à la liste doit-il être validé a priori par les propriétaires?"
+        [main.owners.submod]
+        ask.en = "Should subscription to the list be accepted by owners?"
+        ask.fr = "L’abonnement à la liste doit-il être accepté par les propriétaires?"
         help.en = "Setting name: submod"
         help.fr = "Nom du paramètre : submod"
         type = "boolean"
 
-        [main.moderation.submod_list]
-        ask.en = "Optional: it is possible to delegate the validation of subscriptions to addresses other than those of the owners (one e-mail address per line if used)."
-        ask.fr = "Facultatif : il est possible de déléguer la validation des abonnements à d’autres adresses que celles des propriétaires (une adresse courriel par ligne si utilisé)"
+        [main.owners.submod_list]
+        ask.en = "Optional: it is possible to delegate the acceptation of subscriptions to addresses other than those of the owners (one e-mail address per line if used)."
+        ask.fr = "Facultatif : il est possible de déléguer l’acceptation des abonnements à d’autres adresses que celles des propriétaires (une adresse courriel par ligne si utilisé)"
         help.en = "Setting name: submod"
         help.fr = "Nom du paramètre : submod"
         optional = "true"
         type = "text"
         bind = "__INSTALL_DIR__/control/moderators"
-        visible = "submode == 1"
+        visible = "submod == 1"
+
+        
+        [main.owners.nosubmodmails]
+        ask.en = "Should people requesting subscribtion be notified when their request is be?"
+        ask.fr = "Est-ce que les personnes ayant soumis une demande d’abonnement doivent être informé si leur requête est en attente de validation ?"
+        help.en = "Setting name: nosubmodmails"
+        help.fr = "Nom du paramètre : nosubmodmails"
+        type = "boolean"
+        visible = "submod == 1"
 
     [main.moderation]
     name.en = "Moderation"
@@ -60,23 +76,30 @@ name.fr = "Paramètres MLMMJ"
         [main.moderation.moderators]
         ask.en = "Moderators of the list (one email per line)"
         ask.fr = "Modérateurs de la liste (une adresse courriel par ligne)"
-        help.en = "Setting name: moderated"
-        help.fr = "Nom du paramètre : moderated"
+        help.en = "Setting name: moderators"
+        help.fr = "Nom du paramètre : moderators"
         type = "text"
         bind = "__INSTALL_DIR__/control/moderators"
-
-        [main.moderation.moderated]
-        ask.en = "Should the list be moderated?"
-        ask.fr = "La liste doit-elle être modérée ?"
-        help.en = "Setting name: moderated"
-        help.fr = "Nom du paramètre : moderated"
-        type = "boolean"
 
         [main.moderation.modnonsubposts]
         ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
         ask.fr = "Tous les messages provenant de personnes qui ne sont pas autorisées à publier sur la liste devraient-ils être modérés au lieu d'être refusés ?"
         help.en = "Setting name: modnonsubposts"
         help.fr = "Nom du paramètre : modnonsubposts"
+        type = "boolean"
+
+        [main.moderation.moderated]
+        ask.en = "Should legit messages be moderated (note: moderators message will not be moderated)?"
+        ask.fr = "Les messages légitimes doivent-ils être modérés (note: les messages des modérateurs ne seront pas modérés)?"
+        help.en = "Setting name: moderated"
+        help.fr = "Nom du paramètre : moderated"
+        type = "boolean"
+
+        [main.moderation.modnonsubposts]
+        ask.en = "Should posters get an email when their post is being moderated?"
+        ask.fr = "Les auteurs de messages devraient-ils recevoir un courrier électronique lorsque leur message est en cours de modération ?"
+        help.en = "Setting name: notifymod"
+        help.fr = "Nom du paramètre : notifymod"
         type = "boolean"
 
     [main.sub]
@@ -107,7 +130,7 @@ name.fr = "Paramètres MLMMJ"
     name.en = "Other settings"
     name.fr = "Autres paramètres"
 
-        [main.general.prefix]
+        [main.others.prefix]
         ask.en = "Prefix for the Subject line of emails"
         ask.fr = "Préfixe pour la ligne d'objet des emails"
         help.en = "Setting name: prefix"
@@ -115,7 +138,7 @@ name.fr = "Paramètres MLMMJ"
         type = "text"
         bind = "__INSTALL_DIR__/control/prefix"
 
-        [main.general.footer]
+        [main.others.footer]
         ask.en = "Footer content"
         ask.fr = "Contenu du pied de page"
         help.en = "Setting name: footer"
