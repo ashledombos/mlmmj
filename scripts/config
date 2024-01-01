@@ -94,13 +94,11 @@ get__moderated() {
     fi
 }
 
-get__moderation_mode() {
-    if [ -f "$control_dir/modonlypost" ]; then
-        echo "modonlypost"
-    elif [ -f "$control_dir/subonlypost" ]; then
-        echo "subonlypost"
+get__notifysub() {
+    if [ -f "$control_dir/notifysub" ]; then
+        echo "1"
     else
-        echo "all"
+        echo "0"
     fi
 }
 
@@ -160,6 +158,18 @@ set__whocanpost() {
 }
 
 # Owners
+
+set__submod() {
+    if [[ $submod == 1 ]]; then
+        if [[ -n "$submod_list" ]]; then
+            echo "$submod_list" > "$control_dir/submod"
+        else
+            touch "$control_dir/submod"
+        fi
+    else
+        ynh_secure_remove "$control_dir/submod"
+    fi
+}
 
 # Moderation
 
