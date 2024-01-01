@@ -12,7 +12,7 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "List Subscription Status"
         ask.fr = "Statut d'abonnement à la liste"
         help.en = "'Open' allows anyone to subscribe or unsubscribe by email, 'closedlistsub' restricts new subscriptions, and 'closedlist' restricts both new subscriptions and unsubscriptions."
-        help.fr = "'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouvelles inscriptions et 'closedlist' restreint à la fois les nouvelles inscriptions et les désinscriptions."
+        help.fr = "'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouveaux abonnements et 'closedlist' restreint à la fois les nouveaux abonnements et les désabonnements."
         type = "select"
         choices = {"open" = "open", "closedlistsub" = "closedlistsub", "closedlist" = "closedlist"}
 
