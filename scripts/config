@@ -53,9 +53,9 @@ validate__del() {
 
 get__list_status() {
     if [ -f "$control_dir/closedlist" ]; then
-        echo "closed_sub_unsub"
+        echo "closedlist"
     elif [ -f "$control_dir/closedlistsub" ]; then
-        echo "closed_sub"
+        echo "closedlistsub"
     else
         echo "open"
     fi
@@ -81,6 +81,17 @@ get__moderated() {
         echo "0"
     fi
 }
+
+get__moderation_mode() {
+    if [ -f "$control_dir/modonlypost" ]; then
+        echo "modonlypost"
+    elif [ -f "$control_dir/subonlypost" ]; then
+        echo "subonlypost"
+    else
+        echo "all"
+    fi
+}
+
 
 # -------------------------------------------------------------
 # Setters
@@ -127,6 +138,29 @@ set__moderated() {
         ynh_print_info "--message='Removed $control_dir/moderated for moderated'"
     fi
 }
+
+set__moderation_mode() {
+    case $moderation_mode in
+        "all")
+            ynh_secure_remove "$control_dir/subonlypost"
+            ynh_secure_remove "$control_dir/modonlypost"
+            ynh_print_info "--message='No moderation mode is set (all)'"
+            ;;
+
+        "subonlypost")
+            touch "$control_dir/subonlypost"
+            ynh_secure_remove "$control_dir/modonlypost"
+            ynh_print_info "--message='Moderation mode set to subscribers only post'"
+            ;;
+
+        "modonlypost")
+            touch "$control_dir/modonlypost"
+            ynh_secure_remove "$control_dir/subonlypost"
+            ynh_print_info "--message='Moderation mode set to moderators only post'"
+            ;;
+    esac
+}
+
 
 # -------------------------------------------------------------
 # Config apply
