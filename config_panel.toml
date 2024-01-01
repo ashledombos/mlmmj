@@ -24,124 +24,124 @@ name.fr = "Paramètres MLMMJ"
         type = "select"
         choices = {"all" = "all", "subonlypost" = "subonlypost", "modonlypost" = "modonlypost"}
 
-    [main.owners]
-    name.en = "Owners"
-    name.fr = "Propriétaires"
+    # [main.owners]
+    # name.en = "Owners"
+    # name.fr = "Propriétaires"
 
-        [main.owners.owner]
-        ask.en = "List owners (one email per line)"
-        ask.fr = "Propriétaires de la liste (un email par ligne)"
-        help.en = "Setting name: owner"
-        help.fr = "Nom du paramètre : owner"
-        type = "text"
-        bind = "__INSTALL_DIR__/control/moderators"
+    #     [main.owners.owner]
+    #     ask.en = "List owners (one email per line)"
+    #     ask.fr = "Propriétaires de la liste (un email par ligne)"
+    #     help.en = "Setting name: owner"
+    #     help.fr = "Nom du paramètre : owner"
+    #     type = "text"
+    #     bind = "__INSTALL_DIR__/control/moderators"
         
-        [main.owners.notifysub]
-        ask.en = "Should owners get an email with the address of someone sub/unsubscribing to the list?"
-        ask.fr = "Le propriétaire doit-il recevoir un courrier avec l'adresse de d'une personne qui s'est inscrite ou désinscrite à une liste ?"
-        help.en = "Setting name: notifysub"
-        help.fr = "Nom du paramètre : submod"
-        type = "boolean"
+    #     [main.owners.notifysub]
+    #     ask.en = "Should owners get an email with the address of someone sub/unsubscribing to the list?"
+    #     ask.fr = "Le propriétaire doit-il recevoir un courrier avec l'adresse de d'une personne qui s'est inscrite ou désinscrite à une liste ?"
+    #     help.en = "Setting name: notifysub"
+    #     help.fr = "Nom du paramètre : submod"
+    #     type = "boolean"
 
-        [main.owners.submod]
-        ask.en = "Should subscription to the list be accepted by owners?"
-        ask.fr = "L’abonnement à la liste doit-il être accepté par les propriétaires?"
-        help.en = "Setting name: submod"
-        help.fr = "Nom du paramètre : submod"
-        type = "boolean"
+    #     [main.owners.submod]
+    #     ask.en = "Should subscription to the list be accepted by owners?"
+    #     ask.fr = "L’abonnement à la liste doit-il être accepté par les propriétaires?"
+    #     help.en = "Setting name: submod"
+    #     help.fr = "Nom du paramètre : submod"
+    #     type = "boolean"
 
-        [main.owners.submod_list]
-        ask.en = "Optional: it is possible to delegate the acceptation of subscriptions to addresses other than those of the owners (one e-mail address per line if used)."
-        ask.fr = "Facultatif : il est possible de déléguer l’acceptation des abonnements à d’autres adresses que celles des propriétaires (une adresse courriel par ligne si utilisé)"
-        help.en = "Setting name: submod"
-        help.fr = "Nom du paramètre : submod"
-        optional = "true"
-        type = "text"
-        bind = "__INSTALL_DIR__/control/moderators"
-        visible = "submod == 1"
+    #     [main.owners.submod_list]
+    #     ask.en = "Optional: it is possible to delegate the acceptation of subscriptions to addresses other than those of the owners (one e-mail address per line if used)."
+    #     ask.fr = "Facultatif : il est possible de déléguer l’acceptation des abonnements à d’autres adresses que celles des propriétaires (une adresse courriel par ligne si utilisé)"
+    #     help.en = "Setting name: submod"
+    #     help.fr = "Nom du paramètre : submod"
+    #     optional = "true"
+    #     type = "text"
+    #     bind = "__INSTALL_DIR__/control/moderators"
+    #     visible = "submod == 1"
 
         
-        [main.owners.nosubmodmails]
-        ask.en = "Should people requesting subscribtion be notified when their request is be?"
-        ask.fr = "Est-ce que les personnes ayant soumis une demande d’abonnement doivent être informé si leur requête est en attente de validation ?"
-        help.en = "Setting name: nosubmodmails"
-        help.fr = "Nom du paramètre : nosubmodmails"
-        type = "boolean"
-        visible = "submod == 1"
+    #     [main.owners.nosubmodmails]
+    #     ask.en = "Should people requesting subscribtion be notified when their request is be?"
+    #     ask.fr = "Est-ce que les personnes ayant soumis une demande d’abonnement doivent être informé si leur requête est en attente de validation ?"
+    #     help.en = "Setting name: nosubmodmails"
+    #     help.fr = "Nom du paramètre : nosubmodmails"
+    #     type = "boolean"
+    #     visible = "submod == 1"
 
-    [main.moderation]
-    name.en = "Moderation"
-    name.fr = "Modération"
+    # [main.moderation]
+    # name.en = "Moderation"
+    # name.fr = "Modération"
 
-        [main.moderation.moderators]
-        ask.en = "Moderators of the list (one email per line)"
-        ask.fr = "Modérateurs de la liste (une adresse courriel par ligne)"
-        help.en = "Setting name: moderators"
-        help.fr = "Nom du paramètre : moderators"
-        type = "text"
-        bind = "__INSTALL_DIR__/control/moderators"
+    #     [main.moderation.moderators]
+    #     ask.en = "Moderators of the list (one email per line)"
+    #     ask.fr = "Modérateurs de la liste (une adresse courriel par ligne)"
+    #     help.en = "Setting name: moderators"
+    #     help.fr = "Nom du paramètre : moderators"
+    #     type = "text"
+    #     bind = "__INSTALL_DIR__/control/moderators"
 
-        [main.moderation.modnonsubposts]
-        ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
-        ask.fr = "Tous les messages provenant de personnes qui ne sont pas autorisées à publier sur la liste devraient-ils être modérés au lieu d'être refusés ?"
-        help.en = "Setting name: modnonsubposts"
-        help.fr = "Nom du paramètre : modnonsubposts"
-        type = "boolean"
+    #     [main.moderation.modnonsubposts]
+    #     ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
+    #     ask.fr = "Tous les messages provenant de personnes qui ne sont pas autorisées à publier sur la liste devraient-ils être modérés au lieu d'être refusés ?"
+    #     help.en = "Setting name: modnonsubposts"
+    #     help.fr = "Nom du paramètre : modnonsubposts"
+    #     type = "boolean"
 
-        [main.moderation.moderated]
-        ask.en = "Should legit messages be moderated (note: moderators message will not be moderated)?"
-        ask.fr = "Les messages légitimes doivent-ils être modérés (note: les messages des modérateurs ne seront pas modérés)?"
-        help.en = "Setting name: moderated"
-        help.fr = "Nom du paramètre : moderated"
-        type = "boolean"
+    #     [main.moderation.moderated]
+    #     ask.en = "Should legit messages be moderated (note: moderators message will not be moderated)?"
+    #     ask.fr = "Les messages légitimes doivent-ils être modérés (note: les messages des modérateurs ne seront pas modérés)?"
+    #     help.en = "Setting name: moderated"
+    #     help.fr = "Nom du paramètre : moderated"
+    #     type = "boolean"
 
-        [main.moderation.modnonsubposts]
-        ask.en = "Should posters get an email when their post is being moderated?"
-        ask.fr = "Les auteurs de messages devraient-ils recevoir un courrier électronique lorsque leur message est en cours de modération ?"
-        help.en = "Setting name: notifymod"
-        help.fr = "Nom du paramètre : notifymod"
-        type = "boolean"
+    #     [main.moderation.modnonsubposts]
+    #     ask.en = "Should posters get an email when their post is being moderated?"
+    #     ask.fr = "Les auteurs de messages devraient-ils recevoir un courrier électronique lorsque leur message est en cours de modération ?"
+    #     help.en = "Setting name: notifymod"
+    #     help.fr = "Nom du paramètre : notifymod"
+    #     type = "boolean"
 
-    [main.sub]
-    name.en = "Subscribers management (Simplified)"
-    name.fr = "Gestion des abonnés (Simplifiée)"
-    description.en = "This is a simplified management interface. For advanced options, please refer to the documentation."
-    description.fr = "Il s'agit d'une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation."
+    # [main.sub]
+    # name.en = "Subscribers management (Simplified)"
+    # name.fr = "Gestion des abonnés (Simplifiée)"
+    # description.en = "This is a simplified management interface. For advanced options, please refer to the documentation."
+    # description.fr = "Il s'agit d'une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation."
 
-        [main.sub.add]
-        help.en = "A welcome email will be sent to added addresses."
-        help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
-        optional = "true"
-        example = "turtle@sweethome.org"
-        ask.en = "Add addresses to the list (one per line)"
-        ask.fr = "Ajouter des adresses à la liste (une par ligne)"
-        type = "text"
+    #     [main.sub.add]
+    #     help.en = "A welcome email will be sent to added addresses."
+    #     help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
+    #     optional = "true"
+    #     example = "turtle@sweethome.org"
+    #     ask.en = "Add addresses to the list (one per line)"
+    #     ask.fr = "Ajouter des adresses à la liste (une par ligne)"
+    #     type = "text"
 
-        [main.sub.del]
-        help.en = "Addresses will be removed from the list."
-        help.fr = "Les adresses seront retirées de la liste."
-        optional = "true"
-        example = "turtle@sweethome.org"
-        ask.en = "Remove addresses from the list (one per line)"
-        ask.fr = "Retirer des adresses de la liste (une par ligne)"
-        type = "text"
+    #     [main.sub.del]
+    #     help.en = "Addresses will be removed from the list."
+    #     help.fr = "Les adresses seront retirées de la liste."
+    #     optional = "true"
+    #     example = "turtle@sweethome.org"
+    #     ask.en = "Remove addresses from the list (one per line)"
+    #     ask.fr = "Retirer des adresses de la liste (une par ligne)"
+    #     type = "text"
 
-    [main.others]
-    name.en = "Other settings"
-    name.fr = "Autres paramètres"
+    # [main.others]
+    # name.en = "Other settings"
+    # name.fr = "Autres paramètres"
 
-        [main.others.prefix]
-        ask.en = "Prefix for the Subject line of emails"
-        ask.fr = "Préfixe pour la ligne d'objet des emails"
-        help.en = "Setting name: prefix"
-        help.fr = "Nom du paramètre : prefix"
-        type = "text"
-        bind = "__INSTALL_DIR__/control/prefix"
+    #     [main.others.prefix]
+    #     ask.en = "Prefix for the Subject line of emails"
+    #     ask.fr = "Préfixe pour la ligne d'objet des emails"
+    #     help.en = "Setting name: prefix"
+    #     help.fr = "Nom du paramètre : prefix"
+    #     type = "text"
+    #     bind = "__INSTALL_DIR__/control/prefix"
 
-        [main.others.footer]
-        ask.en = "Footer content"
-        ask.fr = "Contenu du pied de page"
-        help.en = "Setting name: footer"
+    #     [main.others.footer]
+    #     ask.en = "Footer content"
+    #     ask.fr = "Contenu du pied de page"
+    #     help.en = "Setting name: footer"
         help.fr = "Nom du paramètre : footer"
         type = "text"
         bind = "__INSTALL_DIR__/control/footer"
