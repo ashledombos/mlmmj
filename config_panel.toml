@@ -14,7 +14,7 @@ name.fr = "Paramètres MLMMJ"
         help.en = "'Open' allows anyone to subscribe or unsubscribe by email, 'closedlistsub' restricts new subscriptions, and 'closedlist' restricts both new subscriptions and unsubscriptions."
         help.fr = "'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouvelles inscriptions et 'closedlist' restreint à la fois les nouvelles inscriptions et les désinscriptions."
         type = "select"
-        choices = {"open" = "open", "closed_sub" = "closedlistsub", "closed_sub_unsub" = "closedlist"}
+        choices = {"open" = "open", "closedlistsub" = "closedlistsub", "closedlist" = "closedlist"}
 
         [main.general.whacanpost]
         ask.en = "Who is able to post on the list"
@@ -22,7 +22,7 @@ name.fr = "Paramètres MLMMJ"
         help.en = "'All' allows anyone to post, 'subonlypost' allows only people who are subscribed to the list, and 'modonlypost' allows only moderators to post (see moderation section below)."
         help.fr = "'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouvelles inscriptions et 'closedlist' restreint à la fois les nouvelles inscriptions et les désinscriptions."
         type = "select"
-        choices = {"all" = "All", "subonlypost" = "Subscribers Only Post", "modonlypost" = "Moderators Only Post"}
+        choices = {"all" = "all", "subonlypost" = "subonlypost", "modonlypost" = "modonlypost"}
 
     [main.owners]
     name.en = "Owners"
