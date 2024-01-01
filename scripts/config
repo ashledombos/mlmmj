@@ -51,6 +51,8 @@ validate__del() {
 # Getters
 # -------------------------------------------------------------
 
+# General
+
 get__list_status() {
     if [ -f "$control_dir/closedlist" ]; then
         echo "closedlist"
@@ -61,17 +63,27 @@ get__list_status() {
     fi
 }
 
-get__prefix() {
-    local prefix_file="$control_dir/prefix"
+get__whocanpost() {
+    if [ -f "$control_dir/modonlypost" ]; then
+        echo "modonlypost"
+    elif [ -f "$control_dir/subonlypost" ]; then
+        echo "subonlypost"
+    else
+        echo "all"
+    fi
+}
+
+# Owners
 
 
-    [ -f "$prefix_file" ] || touch "$prefix_file"
+# Moderators
 
-    head -n 1 "$prefix_file"
-#   head -n 1 "$prefix_file" | sed 's/[\[\]]//g'
-#   head -n 1 "$prefix_file" | tr -d '[]'
-#   cat "$prefix_file"
-
+get__moderators() {
+    if [ -f "$control_dir/moderators" ]; then
+        cat "$control_dir/moderators"
+    else
+        echo ""
+    fi
 }
 
 get__moderated() {
@@ -92,10 +104,16 @@ get__moderation_mode() {
     fi
 }
 
+# Sub
+
+# Others
+
 
 # -------------------------------------------------------------
 # Setters
 # -------------------------------------------------------------
+
+# General
 
 set__list_status() {
     case $list_status in
@@ -119,15 +137,9 @@ set__list_status() {
     esac
 }
 
-set__prefix() {
-    local prefix_file="$control_dir/prefix"
-    if [ -n "$prefix" ]; then
-        echo "$prefix" > "$prefix_file"
-#        echo "[$prefix]" > "$prefix_file"
-    else
-        sed -i '1d' "$prefix_file"
-    fi
-}
+# Owners
+
+# Moderation
 
 set__moderated() {
     if [[ $moderated == 1 ]]; then
