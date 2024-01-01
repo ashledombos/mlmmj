@@ -16,7 +16,7 @@ name.fr = "Paramètres MLMMJ"
         type = "select"
         choices = {"open" = "open", "closedlistsub" = "closedlistsub", "closedlist" = "closedlist"}
 
-        [main.general.whacanpost]
+        [main.general.whocanpost]
         ask.en = "Who is able to post on the list"
         ask.fr = "Qui est autorisé à publier sur la liste ?"
         help.en = "'All' allows anyone to post, 'subonlypost' allows only people who are subscribed to the list, and 'modonlypost' allows only moderators to post (see moderation section below)."
