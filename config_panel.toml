@@ -11,37 +11,37 @@ name.fr = "Paramètres MLMMJ"
         [main.general.list_status]
         ask.en = "List Subscription Status"
         ask.fr = "Statut d'abonnement à la liste"
-        help.en = "'Open' allows anyone to subscribe or unsubscribe by email, 'closedlistsub' restricts new subscriptions, and 'closedlist' restricts both new subscriptions and unsubscriptions."
-        help.fr = "'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouveaux abonnements et 'closedlist' restreint à la fois les nouveaux abonnements et les désabonnements."
+        help.en = "'open' allows anyone to subscribe or unsubscribe by email, 'closedlistsub' restricts new subscriptions, and 'closedlist' restricts both new subscriptions and unsubscriptions."
+        help.fr = "'open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouveaux abonnements et 'closedlist' restreint à la fois les nouveaux abonnements et les désabonnements."
         type = "select"
         choices = {"open" = "open", "closedlistsub" = "closedlistsub", "closedlist" = "closedlist"}
 
         [main.general.whocanpost]
         ask.en = "Who is able to post on the list"
         ask.fr = "Qui est autorisé à publier sur la liste ?"
-        help.en = "'All' allows anyone to post, 'subonlypost' allows only people who are subscribed to the list, and 'modonlypost' allows only moderators to post (see moderation section below)."
-        help.fr = "'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouvelles inscriptions et 'closedlist' restreint à la fois les nouvelles inscriptions et les désinscriptions."
+        help.en = "'all' allows anyone to post, 'subonlypost' allows only people who are subscribed to the list, and 'modonlypost' allows only moderators to post (see moderation section below)."
+        help.fr = "'all' permet à n’importe qui de publier sur la liste, 'subonlypost' permet uniquement aux abonnés de publier, 'modonlypost' permet uniquement aux abonnés de publier (voir la section modération ci-dessous)."
         type = "select"
         choices = {"all" = "all", "subonlypost" = "subonlypost", "modonlypost" = "modonlypost"}
 
-    # [main.owners]
-    # name.en = "Owners"
-    # name.fr = "Propriétaires"
+    [main.owners]
+    name.en = "Owners"
+    name.fr = "Propriétaires"
 
-    #     [main.owners.owner]
-    #     ask.en = "List owners (one email per line)"
-    #     ask.fr = "Propriétaires de la liste (un email par ligne)"
-    #     help.en = "Setting name: owner"
-    #     help.fr = "Nom du paramètre : owner"
-    #     type = "text"
-    #     bind = "__INSTALL_DIR__/control/moderators"
+        [main.owners.owner]
+        ask.en = "List owners (one email per line)"
+        ask.fr = "Propriétaires de la liste (un email par ligne)"
+        help.en = "Setting name: owner"
+        help.fr = "Nom du paramètre : owner"
+        type = "text"
+        bind = "__INSTALL_DIR__/control/moderators"
         
-    #     [main.owners.notifysub]
-    #     ask.en = "Should owners get an email with the address of someone sub/unsubscribing to the list?"
-    #     ask.fr = "Le propriétaire doit-il recevoir un courrier avec l'adresse de d'une personne qui s'est inscrite ou désinscrite à une liste ?"
-    #     help.en = "Setting name: notifysub"
-    #     help.fr = "Nom du paramètre : submod"
-    #     type = "boolean"
+        [main.owners.notifysub]
+        ask.en = "Should owners get an email with the address of someone sub/unsubscribing to the list?"
+        ask.fr = "Le propriétaire doit-il recevoir un courrier avec l'adresse de d'une personne qui s'est inscrite ou désinscrite à une liste ?"
+        help.en = "Setting name: notifysub"
+        help.fr = "Nom du paramètre : submod"
+        type = "boolean"
 
     #     [main.owners.submod]
     #     ask.en = "Should subscription to the list be accepted by owners?"
