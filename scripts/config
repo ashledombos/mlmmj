@@ -138,7 +138,7 @@ set__list_status() {
 }
 
 set__whocanpost() {
-    case $moderation_mode in
+    case $whocanpost in
         "all")
             ynh_secure_remove "$control_dir/subonlypost"
             ynh_secure_remove "$control_dir/modonlypost"
