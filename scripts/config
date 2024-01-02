@@ -223,7 +223,7 @@ sync_to_control_dir() {
 
 sync_from_app_dir() {
     local control_file="$install_dir/control/$1"
-    local app_file="/etc/yunohost/app/$app/$1.txt"
+    local app_file="/etc/yunohost/apps/$app/$1.txt"
 
     if [ -f "$app_file" ]; then
         cp "$app_file" "$control_file"
