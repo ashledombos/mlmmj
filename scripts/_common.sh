@@ -31,6 +31,7 @@ lang_dir="$MLMMJ_SHARE/text.skel/$language"
 
 bin_dir=/usr/local/bin
 sudoers_file="/etc/sudoers.d/mlmmj"
+conf_dir="/etc/yunohost/apps/$app"
 
 #=================================================
 # PERSONAL HELPERS
