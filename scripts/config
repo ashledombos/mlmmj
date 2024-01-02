@@ -11,7 +11,7 @@ source _common.sh
 ynh_abort_if_errors
 
 # -------------------------------------------------------------
-# Generic email list validator
+# Generic variables and functions
 # -------------------------------------------------------------
 
 # Regex pour les adresses email
@@ -28,6 +28,15 @@ validate__email_generic() {
 
     if [[ ! -z "$invalid_emails" ]]; then
         echo -e "Invalid email addresses:\n$invalid_emails"
+    fi
+}
+
+get_flag() {
+    local flag_name="$1"
+    if [ -f "$control_dir/$flag_name" ]; then
+        echo "1"
+    else
+        echo "0"
     fi
 }
 
@@ -75,6 +84,9 @@ get__whocanpost() {
 
 # Owners
 
+get__notifysub() {
+    get_flag "notifysub"
+}
 
 # Moderators
 
@@ -87,20 +99,10 @@ get__moderators() {
 }
 
 get__moderated() {
-    if [ -f "$control_dir/moderated" ]; then
-        echo "1"
-    else
-        echo "0"
-    fi
+    get_flag "moderated"
 }
 
-get__notifysub() {
-    if [ -f "$control_dir/notifysub" ]; then
-        echo "1"
-    else
-        echo "0"
-    fi
-}
+
 
 # Sub
 
@@ -118,19 +120,19 @@ set__list_status() {
         "open")
             ynh_secure_remove "$control_dir/closedlistsub"
             ynh_secure_remove "$control_dir/closedlist"
-            ynh_print_info "--message='List is open for subscription and unsubscription'"
+            ynh_print_info "--message='Removed closedlistsub and/or closedlist'"
             ;;
 
         "closedlistsub")
             touch "$control_dir/closedlistsub"
             ynh_secure_remove "$control_dir/closedlist"
-            ynh_print_info "--message='List is closed for subscription'"
+            ynh_print_info "--message='Created closedlistsub and removed closedlist if needed'"
             ;;
 
         "closedlist")
             touch "$control_dir/closedlist"
             ynh_secure_remove "$control_dir/closedlistsub"
-            ynh_print_info "--message='List is closed for subscription and unsubscription'"
+            ynh_print_info "--message='Creadted closedlist and remove closedlistsub if needed'"
             ;;
     esac
 }
@@ -140,19 +142,19 @@ set__whocanpost() {
         "all")
             ynh_secure_remove "$control_dir/subonlypost"
             ynh_secure_remove "$control_dir/modonlypost"
-            ynh_print_info "--message='No moderation mode is set (all)'"
+            ynh_print_info "--message='Removed subonlypost and/or modonlypost'"
             ;;
 
         "subonlypost")
             touch "$control_dir/subonlypost"
             ynh_secure_remove "$control_dir/modonlypost"
-            ynh_print_info "--message='Moderation mode set to subscribers only post'"
+            ynh_print_info "--message='Created subonlypost and removed modonlypost if needed'"
             ;;
 
         "modonlypost")
             touch "$control_dir/modonlypost"
             ynh_secure_remove "$control_dir/subonlypost"
-            ynh_print_info "--message='Moderation mode set to moderators only post'"
+            ynh_print_info "--message='Created modonlypost and removed subonlypost if needed'"
             ;;
     esac
 }
@@ -176,10 +178,10 @@ set__submod() {
 set__moderated() {
     if [[ $moderated == 1 ]]; then
         touch "$control_dir/moderated"
-        ynh_print_info "--message='Created $control_dir/moderated for moderated'"
+        ynh_print_info "--message='Created $control_dir/moderated'"
     else
         ynh_secure_remove "$control_dir/moderated"
-        ynh_print_info "--message='Removed $control_dir/moderated for moderated'"
+        ynh_print_info "--message='Removed $control_dir/moderated'"
     fi
 }
 
