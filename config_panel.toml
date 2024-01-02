@@ -65,12 +65,12 @@ name.fr = "Paramètres MLMMJ"
     name.fr = "Modération"
 
         [main.moderation.moderators]
-        ask.en = "Moderators of the list (one email per line)"
+        ask.en = "List moderators (one email per line)"
         ask.fr = "Modérateurs de la liste (une adresse courriel par ligne)"
         help.en = "Setting name: moderators"
         help.fr = "Nom du paramètre : moderators"
         type = "text"
-        bind = "__INSTALL_DIR__/ynh/owner.txt"
+        bind = "__INSTALL_DIR__/ynh/moderators.txt"
 
         [main.moderation.modnonsubposts]
         ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
