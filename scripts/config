@@ -110,7 +110,7 @@ get_textfile() {
 # Validators
 # -------------------------------------------------------------
 
-validate__submod() {
+validate__submod_list() {
     validate__email_generic "$submod"
 }
 
