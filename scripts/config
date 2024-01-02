@@ -196,16 +196,16 @@ set_3choices() {
     esac
 }
 
-get_textfile() {
-    local file_name="$1"
-    local file_path="$control_dir/$file_name"
-
-    if [ -f "$file_path" ]; then
-        cat "$file_path"
-    else
-        echo ""
-    fi
-}
+#get_textfile() {
+#    local file_name="$1"
+#    local file_path="$control_dir/$file_name"
+#
+#    if [ -f "$file_path" ]; then
+##        cat "$file_path"
+#    else
+#        echo ""
+ #   fi
+#}
 
 
 
