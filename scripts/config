@@ -60,7 +60,7 @@ get_3choices() {
 
 
     if [ -f "$control_dir/$choice3_file" ]; then
-        echo "$choice1_file"
+        echo "$choice3_file"
     elif [ -f "$control_dir/$choice2_file" ]; then
         echo "$choice2_file"
     else
