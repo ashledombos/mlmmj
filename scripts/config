@@ -123,7 +123,7 @@ set__moderated() {
     set_flag "moderated" "$moderated"
 }
 
-set__moderated() {
+set__notifymod() {
     set_flag "notifymod" "$notifymod"
 }
 
