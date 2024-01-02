@@ -59,11 +59,11 @@ name.fr = "Paramètres MLMMJ"
         bind = "__INSTALL_DIR__/ynh/submod.txt"
         visible = "submod == 1"
         
-        [main.owners.nosubmodmails]
+        [main.owners.notifymod]
         ask.en = "Should people requesting subscribtion be notified when their request is be?"
         ask.fr = "Est-ce que les personnes ayant soumis une demande d’abonnement doivent être informé si leur requête est en attente de validation ?"
-        help.en = "Setting name: nosubmodmails"
-        help.fr = "Nom du paramètre : nosubmodmails"
+        help.en = "Setting name: notifymod"
+        help.fr = "Nom du paramètre : notifymod"
         type = "boolean"
         visible = "submod == 1"
 
