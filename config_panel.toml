@@ -97,7 +97,7 @@ name.fr = "Paramètres MLMMJ"
     name.en = "Subscribers" 
     name.fr = "Abonnés" 
     description.en = "This is a simplified management interface. For advanced options, please refer to the documentation."     
-    description.fr = "Il s'agit d'une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation." 
+    description.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation." 
  
         [main.sub.add]
         help.en = "A welcome email will be sent to added addresses."
