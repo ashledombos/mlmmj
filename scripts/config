@@ -86,6 +86,10 @@ get__del() {
     echo ""
 }
 
+get__subscribers-d() {
+        $bin_dir/mlmmj-unsub -L $install_dir -s
+}
+
 # Others
 
 
