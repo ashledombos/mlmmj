@@ -64,8 +64,16 @@ get__moderators() {
     get_textfile "moderators"
 }
 
+get__modnonsubposts() {
+    get_flag "modnonsubposts"
+}
+
 get__moderated() {
     get_flag "moderated"
+}
+
+get__notifymod() {
+    get_flag "notifymod"
 }
 
 # Sub
@@ -107,8 +115,16 @@ set__submod() {
 
 # Moderation
 
+set__modnonsubposts() {
+    set_flag "modnonsubposts" "$modnonsubposts"
+}
+
 set__moderated() {
     set_flag "moderated" "$moderated"
+}
+
+set__moderated() {
+    set_flag "notifymod" "$notifymod"
 }
 
 # -------------------------------------------------------------
