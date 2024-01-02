@@ -223,31 +223,43 @@ get_textfile() {
     fi
 }
 
-sync_to_control_dir() {
+sync_from_control_dir() {
     local control_file="$install_dir/control/$1"
-    local app_file="$install_dir/ynh/$1.txt"
+    local ynh_file="$install_dir/ynh/$1.txt"
 
-    if [ -f "$control_file" ] && [ "$control_file" -nt "$app_file" ]; then
-        cp "$control_file" "$app_file"
+    if [ -f "$control_file" ] && [ "$control_file" -nt "$ynh_file" ]; then
+        cp "$control_file" "$ynh_file"
     fi
 }
 
-sync_from_app_dir() {
+sync_from_ynh_dir() {
     local control_file="$install_dir/control/$1"
-    local app_file="$install_dir/ynh/$1.txt"
+    local ynh_file="$install_dir/ynh/$1.txt"
 
-    if [ -f "$app_file" ]; then
-        cp "$app_file" "$control_file"
+    if [ -f "$ynh_file" ]; then
+        cp "$ynh_file" "$control_file"
     fi
 }
 
 ynh_app_config_get() {
-    sync_to_control_dir "owner"
-    sync_to_control_dir "moderators"
-    sync_to_control_dir "submod"
+    local files_to_sync=("owner" "moderators" "submod")
+
+    for file in "${files_to_sync[@]}"; do
+        sync_from_control_dir "$file"
+    done
+
     _ynh_app_config_get
 }
 
+ynh_app_config_apply() {
+    local files_to_sync=("owner" "moderators" "submod")
+
+    for file in "${files_to_sync[@]}"; do
+        sync_from_ynh_dir "$file"
+    done
+
+    _ynh_app_config_apply
+}
 
 # -------------------------------------------------------------
 # Config apply
