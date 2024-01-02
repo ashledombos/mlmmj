@@ -96,8 +96,8 @@ name.fr = "Paramètres MLMMJ"
     [main.sub]
     name.en = "Subscribers" 
     name.fr = "Abonnés" 
-    description.en = "This is a simplified management interface. For advanced options, please refer to the documentation."     
-    description.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation." 
+    help.en = "This is a simplified management interface. For advanced options, please refer to the documentation."     
+    help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation." 
  
         [main.sub.add]
         help.en = "A welcome email will be sent to added addresses."
@@ -107,38 +107,38 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Ajouter des adresses à la liste (une par ligne)"
         type = "text"
 
-       [main.sub.del]
-       help.en = "Addresses will be removed from the list."
-       help.fr = "Les adresses seront retirées de la liste."
-       example = "turtle@sweethome.org"
-       ask.en = "Remove addresses from the list (one per line)"
-       ask.fr = "Retirer des adresses de la liste (une par ligne)"
-       type = "text"
+        [main.sub.del]
+        help.en = "Addresses will be removed from the list."
+        help.fr = "Les adresses seront retirées de la liste."
+        example = "turtle@sweethome.org"
+        ask.en = "Remove addresses from the list (one per line)"
+        ask.fr = "Retirer des adresses de la liste (une par ligne)"
+        type = "text"
 
-       [main.sub.subscribers-d]
-       help.en = "Subscribers from directory subscribers.d."
-       help.fr = "Les adresses seront retirées de la liste."
-       readonly = true
-       ask.en = "Subscribers"
-       ask.fr = "Abonnés"
+        [main.sub.subscribers-d]
+        help.en = "Subscribers from directory subscribers.d."
+        help.fr = "Les adresses seront retirées de la liste."
+        readonly = true
+        ask.en = "Subscribers"
+        ask.fr = "Abonnés"
 
 
-    # [main.others]
-    # name.en = "Other settings"
-    # name.fr = "Autres paramètres"
+    [main.others]
+    name.en = "Other settings"
+    name.fr = "Autres paramètres"
 
-    #     [main.others.prefix]
-    #     ask.en = "Prefix for the Subject line of emails"
-    #     ask.fr = "Préfixe pour la ligne d'objet des emails"
-    #     help.en = "Setting name: prefix"
-    #     help.fr = "Nom du paramètre : prefix"
-    #     type = "text"
-    #     bind = "__INSTALL_DIR__/control/prefix"
+        [main.others.prefix]
+        ask.en = "Prefix for the Subject line of emails"
+        ask.fr = "Préfixe pour la ligne d'objet des emails"
+        help.en = "Setting name: prefix"
+        help.fr = "Nom du paramètre : prefix"
+        type = "text"
+        bind = "__INSTALL_DIR__/control/prefix"
 
-    #     [main.others.footer]
-    #     ask.en = "Footer content"
-    #     ask.fr = "Contenu du pied de page"
-    #     help.en = "Setting name: footer"
-        # help.fr = "Nom du paramètre : footer"
-        # type = "text"
-        # bind = "__INSTALL_DIR__/control/footer"
+        [main.others.footer]
+        ask.en = "Footer content"
+        ask.fr = "Contenu du pied de page"
+        help.en = "Setting name: footer"
+        help.fr = "Nom du paramètre : footer"
+        type = "text"
+        bind = "__INSTALL_DIR__/control/footer"
