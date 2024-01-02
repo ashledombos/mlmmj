@@ -115,7 +115,6 @@ name.fr = "Paramètres MLMMJ"
        ask.fr = "Retirer des adresses de la liste (une par ligne)"
        type = "text"
 
-       subscribers-d
        [main.sub.subscribers-d]
        help.en = "Subscribers from directory subscribers.d."
        help.fr = "Les adresses seront retirées de la liste."
