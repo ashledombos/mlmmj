@@ -53,6 +53,22 @@ set_flag() {
     fi
 }
 
+get_3choices() {
+    local choice1="$1"
+    local choice2_file="$2"
+    local choice3_file="$3"
+
+
+    if [ -f "$control_dir/$choice3_file" ]; then
+        echo "$choice1_file"
+    elif [ -f "$control_dir/$choice2_file" ]; then
+        echo "$choice2_file"
+    else
+        echo "$choice1"
+    fi
+}
+
+
 # -------------------------------------------------------------
 # Validators
 # -------------------------------------------------------------
@@ -76,23 +92,11 @@ validate__del() {
 # General
 
 get__list_status() {
-    if [ -f "$control_dir/closedlist" ]; then
-        echo "closedlist"
-    elif [ -f "$control_dir/closedlistsub" ]; then
-        echo "closedlistsub"
-    else
-        echo "open"
-    fi
+    get_3choices "open" "closedlistsub" "closedlist"
 }
 
 get__whocanpost() {
-    if [ -f "$control_dir/modonlypost" ]; then
-        echo "modonlypost"
-    elif [ -f "$control_dir/subonlypost" ]; then
-        echo "subonlypost"
-    else
-        echo "all"
-    fi
+    get_3choices "all" "subonlypost" "modonlypost"
 }
 
 # Owners
