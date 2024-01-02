@@ -15,7 +15,7 @@ ynh_abort_if_errors
 # -------------------------------------------------------------
 
 validate__submod_list() {
-    validate__email_generic "$submod"
+    validate__email_generic "$submod_list"
 }
 
 validate__moderators() {
