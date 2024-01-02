@@ -58,48 +58,47 @@ name.fr = "Paramètres MLMMJ"
         type = "text"
         bind = "__INSTALL_DIR__/ynh/submod.txt"
         visible = "submod == 1"
-
         
-    #     [main.owners.nosubmodmails]
-    #     ask.en = "Should people requesting subscribtion be notified when their request is be?"
-    #     ask.fr = "Est-ce que les personnes ayant soumis une demande d’abonnement doivent être informé si leur requête est en attente de validation ?"
-    #     help.en = "Setting name: nosubmodmails"
-    #     help.fr = "Nom du paramètre : nosubmodmails"
-    #     type = "boolean"
-    #     visible = "submod == 1"
+        [main.owners.nosubmodmails]
+        ask.en = "Should people requesting subscribtion be notified when their request is be?"
+        ask.fr = "Est-ce que les personnes ayant soumis une demande d’abonnement doivent être informé si leur requête est en attente de validation ?"
+        help.en = "Setting name: nosubmodmails"
+        help.fr = "Nom du paramètre : nosubmodmails"
+        type = "boolean"
+        visible = "submod == 1"
 
-    # [main.moderation]
-    # name.en = "Moderation"
-    # name.fr = "Modération"
+    [main.moderation]
+    name.en = "Moderation"
+    name.fr = "Modération"
 
-    #     [main.moderation.moderators]
-    #     ask.en = "Moderators of the list (one email per line)"
-    #     ask.fr = "Modérateurs de la liste (une adresse courriel par ligne)"
-    #     help.en = "Setting name: moderators"
-    #     help.fr = "Nom du paramètre : moderators"
-    #     type = "text"
-    #     bind = "__INSTALL_DIR__/control/moderators"
+        [main.moderation.moderators]
+        ask.en = "Moderators of the list (one email per line)"
+        ask.fr = "Modérateurs de la liste (une adresse courriel par ligne)"
+        help.en = "Setting name: moderators"
+        help.fr = "Nom du paramètre : moderators"
+        type = "text"
+        bind = "__INSTALL_DIR__/ynh/moderators"
 
-    #     [main.moderation.modnonsubposts]
-    #     ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
-    #     ask.fr = "Tous les messages provenant de personnes qui ne sont pas autorisées à publier sur la liste devraient-ils être modérés au lieu d'être refusés ?"
-    #     help.en = "Setting name: modnonsubposts"
-    #     help.fr = "Nom du paramètre : modnonsubposts"
-    #     type = "boolean"
+        [main.moderation.modnonsubposts]
+        ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
+        ask.fr = "Tous les messages provenant de personnes qui ne sont pas autorisées à publier sur la liste devraient-ils être modérés au lieu d'être refusés ?"
+        help.en = "Setting name: modnonsubposts"
+        help.fr = "Nom du paramètre : modnonsubposts"
+        type = "boolean"
 
-    #     [main.moderation.moderated]
-    #     ask.en = "Should legit messages be moderated (note: moderators message will not be moderated)?"
-    #     ask.fr = "Les messages légitimes doivent-ils être modérés (note: les messages des modérateurs ne seront pas modérés)?"
-    #     help.en = "Setting name: moderated"
-    #     help.fr = "Nom du paramètre : moderated"
-    #     type = "boolean"
+        [main.moderation.moderated]
+        ask.en = "Should legit messages be moderated (note: moderators message will not be moderated)?"
+        ask.fr = "Les messages légitimes doivent-ils être modérés (note: les messages des modérateurs ne seront pas modérés)?"
+        help.en = "Setting name: moderated"
+        help.fr = "Nom du paramètre : moderated"
+        type = "boolean"
 
-    #     [main.moderation.modnonsubposts]
-    #     ask.en = "Should posters get an email when their post is being moderated?"
-    #     ask.fr = "Les auteurs de messages devraient-ils recevoir un courrier électronique lorsque leur message est en cours de modération ?"
-    #     help.en = "Setting name: notifymod"
-    #     help.fr = "Nom du paramètre : notifymod"
-    #     type = "boolean"
+        [main.moderation.modnonsubposts]
+        ask.en = "Should posters get an email when their post is being moderated?"
+        ask.fr = "Les auteurs de messages devraient-ils recevoir un courrier électronique lorsque leur message est en cours de modération ?"
+        help.en = "Setting name: notifymod"
+        help.fr = "Nom du paramètre : notifymod"
+        type = "boolean"
 
     # [main.sub]
     # name.en = "Subscribers management (Simplified)"
