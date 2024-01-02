@@ -37,28 +37,28 @@ name.fr = "Paramètres MLMMJ"
         bind = "__INSTALL_DIR__/control/moderators"
         
         [main.owners.notifysub]
-        ask.en = "Should owners get an email with the address of someone sub/unsubscribing to the list?"
-        ask.fr = "Le propriétaire doit-il recevoir un courrier avec l'adresse de d'une personne qui s'est inscrite ou désinscrite à une liste ?"
+        ask.en = "Should owners be notified of subcriptions and unsubscribtions to the list?"
+        ask.fr = "Les propriétaire doivent-ils être notifiés des abonnements et désabonnements à la liste ?"
         help.en = "Setting name: notifysub"
         help.fr = "Nom du paramètre : submod"
         type = "boolean"
 
-    #     [main.owners.submod]
-    #     ask.en = "Should subscription to the list be accepted by owners?"
-    #     ask.fr = "L’abonnement à la liste doit-il être accepté par les propriétaires?"
-    #     help.en = "Setting name: submod"
-    #     help.fr = "Nom du paramètre : submod"
-    #     type = "boolean"
+        [main.owners.submod]
+        ask.en = "Should subscription to the list be accepted by owners?"
+        ask.fr = "L’abonnement à la liste doit-il être accepté par les propriétaires?"
+        help.en = "Setting name: submod"
+        help.fr = "Nom du paramètre : submod"
+        type = "boolean"
 
-    #     [main.owners.submod_list]
-    #     ask.en = "Optional: it is possible to delegate the acceptation of subscriptions to addresses other than those of the owners (one e-mail address per line if used)."
-    #     ask.fr = "Facultatif : il est possible de déléguer l’acceptation des abonnements à d’autres adresses que celles des propriétaires (une adresse courriel par ligne si utilisé)"
-    #     help.en = "Setting name: submod"
-    #     help.fr = "Nom du paramètre : submod"
-    #     optional = "true"
-    #     type = "text"
-    #     bind = "__INSTALL_DIR__/control/moderators"
-    #     visible = "submod == 1"
+        [main.owners.submod_list]
+        ask.en = "Optional: it is possible to delegate the acceptation of subscriptions to addresses other than those of the owners (one e-mail address per line if used)."
+        ask.fr = "Facultatif : il est possible de déléguer l’acceptation des abonnements à d’autres adresses que celles des propriétaires (une adresse courriel par ligne si utilisé)"
+        help.en = "Setting name: submod"
+        help.fr = "Nom du paramètre : submod"
+        optional = "true"
+        type = "text"
+        bind = "__INSTALL_DIR__/control/moderators"
+        visible = "submod == 1"
 
         
     #     [main.owners.nosubmodmails]
