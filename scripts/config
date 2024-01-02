@@ -207,7 +207,10 @@ get_textfile() {
     fi
 }
 
-
+ynh_app_config_run() {
+    touch /home/toto
+    _ynh_app_config_run "$@"
+}
 
 
 # -------------------------------------------------------------
