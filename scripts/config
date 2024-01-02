@@ -68,6 +68,32 @@ get_3choices() {
     fi
 }
 
+set_3choices() {
+    local choice1_file="$1"
+    local choice2_file="$2"
+    local choice3="$3"
+    local config_value="$4"
+
+    case $config_value in
+        "$choice3")
+            ynh_secure_remove "$control_dir/$choice1_file"
+            ynh_secure_remove "$control_dir/$choice2_file"
+            ynh_print_info "--message='Removed $control_dir/$choice1_file and/or $control_dir/$choice2_file'"
+            ;;
+
+        "$choice1_file")
+            touch "$control_dir/$choice1_file"
+            ynh_secure_remove "$control_dir/$choice2_file"
+            ynh_print_info "--message='Created $control_dir/$choice1_file and removed $control_dir/$choice2_file if needed'"
+            ;;
+
+        "$choice2_file")
+            touch "$control_dir/$choice2_file"
+            ynh_secure_remove "$control_dir/$choice1_file"
+            ynh_print_info "--message='Created $control_dir/$choice2_file and removed $control_dir/$choice1_file if needed'"
+            ;;
+    esac
+}
 
 # -------------------------------------------------------------
 # Validators
@@ -133,47 +159,11 @@ get__moderated() {
 # General
 
 set__list_status() {
-    case $list_status in
-        "open")
-            ynh_secure_remove "$control_dir/closedlistsub"
-            ynh_secure_remove "$control_dir/closedlist"
-            ynh_print_info "--message='Removed closedlistsub and/or closedlist'"
-            ;;
-
-        "closedlistsub")
-            touch "$control_dir/closedlistsub"
-            ynh_secure_remove "$control_dir/closedlist"
-            ynh_print_info "--message='Created closedlistsub and removed closedlist if needed'"
-            ;;
-
-        "closedlist")
-            touch "$control_dir/closedlist"
-            ynh_secure_remove "$control_dir/closedlistsub"
-            ynh_print_info "--message='Creadted closedlist and remove closedlistsub if needed'"
-            ;;
-    esac
+    set_3choices "open" "closedlistsub" "closedlist" "$list_status"
 }
 
 set__whocanpost() {
-    case $whocanpost in
-        "all")
-            ynh_secure_remove "$control_dir/subonlypost"
-            ynh_secure_remove "$control_dir/modonlypost"
-            ynh_print_info "--message='Removed subonlypost and/or modonlypost'"
-            ;;
-
-        "subonlypost")
-            touch "$control_dir/subonlypost"
-            ynh_secure_remove "$control_dir/modonlypost"
-            ynh_print_info "--message='Created subonlypost and removed modonlypost if needed'"
-            ;;
-
-        "modonlypost")
-            touch "$control_dir/modonlypost"
-            ynh_secure_remove "$control_dir/subonlypost"
-            ynh_print_info "--message='Created modonlypost and removed subonlypost if needed'"
-            ;;
-    esac
+    set_3choices "all" "subonlypost" "modonlypost" "$whocanpost"
 }
 
 # Owners
