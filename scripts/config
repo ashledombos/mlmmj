@@ -207,11 +207,6 @@ get_textfile() {
     fi
 }
 
-ynh_app_config_run() {
-    touch /home/toto
-    _ynh_app_config_run "$@"
-}
-
 sync_to_control_dir() {
     local control_file="$install_dir/control/$1"
     local app_file="/etc/yunohost/apps/$app/$1.txt"
@@ -231,7 +226,9 @@ sync_from_app_dir() {
 }
 
 ynh_app_config_get() {
+    sync_to_control_dir "owner"
     sync_to_control_dir "moderators"
+    sync_to_control_dir "submod"
     _ynh_app_config_get
 }
 
