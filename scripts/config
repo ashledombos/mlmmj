@@ -252,13 +252,13 @@ ynh_app_config_get() {
 }
 
 ynh_app_config_apply() {
+    _ynh_app_config_apply
+
     local files_to_sync=("owner" "moderators" "submod")
 
     for file in "${files_to_sync[@]}"; do
         sync_from_ynh_dir "$file"
     done
-
-    _ynh_app_config_apply
 }
 
 # -------------------------------------------------------------
