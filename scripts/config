@@ -212,6 +212,20 @@ ynh_app_config_run() {
     _ynh_app_config_run "$@"
 }
 
+sync_to_control_dir() {
+    local control_file="$install_dir/control/$1"
+    local app_file="/etc/yunohost/apps/$app/$1.txt"
+
+    if [ -f "$control_file" ] && [ "$control_file" -nt "$app_file" ]; then
+        cp "$control_file" "$app_file"
+    fi
+}
+
+ynh_app_config_get() {
+    sync_to_control_dir "moderators"
+    _ynh_app_config_get
+}
+
 
 # -------------------------------------------------------------
 # Config apply
