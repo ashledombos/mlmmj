@@ -56,7 +56,7 @@ name.fr = "Paramètres MLMMJ"
         help.en = "Setting name: submod"
         help.fr = "Nom du paramètre : submod"
         type = "text"
-        bind = "submod.txt"
+        bind = "__INSTALL_DIR__/ynh/submod.txt"
         visible = "submod == 1"
 
         
