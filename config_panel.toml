@@ -40,7 +40,7 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Should owners be notified of subcriptions and unsubscribtions to the list?"
         ask.fr = "Les propriétaire doivent-ils être notifiés des abonnements et désabonnements à la liste ?"
         help.en = "Setting name: notifysub"
-        help.fr = "Nom du paramètre : submod"
+        help.fr = "Nom du paramètre : notifysub"
         type = "boolean"
 
         [main.owners.submod]
