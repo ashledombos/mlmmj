@@ -95,9 +95,24 @@ set_3choices() {
     esac
 }
 
+get_textfile() {
+    local file_name="$1"
+    local file_path="$control_dir/$file_name"
+
+    if [ -f "$file_path" ]; then
+        cat "$file_path"
+    else
+        echo ""
+    fi
+}
+
 # -------------------------------------------------------------
 # Validators
 # -------------------------------------------------------------
+
+validate__submod() {
+    validate__email_generic "$submod"
+}
 
 validate__moderators() {
     validate__email_generic "$moderators"
@@ -131,21 +146,23 @@ get__notifysub() {
     get_flag "notifysub"
 }
 
+get__submod() {
+    get_flag "submod"
+}
+
+get__submod_list() {
+    get_textfile "submod"
+}
+
 # Moderators
 
 get__moderators() {
-    if [ -f "$control_dir/moderators" ]; then
-        cat "$control_dir/moderators"
-    else
-        echo ""
-    fi
+    get_textfile "moderators"
 }
 
 get__moderated() {
     get_flag "moderated"
 }
-
-
 
 # Sub
 
