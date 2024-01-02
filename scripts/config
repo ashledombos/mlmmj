@@ -11,6 +11,107 @@ source _common.sh
 ynh_abort_if_errors
 
 # -------------------------------------------------------------
+# Validators
+# -------------------------------------------------------------
+
+validate__submod_list() {
+    validate__email_generic "$submod"
+}
+
+validate__moderators() {
+    validate__email_generic "$moderators"
+}
+
+validate__add() {
+    validate__email_generic "$add"
+}
+
+validate__del() {
+    validate__email_generic "$del"
+}
+
+# -------------------------------------------------------------rototo@gege.com
+# Getters
+# -------------------------------------------------------------
+
+# General
+
+get__list_status() {
+    get_3choices "open" "closedlistsub" "closedlist"
+}
+
+get__whocanpost() {
+    get_3choices "all" "subonlypost" "modonlypost"
+}
+
+# Owners
+
+get__notifysub() {
+    get_flag "notifysub"
+}
+
+get__submod() {
+    get_flag "submod"
+}
+
+get__submod_list() {
+    get_textfile "submod"
+}
+
+# Moderators
+
+get__moderators() {
+    get_textfile "moderators"
+}
+
+get__moderated() {
+    get_flag "moderated"
+}
+
+# Sub
+
+# Others
+
+
+# -------------------------------------------------------------
+# Setters
+# -------------------------------------------------------------
+
+# General
+
+set__list_status() {
+    set_3choices "open" "closedlistsub" "closedlist" "$list_status"
+}
+
+set__whocanpost() {
+    set_3choices "all" "subonlypost" "modonlypost" "$whocanpost"
+}
+
+# Owners
+
+set__notifysub() {
+    set_flag "notifysub" "$notifysub"
+}
+
+set__submod() {
+    if [[ $submod == 1 ]]; then
+        if [[ -n "$submod_list" ]]; then
+            echo "$submod_list" > "$control_dir/submod"
+        else
+            touch "$control_dir/submod"
+        fi
+    else
+        ynh_secure_remove "$control_dir/submod"
+    fi
+}
+
+# Moderation
+
+set__moderated() {
+    set_flag "moderated" "$moderated"
+}
+
+# -------------------------------------------------------------
 # Generic variables and functions
 # -------------------------------------------------------------
 
@@ -104,107 +205,6 @@ get_textfile() {
     else
         echo ""
     fi
-}
-
-# -------------------------------------------------------------
-# Validators
-# -------------------------------------------------------------
-
-validate__submod_list() {
-    validate__email_generic "$submod"
-}
-
-validate__moderators() {
-    validate__email_generic "$moderators"
-}
-
-validate__add() {
-    validate__email_generic "$add"
-}
-
-validate__del() {
-    validate__email_generic "$del"
-}
-
-# -------------------------------------------------------------
-# Getters
-# -------------------------------------------------------------
-
-# General
-
-get__list_status() {
-    get_3choices "open" "closedlistsub" "closedlist"
-}
-
-get__whocanpost() {
-    get_3choices "all" "subonlypost" "modonlypost"
-}
-
-# Owners
-
-get__notifysub() {
-    get_flag "notifysub"
-}
-
-get__submod() {
-    get_flag "submod"
-}
-
-get__submod_list() {
-    get_textfile "submod"
-}
-
-# Moderators
-
-get__moderators() {
-    get_textfile "moderators"
-}
-
-get__moderated() {
-    get_flag "moderated"
-}
-
-# Sub
-
-# Others
-
-
-# -------------------------------------------------------------
-# Setters
-# -------------------------------------------------------------
-
-# General
-
-set__list_status() {
-    set_3choices "open" "closedlistsub" "closedlist" "$list_status"
-}
-
-set__whocanpost() {
-    set_3choices "all" "subonlypost" "modonlypost" "$whocanpost"
-}
-
-# Owners
-
-set__notifysub() {
-    set_flag "notifysub" "$notifysub"
-}
-
-set__submod() {
-    if [[ $submod == 1 ]]; then
-        if [[ -n "$submod_list" ]]; then
-            echo "$submod_list" > "$control_dir/submod"
-        else
-            touch "$control_dir/submod"
-        fi
-    else
-        ynh_secure_remove "$control_dir/submod"
-    fi
-}
-
-# Moderation
-
-set__moderated() {
-    set_flag "moderated" "$moderated"
 }
 
 
