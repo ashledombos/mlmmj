@@ -107,13 +107,21 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Ajouter des adresses à la liste (une par ligne)"
         type = "text"
 
-       # [main.sub.del]
-       # help.en = "Addresses will be removed from the list."
-       # help.fr = "Les adresses seront retirées de la liste."
-       # example = "turtle@sweethome.org"
-       # ask.en = "Remove addresses from the list (one per line)"
-       # ask.fr = "Retirer des adresses de la liste (une par ligne)"
-       # type = "text"
+       [main.sub.del]
+       help.en = "Addresses will be removed from the list."
+       help.fr = "Les adresses seront retirées de la liste."
+       example = "turtle@sweethome.org"
+       ask.en = "Remove addresses from the list (one per line)"
+       ask.fr = "Retirer des adresses de la liste (une par ligne)"
+       type = "text"
+
+       subscribers-d
+       [main.sub.subscribers-d]
+       help.en = "Subscribers from directory subscribers.d."
+       help.fr = "Les adresses seront retirées de la liste."
+       readonly = true
+       ask.en = "Subscribers"
+       ask.fr = "Abonnés"
 
 
     # [main.others]
