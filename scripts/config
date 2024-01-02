@@ -54,9 +54,9 @@ get__submod() {
     get_flag "submod"
 }
 
-#get__submod_list() {
-#    get_textfile "submod"
-#}
+get__submod_list() {
+    get_textfile "submod"
+}
 
 # Moderators
 
