@@ -98,8 +98,21 @@ name.fr = "Paramètres MLMMJ"
     name.fr = "Abonnés" 
     help.en = "This is a simplified management interface. For advanced options, please refer to the documentation."     
     help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation." 
+
+        [main.sub.whichlist]
+        ask.en = "Which list do you want to access to"
+        ask.fr = "À quelle liste voulez vous accéder ?"
+        help.en = "'All' allows anyone to post, 'subonlypost' allows only people who are subscribed to the list, and 'modonlypost' allows only moderators to post (see moderation section below)."
+        help.fr = "'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouvelles inscriptions et 'closedlist' restreint à la fois les nouvelles inscriptions et les désinscriptions."
+        type = "select"
+        choices = {"none" = "none", "subscribers" = "subscribers.d", "digesters" = "digesters.d", "nomailsub" = "nomailsub.d"}
+
+    [main.subscribers]
+    name.en = "Subscribers management" 
+    name.fr = "Gestion des bonnés" 
+    visible = "whichlist == subscribers"
  
-        [main.sub.add]
+        [main.subscribers.add_subscribers]
         help.en = "A welcome email will be sent to added addresses."
         help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
         example = "turtle@sweethome.org"
@@ -107,7 +120,7 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Ajouter des adresses à la liste (une par ligne)"
         type = "text"
 
-        [main.sub.del]
+        [main.subscribers.del_subscribers]
         help.en = "Addresses will be removed from the list."
         help.fr = "Les adresses seront retirées de la liste."
         example = "turtle@sweethome.org"
@@ -115,12 +128,11 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Retirer des adresses de la liste (une par ligne)"
         type = "text"
 
-        [main.sub.subscribers-d]
-        help.en = "Subscribers from directory subscribers.d."
-        help.fr = "Les adresses seront retirées de la liste."
+        [main.subscribers.display_subscribers]
         readonly = true
         ask.en = "Subscribers"
         ask.fr = "Abonnés"
+        bind = "__INSTALL_DIR__/ynh/subscribers.txt"
 
 
     [main.others]
