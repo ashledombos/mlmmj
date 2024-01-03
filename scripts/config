@@ -78,6 +78,10 @@ get__notifymod() {
 
 # Sub
 
+get__whichlist() {
+    echo "none"
+}
+
 get__add_subscribers() {
     echo ""
 }
