@@ -78,16 +78,36 @@ get__notifymod() {
 
 # Sub
 
-get__add() {
+get__add_subscribers() {
     echo ""
 }
 
-get__del() {
+get__del_subscribers() {
     echo ""
 }
 
-get__subscribers-d() {
-        $bin_dir/mlmmj-unsub -L $install_dir -s
+get__disable_digesters() {
+    get_reverse_flag "nodigestsub"
+}
+
+get__add_digesters() {
+    echo ""
+}
+
+get__del_digesters() {
+    echo ""
+}
+
+get__disable_nomailsub() {
+    get_reverse_flag "nodigestsub"
+}
+
+get__add_nomailsubs() {
+    echo ""
+}
+
+get__del_nomailsubs() {
+    echo ""
 }
 
 # Others
@@ -141,13 +161,13 @@ set__notifymod() {
 
 # sub
 
-set__add() {
+set__add_subscribers() {
     while IFS= read -r email; do
         $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s
     done <<< "$add"
 }
 
-set__del() {
+set__del_subscribers() {
     while IFS= read -r email; do
         $bin_dir/mlmmj-unsub -L $install_dir -a $email -c -N -s
     done <<< "$del"
@@ -188,6 +208,28 @@ set_flag() {
     local flag_value="$2"
 
     if [[ $flag_value == 1 ]]; then
+        touch "$control_dir/$flag_name"
+        ynh_print_info "--message='Created $control_dir/$flag_name'"
+    else
+        ynh_secure_remove "$control_dir/$flag_name"
+        ynh_print_info "--message='Removed $control_dir/$flag_name'"
+    fi
+}
+
+get_reverse_flag() {
+    local flag_name="$1"
+    if [ -f "$control_dir/$flag_name" ]; then
+        echo "0"
+    else
+        echo "1"
+    fi
+}
+
+set_reverse_flag() {
+    local flag_name="$1"
+    local flag_value="$2"
+
+    if [[ $flag_value == 0 ]]; then
         touch "$control_dir/$flag_name"
         ynh_print_info "--message='Created $control_dir/$flag_name'"
     else
@@ -269,9 +311,14 @@ sync_from_ynh_dir() {
 
 ynh_app_config_get() {
     local files_to_sync=("owner" "moderators" "submod")
+    local sub_lists=("subscribers" "digesters" "nomailsubs")
 
     for file in "${files_to_sync[@]}"; do
         sync_from_control_dir "$file"
+    done
+
+    for list_dir in "${sub_lists[@]}"; do
+        cat "$install_dir/${list_dir}.d/"* | sort > "$install_dir/ynh/${list_dir}.txt"
     done
 
     _ynh_app_config_get
