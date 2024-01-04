@@ -99,7 +99,7 @@ name.fr = "Paramètres MLMMJ"
     help.en = "This is a simplified management interface. For advanced options, please refer to the documentation."     
     help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation." 
 
-        [main.sub.list_access]
+        [main.sub.category]
         ask.en = "Select a list category to manage"
         ask.fr = "Sélectionnez une catégorie de liste à gérer"
         help.en = "Choose from subscribers, digesters, or nomail subscribers to manage specific list categories."
