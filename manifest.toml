@@ -63,8 +63,6 @@ ram.runtime = "1M"
   format = "tar.xz"
   in_subdir = true
 
-  [resources.permissions]
-
   [resources.install_dir]
   dir = "/var/spool/mlmmj/files/__APP__"
   owner = "list:rwx"
