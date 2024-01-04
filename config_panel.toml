@@ -164,7 +164,7 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Subscribers"
         ask.fr = "Abonnés"
         type = "text"
-        bind = "__INSTALL_DIR__/ynh/subscribers.txt"
+        bind = "__INSTALL_DIR__/ynh/digesters.txt"
 
     [main.nomailsubs]
     name.en = "" 
@@ -194,7 +194,7 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "nomailsubs subscribers"
         ask.fr = "abonnés à nomailsubs"
         type = "text"
-        bind = "__INSTALL_DIR__/ynh/subscribers.txt"
+        bind = "__INSTALL_DIR__/ynh/nomailsubs.txt"
 
 
     [main.others]
