@@ -90,7 +90,7 @@ get__display_subscribers() {
     echo ""
 }
 
-get__disable_digesters() {
+get__enable_digesters() {
     get_reverse_flag "nodigestsub"
 }
 
@@ -106,8 +106,8 @@ get__display_digesters() {
     echo ""
 }
 
-get__disable_nomailsub() {
-    get_reverse_flag "nodigestsub"
+get__enable_nomailsubs() {
+    get_reverse_flag "nonomailsub"
 }
 
 get__add_nomailsubs() {
