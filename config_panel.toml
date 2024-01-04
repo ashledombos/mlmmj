@@ -98,7 +98,7 @@ name.fr = "Paramètres MLMMJ"
     name.en = "Advanced settings"
     name.fr = "Paramètres avancés"
 
-        [main.others.prefix]
+        [main.advanced.prefix]
         ask.en = "Prefix for the Subject line of emails"
         ask.fr = "Préfixe pour la ligne d'objet des emails"
         help.en = "Setting name: prefix"
@@ -106,7 +106,7 @@ name.fr = "Paramètres MLMMJ"
         type = "text"
         bind = "__INSTALL_DIR__/control/prefix"
 
-        [main.others.footer]
+        [main.advanced.footer]
         ask.en = "Footer content"
         ask.fr = "Contenu du pied de page"
         help.en = "Setting name: footer"
