@@ -108,12 +108,7 @@ echo "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_file"
 # Default settings
 # -------------------------------------------------------------
 
-#current_mode=$(ynh_app_setting_get --app=$app --key=moderators_update_mode)
-#if [ -z "$current_mode" ]; then
-#    ynh_app_setting_set --app=$app --key=moderators_update_mode --value="automatic"
-#fi
-ynh_app_setting_set --app=$app --key=mods_mode --value="yunohost"
-ynh_app_setting_set --app=$app --key=mods_group --value=""
+ynh_app_setting_set -a $app -k category -v "subscribers"
 
 touch "$control_dir/moderators"
 touch "$control_dir/subonlypost"
