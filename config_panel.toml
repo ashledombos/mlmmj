@@ -141,7 +141,7 @@ name.fr = "Paramètres MLMMJ"
     name.fr = ""
     help.en = "digesters category"
     help.fr = "catégorie abonnés au résumé"
-    visible = "category == 'subscribers'"
+    visible = "category == 'digesters'"
  
         [main.digesters.add_digesters]
         help.en = "A welcome email will be sent to added addresses."
