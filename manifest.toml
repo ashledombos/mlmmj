@@ -6,7 +6,7 @@ id = "mlmmj"
 name = "mlmmj"
 description.en = "Mailing List Manager Made Joyful, a simple and efficient mailing list manager."
 description.fr = "Gestionnaire de listes de diffusion efficace et simple d'utilisation."
-version = "1.4.3"
+version = "1.4.3~ynh1"
 maintainers = [{ name = "Raph", email = "raph@raph" }]
 
 [upstream]
