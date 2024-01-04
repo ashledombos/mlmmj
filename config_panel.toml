@@ -99,30 +99,31 @@ name.fr = "Paramètres MLMMJ"
     help.en = "This is a simplified management interface. For advanced options, please refer to the documentation."     
     help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation." 
 
-        [main.sub.whichlist]
-        ask.en = "Which list do you want to access to"
-        ask.fr = "À quelle liste voulez vous accéder ?"
-        help.en = "'All' allows anyone to post, 'subonlypost' allows only people who are subscribed to the list, and 'modonlypost' allows only moderators to post (see moderation section below)."
-        help.fr = "'Open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouvelles inscriptions et 'closedlist' restreint à la fois les nouvelles inscriptions et les désinscriptions."
-        type = "select"
-        choices = {"none" = "none", "subscribers" = "subscribers.d", "digesters" = "digesters.d", "nomailsub" = "nomailsub.d"}
+        [main.sub.list_access]
+        ask.en = "Select a list category to manage"
+        ask.fr = "Sélectionnez une catégorie de liste à gérer"
+        help.en = "Choose from subscribers, digesters, or nomail subscribers to manage specific list categories."
+        help.fr = "Choisissez entre les abonnés, les abonnés en mode digest ou les abonnés sans mail pour gérer des catégories spécifiques de liste."
+        choices = {"none" = "None", "subscribers" = "Subscribers List", "digesters" = "Digesters List", "nomailsub" = "No-Mail Subscribers List"}
 
     [main.subscribers]
-    name.en = "Subscribers management" 
-    name.fr = "Gestion des bonnés" 
-    visible = "whichlist == subscribers"
+    name.en = "" 
+    name.fr = ""
+    help.en = "subscribers category"
+    help.fr = "catégorie subscribers"
+    visible = "category == 'subscribers'"
  
         [main.subscribers.add_subscribers]
         help.en = "A welcome email will be sent to added addresses."
         help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
         example = "turtle@sweethome.org"
-        ask.en = "Add addresses to the list (one per line)"
-        ask.fr = "Ajouter des adresses à la liste (une par ligne)"
+        ask.en = "Add addresses to the standard subscribers category (one per line)"
+        ask.fr = "Ajouter des adresses à la catégorie subscribers (une par ligne)"
         type = "text"
 
         [main.subscribers.del_subscribers]
-        help.en = "Addresses will be removed from the list."
-        help.fr = "Les adresses seront retirées de la liste."
+        help.en = "A goodbye email will be sent to the removed addresses."
+        help.fr = "Un courriel d’au revoir sera envoyé aux adresses supprimées."
         example = "turtle@sweethome.org"
         ask.en = "Remove addresses from the list (one per line)"
         ask.fr = "Retirer des adresses de la liste (une par ligne)"
@@ -132,6 +133,67 @@ name.fr = "Paramètres MLMMJ"
         readonly = true
         ask.en = "Subscribers"
         ask.fr = "Abonnés"
+        type = "text"
+        bind = "__INSTALL_DIR__/ynh/subscribers.txt"
+
+    [main.digesters]
+    name.en = "" 
+    name.fr = ""
+    help.en = "digesters category"
+    help.fr = "catégorie abonnés au résumé"
+    visible = "category == 'subscribers'"
+ 
+        [main.digesters.add_digesters]
+        help.en = "A welcome email will be sent to added addresses."
+        help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
+        example = "turtle@sweethome.org"
+        ask.en = "Add addresses to the digest subscribers listlist (one per line)"
+        ask.fr = "Ajouter des adresses à la liste résumé (une par ligne)"
+        type = "text"
+
+        [main.digesters.del_digesters]
+        help.en = "A goodbye email will be sent to the removed addresses."
+        help.fr = "Un courriel d’au revoir sera envoyé aux adresses supprimées."
+        example = "turtle@sweethome.org"
+        ask.en = "Remove addresses from the list (one per line)"
+        ask.fr = "Retirer des adresses de la liste (une par ligne)"
+        type = "text"
+
+        [main.digesters.display_digesters]
+        readonly = true
+        ask.en = "Subscribers"
+        ask.fr = "Abonnés"
+        type = "text"
+        bind = "__INSTALL_DIR__/ynh/subscribers.txt"
+
+    [main.nomailsubs]
+    name.en = "" 
+    name.fr = ""
+    help.en = "nomailsubs category"
+    help.fr = "catégorie nomailsubs"
+    visible = "category == 'nomailsubs'"
+ 
+        [main.nomailsubs.add_nomailsubs]
+        help.en = "A welcome email will be sent to added addresses."
+        help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
+        example = "turtle@sweethome.org"
+        ask.en = "Add addresses to the nomailsubs category (one per line)"
+        ask.fr = "Ajouter des adresses à la liste nomailsubs (une par ligne)"
+        type = "text"
+
+        [main.nomailsubs.del_nomailsubs]
+        help.en = "A goodbye email will be sent to the removed addresses."
+        help.fr = "Un courriel d’au revoir sera envoyé aux adresses supprimées."
+        example = "turtle@sweethome.org"
+        ask.en = "Remove addresses from the category (one per line)"
+        ask.fr = "Retirer des adresses de la catégorie (une par ligne)"
+        type = "text"
+
+        [main.nomailsubs.display_nomailsubs]
+        readonly = true
+        ask.en = "nomailsubs subscribers"
+        ask.fr = "abonnés à nomailsubs"
+        type = "text"
         bind = "__INSTALL_DIR__/ynh/subscribers.txt"
 
 
