@@ -78,10 +78,6 @@ get__notifymod() {
 
 # Sub
 
-get__category() {
-    echo "none"
-}
-
 get__add_subscribers() {
     echo ""
 }
