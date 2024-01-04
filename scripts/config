@@ -346,8 +346,14 @@ ynh_app_config_get() {
     done
 
     for list_dir in "${sub_lists[@]}"; do
-        cat "$install_dir/${list_dir}.d/"* | sort > "$install_dir/ynh/${list_dir}.txt"
+        list_dir_path="$install_dir/${list_dir}.d/"
+        if [ "$(ls -A $list_dir_path)" ]; then
+            cat "$list_dir_path"* | sort > "$install_dir/ynh/${list_dir}.txt"
+        else
+            echo ""
+        fi
     done
+
 
     _ynh_app_config_get
 }
