@@ -167,7 +167,7 @@ set__notifymod() {
 
 set__add_subscribers() {
     while IFS= read -r email; do
-        nohup $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s &
+        sudo -u list /usr/local/bin/mlmmj-sub -L /var/spool/mlmmj/files/mlmmj__2 -a gasg@orf.fr -c -s -U
     done <<< "$add_subscribers"
 }
 
