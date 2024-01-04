@@ -94,6 +94,26 @@ name.fr = "Paramètres MLMMJ"
         help.fr = "Nom du paramètre : notifymod"
         type = "boolean"
 
+    [main.advanced]
+    name.en = "Advanced settings"
+    name.fr = "Paramètres avancés"
+
+        [main.others.prefix]
+        ask.en = "Prefix for the Subject line of emails"
+        ask.fr = "Préfixe pour la ligne d'objet des emails"
+        help.en = "Setting name: prefix"
+        help.fr = "Nom du paramètre : prefix"
+        type = "text"
+        bind = "__INSTALL_DIR__/control/prefix"
+
+        [main.others.footer]
+        ask.en = "Footer content"
+        ask.fr = "Contenu du pied de page"
+        help.en = "Setting name: footer"
+        help.fr = "Nom du paramètre : footer"
+        type = "text"
+        bind = "__INSTALL_DIR__/control/footer"
+
     [main.sub]
     name.en = "Subscribers" 
     name.fr = "Abonnés" 
@@ -119,7 +139,6 @@ name.fr = "Paramètres MLMMJ"
         [main.subscribers.add_subscribers]
         help.en = "A welcome email will be sent to added addresses."
         help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
-        example = "turtle@sweethome.org"
         ask.en = "Add addresses to the standard subscribers category (one per line)"
         ask.fr = "Ajouter des adresses à la catégorie subscribers (une par ligne)"
         type = "text"
@@ -127,17 +146,22 @@ name.fr = "Paramètres MLMMJ"
         [main.subscribers.del_subscribers]
         help.en = "A goodbye email will be sent to the removed addresses."
         help.fr = "Un courriel d’au revoir sera envoyé aux adresses supprimées."
-        example = "turtle@sweethome.org"
         ask.en = "Remove addresses from the list (one per line)"
         ask.fr = "Retirer des adresses de la liste (une par ligne)"
         type = "text"
-
+        
         [main.subscribers.display_subscribers]
+        ask.en = "Display subscribers list"
+        ask.fr = "Afficher la liste des abonnés (subscribers)"
+        type = "boolean"
+
+        [main.subscribers.subscribers_list]
         readonly = true
         ask.en = "Subscribers"
         ask.fr = "Abonnés"
         type = "text"
         bind = "__INSTALL_DIR__/ynh/subscribers.txt"
+        visible = "display_subscribers == true"
 
     [main.digesters]
     name.en = "" 
@@ -162,13 +186,19 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Retirer des adresses de la liste (une par ligne)"
         type = "text"
 
+        [main.subscribers.display_subscribers]
+        ask.en = "Display digesters list"
+        ask.fr = "Afficher la liste des abonnés en mode résumé (digesters)"
+        type = "boolean"
+
         [main.digesters.display_digesters]
         readonly = true
         ask.en = "Subscribers"
         ask.fr = "Abonnés"
         type = "text"
         bind = "__INSTALL_DIR__/ynh/digesters.txt"
-
+        visible = "display_digesters == true"
+        
     [main.nomailsubs]
     name.en = "" 
     name.fr = ""
@@ -179,7 +209,6 @@ name.fr = "Paramètres MLMMJ"
         [main.nomailsubs.add_nomailsubs]
         help.en = "A welcome email will be sent to added addresses."
         help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
-        example = "turtle@sweethome.org"
         ask.en = "Add addresses to the nomailsubs category (one per line)"
         ask.fr = "Ajouter des adresses à la liste nomailsubs (une par ligne)"
         type = "text"
@@ -187,10 +216,14 @@ name.fr = "Paramètres MLMMJ"
         [main.nomailsubs.del_nomailsubs]
         help.en = "A goodbye email will be sent to the removed addresses."
         help.fr = "Un courriel d’au revoir sera envoyé aux adresses supprimées."
-        example = "turtle@sweethome.org"
         ask.en = "Remove addresses from the category (one per line)"
         ask.fr = "Retirer des adresses de la catégorie (une par ligne)"
         type = "text"
+
+        [main.subscribers.display_nomailsubs]
+        ask.en = "Display nomailsubs list"
+        ask.fr = "Afficher la liste des abonnés en mode envoi uniquement (nomailsubs)"
+        type = "boolean"
 
         [main.nomailsubs.display_nomailsubs]
         readonly = true
@@ -198,24 +231,4 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "abonnés à nomailsubs"
         type = "text"
         bind = "__INSTALL_DIR__/ynh/nomailsubs.txt"
-
-
-    [main.others]
-    name.en = "Other settings"
-    name.fr = "Autres paramètres"
-
-        [main.others.prefix]
-        ask.en = "Prefix for the Subject line of emails"
-        ask.fr = "Préfixe pour la ligne d'objet des emails"
-        help.en = "Setting name: prefix"
-        help.fr = "Nom du paramètre : prefix"
-        type = "text"
-        bind = "__INSTALL_DIR__/control/prefix"
-
-        [main.others.footer]
-        ask.en = "Footer content"
-        ask.fr = "Contenu du pied de page"
-        help.en = "Setting name: footer"
-        help.fr = "Nom du paramètre : footer"
-        type = "text"
-        bind = "__INSTALL_DIR__/control/footer"
+        visible = "display_nomailsubs == true"
