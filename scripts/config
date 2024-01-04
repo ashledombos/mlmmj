@@ -86,6 +86,10 @@ get__del_subscribers() {
     echo ""
 }
 
+get__display_subscribers() {
+    echo ""
+}
+
 get__disable_digesters() {
     get_reverse_flag "nodigestsub"
 }
@@ -98,6 +102,10 @@ get__del_digesters() {
     echo ""
 }
 
+get__display_digesters() {
+    echo ""
+}
+
 get__disable_nomailsub() {
     get_reverse_flag "nodigestsub"
 }
@@ -107,6 +115,10 @@ get__add_nomailsubs() {
 }
 
 get__del_nomailsubs() {
+    echo ""
+}
+
+get__display_nomailsubs() {
     echo ""
 }
 
