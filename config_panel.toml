@@ -186,12 +186,12 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Retirer des adresses de la liste (une par ligne)"
         type = "text"
 
-        [main.subscribers.display_subscribers]
+        [main.subscribers.display_digesters]
         ask.en = "Display digesters list"
         ask.fr = "Afficher la liste des abonnés en mode résumé (digesters)"
         type = "boolean"
 
-        [main.digesters.display_digesters]
+        [main.digesters.digesters_list]
         readonly = true
         ask.en = "Subscribers"
         ask.fr = "Abonnés"
@@ -225,7 +225,7 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Afficher la liste des abonnés en mode envoi uniquement (nomailsubs)"
         type = "boolean"
 
-        [main.nomailsubs.display_nomailsubs]
+        [main.nomailsubs.nomailsubs_list]
         readonly = true
         ask.en = "nomailsubs subscribers"
         ask.fr = "abonnés à nomailsubs"
