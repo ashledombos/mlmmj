@@ -167,7 +167,7 @@ set__notifymod() {
 
 set__add_subscribers() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s
+        nohup $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s &
     done <<< "$add_subscribers"
 }
 
