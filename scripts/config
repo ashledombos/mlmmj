@@ -168,13 +168,37 @@ set__notifymod() {
 set__add_subscribers() {
     while IFS= read -r email; do
         $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s
-    done <<< "$add"
+    done <<< "$add_subscribers"
 }
 
 set__del_subscribers() {
     while IFS= read -r email; do
         $bin_dir/mlmmj-unsub -L $install_dir -a $email -c -N -s
-    done <<< "$del"
+    done <<< "$del_subscribers"
+}
+
+set__add_digesters() {
+    while IFS= read -r email; do
+        $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s
+    done <<< "$add_digesters"
+}
+
+set__del_digesters() {
+    while IFS= read -r email; do
+        $bin_dir/mlmmj-unsub -L $install_dir -a $email -c -N -s
+    done <<< "$del_digesters"
+}
+
+set__add_nomailsubs() {
+    while IFS= read -r email; do
+        $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s
+    done <<< "$add_nomailsubs"
+}
+
+set__del_nomailsubs() {
+    while IFS= read -r email; do
+        $bin_dir/mlmmj-unsub -L $install_dir -a $email -c -N -s
+    done <<< "$del_nomailsubs"
 }
 
 # -------------------------------------------------------------
