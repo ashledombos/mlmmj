@@ -170,7 +170,7 @@ name.fr = "Paramètres MLMMJ"
     help.fr = "catégorie abonnés au résumé"
     visible = "category == 'digesters'"
 
-        [main.digesters.display_digesters]
+        [main.digesters.enable_digesters]
         ask.en = "Enable digest subscribtion"
         ask.fr = "Autoriser les abonnements en mode résumé (digest)"
         type = "boolean"
@@ -210,6 +210,11 @@ name.fr = "Paramètres MLMMJ"
     help.en = "nomailsubs category"
     help.fr = "catégorie nomailsubs"
     visible = "category == 'nomailsubs'"
+
+        [main.digesters.enable_nomailsubs]
+        ask.en = "Enable nomail subscribtion"
+        ask.fr = "Autoriser les abonnements en mode envoi uniquement (nomail)"
+        type = "boolean"
  
         [main.nomailsubs.add_nomailsubs]
         help.en = "A welcome email will be sent to added addresses."
