@@ -169,6 +169,11 @@ name.fr = "Paramètres MLMMJ"
     help.en = "digesters category"
     help.fr = "catégorie abonnés au résumé"
     visible = "category == 'digesters'"
+
+        [main.digesters.display_digesters]
+        ask.en = "Enable digest subscribtion"
+        ask.fr = "Autoriser les abonnements en mode résumé (digest)"
+        type = "boolean"
  
         [main.digesters.add_digesters]
         help.en = "A welcome email will be sent to added addresses."
