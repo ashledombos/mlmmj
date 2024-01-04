@@ -33,6 +33,7 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Propriétaires de la liste (un email par ligne)"
         help.en = "Setting name: owner"
         help.fr = "Nom du paramètre : owner"
+        optional = true
         type = "text"
         bind = "__INSTALL_DIR__/ynh/owner.txt"
         
