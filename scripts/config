@@ -78,7 +78,7 @@ get__notifymod() {
 
 # Sub
 
-get__whichlist() {
+get__category() {
     echo "none"
 }
 
