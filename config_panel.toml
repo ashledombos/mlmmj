@@ -186,7 +186,7 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Retirer des adresses de la liste (une par ligne)"
         type = "text"
 
-        [main.subscribers.display_digesters]
+        [main.digesters.display_digesters]
         ask.en = "Display digesters list"
         ask.fr = "Afficher la liste des abonnés en mode résumé (digesters)"
         type = "boolean"
@@ -220,7 +220,7 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Retirer des adresses de la catégorie (une par ligne)"
         type = "text"
 
-        [main.subscribers.display_nomailsubs]
+        [main.nomailsubs.display_nomailsubs]
         ask.en = "Display nomailsubs list"
         ask.fr = "Afficher la liste des abonnés en mode envoi uniquement (nomailsubs)"
         type = "boolean"
