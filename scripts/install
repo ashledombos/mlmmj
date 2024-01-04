@@ -109,6 +109,9 @@ echo "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_file"
 # -------------------------------------------------------------
 
 ynh_app_setting_set -a $app -k category -v "subscribers"
+ynh_app_setting_set -a $app -k display_subscribers -v false
+ynh_app_setting_set -a $app -k display_digesters -v false
+ynh_app_setting_set -a $app -k display_nomailsubs -v false
 
 touch "$control_dir/moderators"
 touch "$control_dir/subonlypost"
