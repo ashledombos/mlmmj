@@ -104,7 +104,8 @@ name.fr = "Paramètres MLMMJ"
         ask.fr = "Sélectionnez une catégorie de liste à gérer"
         help.en = "Choose from subscribers, digesters, or nomail subscribers to manage specific list categories."
         help.fr = "Choisissez entre les abonnés, les abonnés en mode digest ou les abonnés sans mail pour gérer des catégories spécifiques de liste."
-        choices = {"none" = "None", "subscribers" = "Subscribers List", "digesters" = "Digesters List", "nomailsubs" = "No-Mail Subscribers List"}
+        type = "select"
+        choices = {"none" = "None", "subscribers" = "subscribers", "digesters" = "digesters", "nomailsubs" = "nomailsubs"}
 
     [main.subscribers]
     name.en = "" 
