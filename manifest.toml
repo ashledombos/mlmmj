@@ -63,11 +63,6 @@ ram.runtime = "1M"
   format = "tar.xz"
   in_subdir = true
 
-  [resources.install_dir]
-  dir = "/var/spool/mlmmj/files/__APP__"
-  owner = "list:rwx"
-  group = "list:rx"
-
   [resources.data_dir]
   subdirs = ['incoming', 'queue', 'queue/discarded', 'archive', 'text', 'subconf', 'unsubconf', 'bounce', 'control', 'moderation', 'subscribers.d', 'digesters.d', 'requeue', 'nomailsubs.d', 'ynh']
   owner = "list:rwx"
