@@ -175,13 +175,13 @@ set__notifymod() {
 
 set__add_subscribers() {
     while IFS= read -r email; do
-        sudo -u list $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s -U
+        sudo -u list $bin_dir/mlmmj-sub -L $data_dir -a $email -c -s -U
     done <<< "$add_subscribers"
 }
 
 set__del_subscribers() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-unsub -L $install_dir -a $email -c -N -s
+        $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
     done <<< "$del_subscribers"
 }
 
@@ -191,13 +191,13 @@ set__enable_digesters() {
 
 set__add_digesters() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s
+        $bin_dir/mlmmj-sub -L $data_dir -a $email -c -s
     done <<< "$add_digesters"
 }
 
 set__del_digesters() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-unsub -L $install_dir -a $email -c -N -s
+        $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
     done <<< "$del_digesters"
 }
 
@@ -207,13 +207,13 @@ set__enable_nomailsubs() {
 
 set__add_nomailsubs() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s
+        $bin_dir/mlmmj-sub -L $data_dir -a $email -c -s
     done <<< "$add_nomailsubs"
 }
 
 set__del_nomailsubs() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-unsub -L $install_dir -a $email -c -N -s
+        $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
     done <<< "$del_nomailsubs"
 }
 
@@ -336,8 +336,8 @@ get_textfile() {
 }
 
 sync_from_control_dir() {
-    local control_file="$install_dir/control/$1"
-    local ynh_file="$install_dir/ynh/$1.txt"
+    local control_file="$data_dir/control/$1"
+    local ynh_file="$data_dir/ynh/$1.txt"
 
     if [ -f "$control_file" ] && [ "$control_file" -nt "$ynh_file" ]; then
         cp "$control_file" "$ynh_file"
@@ -345,8 +345,8 @@ sync_from_control_dir() {
 }
 
 sync_from_ynh_dir() {
-    local control_file="$install_dir/control/$1"
-    local ynh_file="$install_dir/ynh/$1.txt"
+    local control_file="$data_dir/control/$1"
+    local ynh_file="$data_dir/ynh/$1.txt"
 
     if [ -f "$ynh_file" ]; then
         cp "$ynh_file" "$control_file"
@@ -362,9 +362,9 @@ ynh_app_config_get() {
     done
 
     for list_dir in "${sub_lists[@]}"; do
-        list_dir_path="$install_dir/${list_dir}.d/"
+        list_dir_path="$data_dir/${list_dir}.d/"
         if [ "$(ls -A $list_dir_path)" ]; then
-            cat "$list_dir_path"* | sort > "$install_dir/ynh/${list_dir}.txt"
+            cat "$list_dir_path"* | sort > "$data_dir/ynh/${list_dir}.txt"
         fi
     done
 
