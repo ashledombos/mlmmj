@@ -4,8 +4,8 @@ packaging_format = 2
 
 id = "mlmmj"
 name = "mlmmj"
-description.en = "Mailing List Manager Made Joyful, a simple and efficient mailing list manager."
-description.fr = "Gestionnaire de listes de diffusion efficace et simple d'utilisation."
+description.en = "Mailing List Manager Made Joyful, a simple and efficient mailing list manager"
+description.fr = "Gestionnaire de listes de diffusion efficace et simple d'utilisation"
 version = "1.4.3~ynh1"
 maintainers = [{ name = "Raph", email = "raph@raph" }]
 
@@ -17,11 +17,14 @@ userdoc = "https://codeberg.org/mlmmj/mlmmj"
 code = "https://codeberg.org/mlmmj/mlmmj"
 
 [integration]
-yunohost = ">= 11.1"
+yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = true
+
 ldap = "not_relevant"
+
 sso = "not_relevant"
+
 disk = "1M"
 ram.build = "1M"
 ram.runtime = "1M"
