@@ -69,6 +69,6 @@ ram.runtime = "1M"
   group = "list:rx"
 
   [resources.data_dir]
-  subdirs = ['archive']
+  subdirs = ['incoming', 'queue', 'queue/discarded', 'archive', 'text', 'subconf', 'unsubconf', 'bounce', 'control', 'moderation', 'subscribers.d', 'digesters.d', 'requeue', 'nomailsubs.d', 'ynh']
   owner = "list:rwx"
   group = "list:rx"
