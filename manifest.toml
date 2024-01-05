@@ -35,25 +35,25 @@ ram.runtime = "1M"
   pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
   pattern.error.fr = "Le nom de la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
 
-  [install.domain]
-  ask.en = "Select the domain for the mailing list"
-  ask.fr = "Sélectionnez le domaine pour la liste de diffusion"
-  type = "domain"
-  # choices = "__DOMAINS__"
+  # [install.domain]
+  # ask.en = "Select the domain for the mailing list"
+  # ask.fr = "Sélectionnez le domaine pour la liste de diffusion"
+  # type = "domain"
+  # # choices = "__DOMAINS__"
 
-  [install.language]
-  ask.en = "Choose the application language"
-  ask.fr = "Choisissez la langue de l'application"
-  type = "select"
-  choices = ["ast", "cs", "de", "en", "fi", "fr", "gr", "it", "pt", "sk", "zh-cn"]
-  default = "en"
+  # [install.language]
+  # ask.en = "Choose the application language"
+  # ask.fr = "Choisissez la langue de l'application"
+  # type = "select"
+  # choices = ["ast", "cs", "de", "en", "fi", "fr", "gr", "it", "pt", "sk", "zh-cn"]
+  # default = "en"
 
-  [install.owner]
-  ask.en = "Select the owner of the mailing list:"
-  ask.fr = "Sélectionnez le propriétaire de la liste de diffusion :"
-  help.en = "Owners of the mailing list can be added or removed after the initial setup through the Yunohost administration interface."
-  help.fr = "Il est possible d'ajouter ou de supprimer des propriétaires de la liste de diffusion après la configuration initiale via l'interface d'administration de Yunohost."
-  type = "user"
+  # [install.owner]
+  # ask.en = "Select the owner of the mailing list:"
+  # ask.fr = "Sélectionnez le propriétaire de la liste de diffusion :"
+  # help.en = "Owners of the mailing list can be added or removed after the initial setup through the Yunohost administration interface."
+  # help.fr = "Il est possible d'ajouter ou de supprimer des propriétaires de la liste de diffusion après la configuration initiale via l'interface d'administration de Yunohost."
+  # type = "user"
 
 
 [resources]
