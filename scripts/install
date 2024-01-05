@@ -32,3 +32,8 @@ if ! is_valid_listname "$list_name"; then
     ynh_die --message="Validation failed for list name: $list_name"
 fi
 
+# -------------------------------------------------------------
+# Install completion
+# -------------------------------------------------------------
+
+ynh_script_progression --message="Mailing list $list_name@$domain was created successfully." --last
