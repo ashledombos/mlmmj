@@ -88,7 +88,7 @@ fi
 if [ ! -d "$symlink_dir" ]; then
     mkdir -p "$symlink_dir"
 fi
-ln -s "$spool_dir" "$symlink_dir/$list_name"
+ln -s "$SPOOL_DIR" "$symlink_dir/$list_name"
 
 # -------------------------------------------------------------
 # Cron
