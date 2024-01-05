@@ -51,7 +51,7 @@ ynh_script_progression --message="Creating the list $list_name@$domain at $data_
 #    mkdir -p "$install_dir/$DIR"
 #done
 
-echo "$(yunohost user info "$owner" --output-as plain | grep 'mail:' | cut -d ' ' -f2)" > "$data_dir/control/owner"
+echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" > "$data_dir/control/owner"
 echo "$list_name@$domain" > "$data_dir/control/listaddress"
 
 if [ -d "$lang_dir" ]; then
