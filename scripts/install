@@ -133,18 +133,6 @@ touch $install_dir/ynh/nomailsubs.txt
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
 ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
 
-# Note: here "list" is the system user
-chown list:list $MLMMJ_ROOT -R
-
-# ------------
- 
-[ ! -f "$sudoers_file" ] && { touch "$sudoers_file"; chmod 440 "$sudoers_file"; }
-{
-    echo "www-data ALL=(list) NOPASSWD: /usr/local/bin/mlmmj-list"
-    echo "www-data ALL=(list) NOPASSWD: /usr/local/bin/mlmmj-sub"
-    echo "www-data ALL=(list) NOPASSWD: /usr/local/bin/mlmmj-unsub"
-} > "$sudoers_file"
-
 
 # -------------------------------------------------------------
 # Install completion
