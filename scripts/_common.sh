@@ -4,11 +4,11 @@
 # COMMON VARIABLES
 #=================================================
 # Global variables
-MLMMJ_ROOT="/var/spool/mlmmj"
+SPOOL_DIR="/var/spool/mlmmj"
 ETC_DIR="/usr/local/etc/mlmmj"
 TRANSPORT_FILE="$ETC_DIR/transport"
 VIRTUAL_FILE="$ETC_DIR/virtual"
-symlink_dir="$MLMMJ_ROOT/$domain"
+symlink_dir="$SPOOL_DIR/$domain"
 control_dir="$install_dir/control"
 subscribers_dir="$install_dir/subscribers.d"
 
