@@ -64,6 +64,7 @@ ram.runtime = "1M"
   in_subdir = true
 
   [resources.system_user]
+  allow_ssh = true
 
   [resources.install_dir]
 
