@@ -11,9 +11,9 @@ if ! grep -q "mlmmj.*mlmmj-receive" "$postfix_master"; then
 fi
 
 if ! grep -q "hash:/var/spool/mlmmj/tables/virtual" "$postfix_main"; then
-    sed -i "/^virtual_alias_maps = / s/$/,hash:\/var\/spool\/mlmmj\/tables\/virtual/" "$postfix_main"
+    sed -i "/^virtual_alias_maps = / s/$/,hash:\/usr\/local\/etc\/mlmmj\/virtual/" "$postfix_main"
 fi
 if ! grep -q "hash:/var/spool/mlmmj/tables/transport" "$postfix_main"; then
-    printf "# MLMMJ\ntransport_maps = hash:/var/spool/mlmmj/tables/transport\n" >> "$postfix_main"
+    printf "# MLMMJ\ntransport_maps = hash:/usr/local/etc/mlmmj/transport\n" >> "$postfix_main"
 fi
 
