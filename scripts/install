@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#=================================================
+# INSTALL
+#=================================================
+
+# Import YunoHost helpers
+source /usr/share/yunohost/helpers
+source _common.sh
+
+# -------------------------------------------------------------
+# Check name validity
+# -------------------------------------------------------------
+
+is_valid_listname() {
+    # Check format
+    if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
+        ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
+        return 1
+    fi
+
+    # Check if name is a username
+    if yunohost user list --output-as plain | grep -q "^$1$"; then
+        ynh_print_err --message="The mailing list name '$1' is already in use as a username. Please choose a different name."
+        return 1
+    fi
+
+    return 0
+}
+
+if ! is_valid_listname "$list_name"; then
+    ynh_die --message="Validation failed for list name: $list_name"
+fi
+
