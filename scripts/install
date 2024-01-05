@@ -70,8 +70,8 @@ echo -e "owner:\nmoderators:\nsubmod:" > "/etc/yunohost/apps/$app/users.yml"
 # Setting up conf files transport et virtual
 # -------------------------------------------------------------
 
-if [ ! -d "$TABLES_DIR" ]; then
-    mkdir -p "$TABLES_DIR"
+if [ ! -d "$ETC_DIR" ]; then
+    mkdir -p "$ETC_DIR"
 fi
 
 if ! grep -qF "$transport_entry" "$TRANSPORT_FILE"; then
