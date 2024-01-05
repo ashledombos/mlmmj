@@ -16,8 +16,10 @@ ynh_script_progression --message="Removing mailing list $LISTNAME and related co
 
 # Remove the mailing list files
 ynh_secure_remove --file="$install_dir"
-rm -f "$symlink_dir/$list_name"
-rmdir --ignore-fail-on-non-empty "$symlink_dir"
+ynh_secure_remove --file="$data_dir"
+rm -f $data_dir/$list_name
+rm -f $SPOOL_DIR/$list_name
+rmdir --ignore-fail-on-non-empty "$SPOOL_DIR"
 
 ynh_script_progression --message="Cleaning tables;"
 
@@ -30,13 +32,6 @@ ynh_script_progression --message="Cleaning CRON tasks;"
 # Remove the cron job
 ynh_secure_remove --file="$cron_file"
 rmdir --ignore-fail-on-non-empty "$CRON_DIR"
-
-yunohost user group delete "${app}_owner"
-yunohost user group delete "${app}_moderators"
-yunohost user group delete "${app}_submod"
-
-ynh_secure_remove --file="/etc/yunohost/apps/$app/users.yml"
-
 
 # -------------------------------------------------------------
 # Check for Remaining mlmmj Instances and Remove Binaries
