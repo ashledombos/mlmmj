@@ -42,7 +42,7 @@ install_update_mlmmj "$REQUIRED_VERSION"
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Creating the list $list_name@$domain at $install_dir;"
+ynh_script_progression --message="Creating the list $list_name@$domain at $data_dir;"
 
 #for DIR in incoming queue queue/discarded archive text subconf unsubconf \
 #           bounce control moderation subscribers.d digesters.d requeue \
@@ -51,11 +51,11 @@ ynh_script_progression --message="Creating the list $list_name@$domain at $insta
 #    mkdir -p "$install_dir/$DIR"
 #done
 
-echo "postmaster" > "$install_dir/control/owner"
-echo "$list_name@$domain" > "$install_dir/control/listaddress"
+echo "postmaster" > "$data_dir/control/owner"
+echo "$list_name@$domain" > "$data_dir/control/listaddress"
 
 if [ -d "$lang_dir" ]; then
-    cp "$lang_dir"/* "$install_dir/text"
+    cp "$lang_dir"/* "$data_dir/text"
 fi
 
 [ ! -d "$POOL_DIR" ] && mkdir -p "$SPOOL_DIR"
@@ -88,7 +88,7 @@ fi
 if [ ! -d "$symlink_dir" ]; then
     mkdir -p "$symlink_dir"
 fi
-ln -s "$install_dir" "$symlink_dir/$list_name"
+ln -s "$spool_dir" "$symlink_dir/$list_name"
 
 # -------------------------------------------------------------
 # Cron
@@ -99,7 +99,7 @@ if [ ! -d "$CRON_DIR" ]; then
     mkdir -p "$CRON_DIR"
     chmod 644 "$CRON_DIR"
 fi
-echo "$rand_min */2 * * * root $MLMMJMAINTD -F -L $install_dir" > "$cron_file" 
+echo "$rand_min */2 * * * list $MLMMJMAINTD -F -L $data_dir" > "$cron_file" 
 
 # -------------------------------------------------------------
 # Default settings
@@ -114,18 +114,18 @@ touch "$control_dir/moderators"
 touch "$control_dir/subonlypost"
 echo "[$list_name]" > "$control_dir/prefix"
 echo "postmaster@$domain" > "$control_dir/owner"
-echo "postmaster@$domain" > "$install_dir/ynh/owner.txt"
+echo "postmaster@$domain" > "$data_dir/ynh/owner.txt"
 touch "$control_dir/notifysub"
 touch "$control_dir/subonlyget"
 echo "postfix" > "$control_dir/verp"
 touch "$control_dir/nodigestsub"
 touch "$control_dir/nonomailsub"
 echo "10485760" > "$control_dir/maxmailsize"  # 10MB
-touch $install_dir/ynh/moderators.txt
-touch $install_dir/ynh/submod.txt
-touch $install_dir/ynh/subscribers.txt
-touch $install_dir/ynh/digesters.txt
-touch $install_dir/ynh/nomailsubs.txt
+touch $data_dir/ynh/moderators.txt
+touch $data_dir/ynh/submod.txt
+touch $data_dir/ynh/subscribers.txt
+touch $data_dir/ynh/digesters.txt
+touch $data_dir/ynh/nomailsubs.txt
 
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
 ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
