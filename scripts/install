@@ -44,12 +44,12 @@ install_update_mlmmj "$REQUIRED_VERSION"
 
 ynh_script_progression --message="Creating the list $list_name@$domain at $install_dir;"
 
-for DIR in incoming queue queue/discarded archive text subconf unsubconf \
-           bounce control moderation subscribers.d digesters.d requeue \
-           nomailsubs.d ynh
-do
-    mkdir -p "$install_dir/$DIR"
-done
+#for DIR in incoming queue queue/discarded archive text subconf unsubconf \
+#           bounce control moderation subscribers.d digesters.d requeue \
+#           nomailsubs.d ynh
+#do
+#    mkdir -p "$install_dir/$DIR"
+#done
 
 echo "postmaster" > "$install_dir/control/owner"
 echo "$list_name@$domain" > "$install_dir/control/listaddress"
@@ -58,21 +58,18 @@ if [ -d "$lang_dir" ]; then
     cp "$lang_dir"/* "$install_dir/text"
 fi
 
-yunohost user group create "${app}_owner"
-yunohost user group create "${app}_moderators"
-yunohost user group create "${app}_submod"
-yunohost user group add ${app}_owner $owner
-
-
-echo -e "owner:\nmoderators:\nsubmod:" > "/etc/yunohost/apps/$app/users.yml"
+[ ! -d "$POOL_DIR" ] && mkdir -p "$SPOOL_DIR"
+ln -s $data_dir $install_dir/$list_name
+ln -s $data_dir $SPOOL_DIR/$list_name
 
 # -------------------------------------------------------------
 # Setting up conf files transport et virtual
 # -------------------------------------------------------------
 
-if [ ! -d "$ETC_DIR" ]; then
-    mkdir -p "$ETC_DIR"
-fi
+[ ! -d "$ETC_DIR" ] && mkdir -p "$ETC_DIR"
+
+[ ! -f "$TRANSPORT_FILE" ] && touch "$TRANSPORT_FILE"
+[ ! -f "$VIRTUAL_FILE" ] && touch "$VIRTUAL_FILE"
 
 if ! grep -qF "$transport_entry" "$TRANSPORT_FILE"; then
     echo "$transport_entry" >> "$TRANSPORT_FILE"
