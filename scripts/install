@@ -58,7 +58,7 @@ if [ -d "$lang_dir" ]; then
     cp "$lang_dir"/* "$data_dir/text"
 fi
 
-[ ! -d "$POOL_DIR" ] && mkdir -p "$SPOOL_DIR"
+[ ! -d "$SPOOL_DIR" ] && mkdir -p "$SPOOL_DIR"
 ln -s $data_dir $install_dir/$list_name
 ln -s $data_dir $SPOOL_DIR/$list_name
 
