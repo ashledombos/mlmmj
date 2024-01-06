@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#=================================================
+# UPGRADE
+#=================================================
+
+source /usr/share/yunohost/helpers
+source _common.sh
+
+# -------------------------------------------------------------
+# Install MLMMJ binaries if necessary
+# -------------------------------------------------------------
+
+ynh_script_progression --message="Checking existing mlmmj binaries;"
+
+install_update_mlmmj "$REQUIRED_VERSION"
+
+
+# -------------------------------------------------------------
+# Upgrade completion
+# -------------------------------------------------------------
+
+ynh_script_progression --message="mlmmj upgrade completed." --last
