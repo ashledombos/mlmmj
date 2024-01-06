@@ -110,17 +110,17 @@ ram.runtime = "50M"
   # type = "user"
 
 
-[resources]
+# [resources]
   # [resources.sources.main]
   # url = "https://codeberg.org/mlmmj/mlmmj/releases/download/RELEASE_1_4_3/mlmmj-1.4.3.tar.xz"
   # sha256 = "dcaee66232fa1d10d9d2352ceb03b05879dfba978368988af585b0697506f4a1"
   # format = "tar.xz"
   # in_subdir = true
 
-  [resources.system_user]
+  # [resources.system_user]
   # allow_ssh = true
 
-  [resources.install_dir]
+  # [resources.install_dir]
 
   # [resources.data_dir]
   # subdirs = ['incoming', 'queue', 'queue/discarded', 'archive', 'text', 'subconf', 'unsubconf', 'bounce', 'control', 'moderation', 'subscribers.d', 'digesters.d', 'requeue', 'nomailsubs.d', 'ynh']
