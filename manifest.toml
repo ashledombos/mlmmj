@@ -51,7 +51,7 @@ ram.runtime = "1M"
         pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
         pattern.error.fr = "Le nom de la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
 
-            [install.list.list_domain]
+        [install.list.list_domain]
         ask.en = "Select the domain for the web access (where you’ll be able to explore the list web archives)"
         ask.fr = "Sélectionnez le domaine pour l‘accès web (où vous pourrez consulter les archives web)"
         type = "domain"  
