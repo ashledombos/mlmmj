@@ -42,7 +42,7 @@ install_update_mlmmj "$REQUIRED_VERSION"
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Creating the list $list_name@$domain at $data_dir;"
+ynh_script_progression --message="Creating the list $list_name@$list_domain at $data_dir;"
 
 #for DIR in incoming queue queue/discarded archive text subconf unsubconf \
 #           bounce control moderation subscribers.d digesters.d requeue \
@@ -52,7 +52,7 @@ ynh_script_progression --message="Creating the list $list_name@$domain at $data_
 #done
 
 echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" > "$data_dir/control/owner"
-echo "$list_name@$domain" > "$data_dir/control/listaddress"
+echo "$list_name@$list_domain" > "$data_dir/control/listaddress"
 
 if [ -d "$lang_dir" ]; then
     cp "$lang_dir"/* "$data_dir/text"
@@ -134,4 +134,4 @@ ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
 # Install completion
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Mailing list $list_name@$domain was created successfully." --last
+ynh_script_progression --message="Mailing list $list_name@$list_domain was created successfully." --last
