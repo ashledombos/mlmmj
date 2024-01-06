@@ -42,33 +42,46 @@ ram.runtime = "1M"
     help.fr = "Il est possible d'ajouter ou de supprimer des propriétaires de la liste de diffusion après la configuration initiale via l'interface d'administration de Yunohost."
     type = "user"
 
-    [install.list]
-        [install.list.list_name]
-        ask.en = "Enter the name of the mailing list"
-        ask.fr = "Entrez le nom de la liste de diffusion"
-        type = "string"
-        pattern.regexp = '^[a-zA-Z0-9.-]+$'
-        pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
-        pattern.error.fr = "Le nom de la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
+    [install.list_name]
+    ask.en = "Enter the name of the mailing list (the email of the list will be list_name@list_domain)"
+    ask.fr = "Entrez le nom de la liste de diffusion (l’adresse courriel de la liste sera nom_liste@domaine_liste)"
+    help.en = "It must not be equal to any existing user name."
+    help.fr = "Il doit être différent de tout nom d’utilisateur existant du systéme."
+    type = "string"
+    pattern.regexp = '^[a-zA-Z0-9.-]+$'
+    pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
+    pattern.error.fr = "Le nom la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
 
-        [install.list.list_domain]
-        ask.en = "Select the domain for the web access (where you’ll be able to explore the list web archives)"
-        ask.fr = "Sélectionnez le domaine pour l‘accès web (où vous pourrez consulter les archives web)"
-        type = "domain"  
+    [install.list.list_domain]
+    ask.en = "Select the domain of the list email."
+    ask.fr = "Sélectionnez le domaine pour l‘adresse courriel dela liste."
+    help.en = "For the list to be functional, the domain should be configured with ingoing and outgoing email feature."
+    help.fr = "Pour que la liste soit fonctionnelle, le domaine doit être configuré avec la fonctionnalité email entrant et sortant."
+    type = "domain"  
+         
+    [install.domain]
+    ask.en = "Select the domain for the web access (where you’ll be able to explore the list web archives, for instance)"
+    ask.fr = "Sélectionnez le domaine pour l‘accès web (où vous pourrez consulter les archives web, par exemple)"
+    help.en = "It can be the same or different from the list email domain. If different, this one doesn’t need email features."
+    help.fr = "Il peut être le même, ou différent du domaine de l’adresse courriel de la liste. S’il diffère, la fonctionnalité email n’est pas requise."
+    type = "domain"
 
-    [install.web]
-             
-        [install.webndomain]
-        ask.en = "Select the domain for the web access (where you’ll be able to explore the list web archives)"
-        ask.fr = "Sélectionnez le domaine pour l‘accès web (où vous pourrez consulter les archives web)"
-        type = "domain"
+    [install.path]
+    type = "path"
+    default = "/mlmmj"
+
+    [install.init_main_permission]
+    help.en = "If enabled, mlmmj web interface will be accessible by people who doesn’t have an account. This can be changed later via the webadmin."
+    help.fr = "Si cette case est cochée, l’interface web de mlmmj sera accessible aux personnes n’ayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
+    type = "group"
+    default = "visitors"
 
 
 [resources]
     [resources.sources]
         [resources.sources.main]
         url = "https://codeberg.org/mlmmj/mlmmj/releases/download/RELEASE_1_4_3/mlmmj-1.4.3.tar.xz"
-        sha256 = "dcaee66232fa1d10d9d2352ceb03b05879dfba978368988af585b0697506f4a1"
+        sha256 = "dcaee66232fa1d10d9d2352ceb03b05879dfba978368988af585b0697506f4a1"11111
         format = "tar.xz"
         in_subdir = true
         
