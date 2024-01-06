@@ -1,42 +1,42 @@
-packaging_format = 2
+# packaging_format = 2
 
-id = "245-game"
-name = "245"
-description.en = "2048 game clone"
-description.fr = "Clone du jeu 2048"
+# id = "245-game"
+# name = "245"
+# description.en = "2048 game clone"
+# description.fr = "Clone du jeu 2048"
 
-version = "1.0~ynh6"
+# version = "1.0~ynh6"
 
-maintainers = ["eric_G"]
+# maintainers = ["eric_G"]
 
-[upstream]
-license = "MIT"
-demo = "https://hgentry.github.io/81/"
-code = "https://github.com/hgentry/81"
+# [upstream]
+# license = "MIT"
+# demo = "https://hgentry.github.io/81/"
+# code = "https://github.com/hgentry/81"
 
-[integration]
-yunohost = ">= 11.1.20"
-architectures = "all"
-multi_instance = true
-ldap = false
-sso = false
-disk = "50M"
-ram.build = "50M"
-ram.runtime = "50M"
+# [integration]
+# yunohost = ">= 11.1.20"
+# architectures = "all"
+# multi_instance = true
+# ldap = false
+# sso = false
+# disk = "50M"
+# ram.build = "50M"
+# ram.runtime = "50M"
 
-[install]
-    [install.domain]
-    type = "domain"
+# [install]
+#     [install.domain]
+#     type = "domain"
 
-    [install.path]
-    type = "path"
-    default = "/243"
+#     [install.path]
+#     type = "path"
+#     default = "/243"
 
-    [install.init_main_permission]
-    help.en = "If enabled, 243 will be accessible by people who doesn’t have an account. This can be changed later via the webadmin."
-    help.fr = "Si cette case est cochée, 243 sera accessible aux personnes n’ayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
-    type = "group"
-    default = "visitors"
+#     [install.init_main_permission]
+#     help.en = "If enabled, 243 will be accessible by people who doesn’t have an account. This can be changed later via the webadmin."
+#     help.fr = "Si cette case est cochée, 243 sera accessible aux personnes n’ayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
+#     type = "group"
+#     default = "visitors"
 
 # [resources]
 
@@ -52,62 +52,62 @@ ram.runtime = "50M"
 
 #     [resources.permissions]
 #     main.url = "/"
-#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/manifest.v2.schema.json
+:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/manifest.v2.schema.json
 
-# packaging_format = 2
+packaging_format = 2
 
-# id = "mlmmj"
-# name = "mlmmj"
-# description.en = "Mailing List Manager Made Joyful, a simple and efficient mailing list manager."
-# description.fr = "Gestionnaire de listes de diffusion efficace et simple d'utilisation."
-# version = "1.4.3~ynh1"
-# maintainers = [{ name = "Raph", email = "raph@raph" }]
+id = "mlmmj"
+name = "mlmmj"
+description.en = "Mailing List Manager Made Joyful, a simple and efficient mailing list manager."
+description.fr = "Gestionnaire de listes de diffusion efficace et simple d'utilisation."
+version = "1.4.3~ynh1"
+maintainers = [{ name = "Raph", email = "raph@raph" }]
 
-# [upstream]
-# license = "MIT"
-# website = "https://codeberg.org/mlmmj/mlmmj"
-# admindoc = "https://codeberg.org/mlmmj/mlmmj"
-# userdoc = "https://codeberg.org/mlmmj/mlmmj"
-# code = "https://codeberg.org/mlmmj/mlmmj"
+[upstream]
+license = "MIT"
+website = "https://codeberg.org/mlmmj/mlmmj"
+admindoc = "https://codeberg.org/mlmmj/mlmmj"
+userdoc = "https://codeberg.org/mlmmj/mlmmj"
+code = "https://codeberg.org/mlmmj/mlmmj"
 
-# [integration]
-# yunohost = ">= 11.1"
-# architectures = "all"
-# multi_instance = true
-# ldap = "not_relevant"
-# sso = "not_relevant"
-# disk = "1M"
-# ram.build = "1M"
-# ram.runtime = "1M"
+[integration]
+yunohost = ">= 11.1"
+architectures = "all"
+multi_instance = true
+ldap = "not_relevant"
+sso = "not_relevant"
+disk = "1M"
+ram.build = "1M"
+ram.runtime = "1M"
 
-# [install]
-  # [install.list_name]
-  # ask.en = "Enter the name of the mailing list"
-  # ask.fr = "Entrez le nom de la liste de diffusion"
-  # type = "string"
-  # pattern.regexp = '^[a-zA-Z0-9.-]+$'
-  # pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
-  # pattern.error.fr = "Le nom de la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
-
-  # [install.domain]
-  # ask.en = "Select the domain for the mailing list"
-  # ask.fr = "Sélectionnez le domaine pour la liste de diffusion"
-  # type = "domain"
-  # # choices = "__DOMAINS__"
-
-  # [install.language]
-  # ask.en = "Choose the application language"
-  # ask.fr = "Choisissez la langue de l'application"
-  # type = "select"
-  # choices = ["ast", "cs", "de", "en", "fi", "fr", "gr", "it", "pt", "sk", "zh-cn"]
-  # default = "en"
-
-  # [install.owner]
-  # ask.en = "Select the owner of the mailing list:"
-  # ask.fr = "Sélectionnez le propriétaire de la liste de diffusion :"
-  # help.en = "Owners of the mailing list can be added or removed after the initial setup through the Yunohost administration interface."
-  # help.fr = "Il est possible d'ajouter ou de supprimer des propriétaires de la liste de diffusion après la configuration initiale via l'interface d'administration de Yunohost."
-  # type = "user"
+[install]
+    [install.list_name]
+    ask.en = "Enter the name of the mailing list"
+    ask.fr = "Entrez le nom de la liste de diffusion"
+    type = "string"
+    pattern.regexp = '^[a-zA-Z0-9.-]+$'
+    pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
+    pattern.error.fr = "Le nom de la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
+    
+    [install.domain]
+    ask.en = "Select the domain for the mailing list"
+    ask.fr = "Sélectionnez le domaine pour la liste de diffusion"
+    type = "domain"
+    # choices = "__DOMAINS__"
+    
+    [install.language]
+    ask.en = "Choose the application language"
+    ask.fr = "Choisissez la langue de l'application"
+    type = "select"
+    choices = ["ast", "cs", "de", "en", "fi", "fr", "gr", "it", "pt", "sk", "zh-cn"]
+    default = "en"
+    
+    [install.owner]
+    ask.en = "Select the owner of the mailing list:"
+    ask.fr = "Sélectionnez le propriétaire de la liste de diffusion :"
+    help.en = "Owners of the mailing list can be added or removed after the initial setup through the Yunohost administration interface."
+    help.fr = "Il est possible d'ajouter ou de supprimer des propriétaires de la liste de diffusion après la configuration initiale via l'interface d'administration de Yunohost."
+    type = "user"
 
 
 [resources]
