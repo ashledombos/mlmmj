@@ -8,7 +8,7 @@ SPOOL_DIR="/var/spool/mlmmj"
 ETC_DIR="/usr/local/etc/mlmmj"
 TRANSPORT_FILE="$ETC_DIR/transport"
 VIRTUAL_FILE="$ETC_DIR/virtual"
-symlink_dir="$SPOOL_DIR/$domain"
+symlink_dir="$SPOOL_DIR/$list_domain"
 control_dir="$data_dir/control"
 subscribers_dir="$data_dir/subscribers.d"
 
@@ -16,7 +16,7 @@ HOOK_DIR="/etc/yunohost/hooks.d/conf_regen"
 TEMP_HOOK_PATH="$HOOK_DIR/99-install_mlmmj"
 
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
-virtual_entry="$list_name@$domain    $app@localhost.mlmmj"
+virtual_entry="$list_name@$list_domain    $app@localhost.mlmmj"
 
 CRON_DIR="/etc/cron.d/mlmmj"
 cron_file="$CRON_DIR/$app.cron"
