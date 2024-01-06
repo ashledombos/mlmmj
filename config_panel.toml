@@ -35,7 +35,7 @@ name.fr = "Paramètres MLMMJ"
         help.fr = "Nom du paramètre : owner"
         optional = true
         type = "text"
-        bind = "__DATA_DIR__/ynh/owner.txt"
+        bind = "/home/yunohost.app/__APP__/ynh/owner.txt"
         
         [main.owners.notifysub]
         ask.en = "Should owners be notified of subcriptions and unsubscribtions to the list?"
@@ -57,7 +57,7 @@ name.fr = "Paramètres MLMMJ"
         help.en = "Setting name: submod"
         help.fr = "Nom du paramètre : submod"
         type = "text"
-        bind = "__DATA_DIR__/ynh/submod.txt"
+        bind = "/home/yunohost.app/__APP__/ynh/submod.txt"
         visible = "submod == 1"
         
 
@@ -71,7 +71,7 @@ name.fr = "Paramètres MLMMJ"
         help.en = "Setting name: moderators"
         help.fr = "Nom du paramètre : moderators"
         type = "text"
-        bind = "__DATA_DIR__/ynh/moderators.txt"
+        bind = "/home/yunohost.app/__APP__/ynh/moderators.txt"
 
         [main.moderation.modnonsubposts]
         ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
@@ -104,7 +104,7 @@ name.fr = "Paramètres MLMMJ"
         help.en = "Setting name: prefix"
         help.fr = "Nom du paramètre : prefix"
         type = "text"
-        bind = "__DATA_DIR__/control/prefix"
+        bind = "/home/yunohost.app/__APP__/control/prefix"
 
         [main.advanced.footer]
         ask.en = "Footer content"
@@ -112,7 +112,7 @@ name.fr = "Paramètres MLMMJ"
         help.en = "Setting name: footer"
         help.fr = "Nom du paramètre : footer"
         type = "text"
-        bind = "__DATA_DIR__/control/footer"
+        bind = "/home/yunohost.app/__APP__/control/footer"
 
     [main.sub]
     name.en = "Subscribers" 
@@ -160,7 +160,7 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Subscribers"
         ask.fr = "Abonnés"
         type = "text"
-        bind = "__DATA_DIR__/ynh/subscribers.txt"
+        bind = "/home/yunohost.app/__APP__/ynh/subscribers.txt"
         visible = "display_subscribers == true"
 
     [main.digesters]
@@ -201,7 +201,7 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Subscribers"
         ask.fr = "Abonnés"
         type = "text"
-        bind = "__DATA_DIR__/ynh/digesters.txt"
+        bind = "/home/yunohost.app/__APP__/ynh/digesters.txt"
         visible = "display_digesters == true"
         
     [main.nomailsubs]
@@ -240,5 +240,5 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "nomailsubs subscribers"
         ask.fr = "abonnés à nomailsubs"
         type = "text"
-        bind = "__DATA_DIR__/ynh/nomailsubs.txt"
+        bind = "/home/yunohost.app/__APP__/ynh/nomailsubs.txt"
         visible = "display_nomailsubs == true"
