@@ -11,6 +11,7 @@ VIRTUAL_FILE="$ETC_DIR/virtual"
 symlink_dir="$SPOOL_DIR/$list_domain"
 control_dir="$data_dir/control"
 subscribers_dir="$data_dir/subscribers.d"
+ynh_dir="$data_dir/ynh"
 
 HOOK_DIR="/etc/yunohost/hooks.d/conf_regen"
 TEMP_HOOK_PATH="$HOOK_DIR/99-install_mlmmj"
