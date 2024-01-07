@@ -44,13 +44,6 @@ install_update_mlmmj "$REQUIRED_VERSION"
 
 ynh_script_progression --message="Creating the list $list_name@$list_domain at $data_dir;"
 
-#for DIR in incoming queue queue/discarded archive text subconf unsubconf \
-#           bounce control moderation subscribers.d digesters.d requeue \
-#           nomailsubs.d ynh
-#do
-#    mkdir -p "$install_dir/$DIR"
-#done
-
 echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" > "$data_dir/control/owner"
 echo "$list_name@$list_domain" > "$data_dir/control/listaddress"
 
