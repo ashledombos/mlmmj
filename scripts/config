@@ -377,16 +377,12 @@ ynh_app_config_get() {
     local sub_lists=("subscribers" "digesters" "nomailsubs")
 
     for file in "${files_to_sync[@]}"; do
-        local control_file="$control_dir/$file"
-        local ynh_file="$data_dir/ynh/$file.txt"
-
-        [ -f "$control_file" ] && [ "$control_file" -nt "$ynh_file" ] && cp "$control_file" "$ynh_file"
-        [ -f "$ynh_file" ] && cp "$ynh_file" "$control_file"
+        [ -f "$control_dir/$file" ] && [ "$control_dir/$file" -nt "$ynh_dir/$file.txt" ] && cp "$control_dir/$file" "$ynh_dir/$file.txt"
     done
 
     for list_dir in "${sub_lists[@]}"; do
         local list_dir_path="$data_dir/${list_dir}.d/"
-        [ "$(ls -A $list_dir_path)" ] && cat "$list_dir_path"* | sort > "$data_dir/ynh/${list_dir}.txt"
+        [ "$(ls -A $data_dir/${list_dir}.d)" ] && cat "$data_dir/${list_dir}.d/"* | sort > "$ynh_dir/${list_dir}.txt"
     done
 
     _ynh_app_config_get
