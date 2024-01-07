@@ -353,21 +353,41 @@ sync_from_ynh_dir() {
     fi
 }
 
+# ynh_app_config_get() {
+#     local files_to_sync=("owner" "moderators" "submod")
+#     local sub_lists=("subscribers" "digesters" "nomailsubs")
+
+#     for file in "${files_to_sync[@]}"; do
+#         sync_from_control_dir "$file"
+#     done
+
+#     for list_dir in "${sub_lists[@]}"; do
+#         list_dir_path="$data_dir/${list_dir}.d/"
+#         if [ "$(ls -A $list_dir_path)" ]; then
+#             cat "$list_dir_path"* | sort > "$data_dir/ynh/${list_dir}.txt"
+#         fi
+#     done
+
+
+#     _ynh_app_config_get
+# }
+
 ynh_app_config_get() {
     local files_to_sync=("owner" "moderators" "submod")
     local sub_lists=("subscribers" "digesters" "nomailsubs")
 
     for file in "${files_to_sync[@]}"; do
-        sync_from_control_dir "$file"
+        local control_file="$control_dir/$file"
+        local ynh_file="$data_dir/ynh/$file.txt"
+
+        [ -f "$control_file" ] && [ "$control_file" -nt "$ynh_file" ] && cp "$control_file" "$ynh_file"
+        [ -f "$ynh_file" ] && cp "$ynh_file" "$control_file"
     done
 
     for list_dir in "${sub_lists[@]}"; do
-        list_dir_path="$data_dir/${list_dir}.d/"
-        if [ "$(ls -A $list_dir_path)" ]; then
-            cat "$list_dir_path"* | sort > "$data_dir/ynh/${list_dir}.txt"
-        fi
+        local list_dir_path="$data_dir/${list_dir}.d/"
+        [ "$(ls -A $list_dir_path)" ] && cat "$list_dir_path"* | sort > "$data_dir/ynh/${list_dir}.txt"
     done
-
 
     _ynh_app_config_get
 }
