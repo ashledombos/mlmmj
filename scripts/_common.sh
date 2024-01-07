@@ -13,9 +13,6 @@ control_dir="$data_dir/control"
 subscribers_dir="$data_dir/subscribers.d"
 ynh_dir="$data_dir/ynh"
 
-HOOK_DIR="/etc/yunohost/hooks.d/conf_regen"
-TEMP_HOOK_PATH="$HOOK_DIR/99-install_mlmmj"
-
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$list_domain    $app@localhost.mlmmj"
 
