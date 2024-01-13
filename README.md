@@ -16,7 +16,13 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ## Overview
 
-This is a dummy description of this app features
+MLMMJ (Mailing List Manager Made Joyful) is a simple and efficient mailing list manager.
+
+- Easy setup and management of mailing lists.
+- Support for multiple mailing lists.
+- Web and command-line administration.
+- Integration with Yunohost users and email system.
+
 
 
 **Shipped version:** 1.4.3~ynh1
