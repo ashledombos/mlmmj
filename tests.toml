@@ -47,6 +47,9 @@ test_format = 1.0
     # args.language = "fr_FR"
     # args.multisite = 0
     # NB: you should NOT need those lines unless for custom questions with no obvious/default value
+    args.owner = "user"
+    args.list_name = "list"
+    args.list_domain = "domain.com"
 
     # -------------------------------
     # Commits to test upgrade from
