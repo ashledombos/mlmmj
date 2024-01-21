@@ -35,21 +35,6 @@ conf_dir="/etc/yunohost/apps/$app"
 # PERSONAL HELPERS
 #=================================================
 install_update_mlmmj() {
-    local required_version=$1
-
-    if command -v mlmmj-list >/dev/null 2>&1; then
-        installed_version=$(mlmmj-list -V | cut -d ' ' -f3)
-
-        if [ "$required_version" != "$installed_version" ]; then
-            ynh_print_info --message="Updating mlmmj from $installed_version to $required_version;"
-        else 
-            ynh_print_info --message="mlmmj is already installed with version: $installed_version"
-        fi
-    else
-        ynh_print_info --message="mlmmj is not installed, proceeding with installation;"
-    fi
-
-    if [ "$required_version" != "$installed_version" ]; then
         ynh_print_info --message="Building mlmmj software"
         ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
 
@@ -74,11 +59,6 @@ install_update_mlmmj() {
         ynh_add_config --template="regenconf_postfix" --destination="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
         yunohost tools regen-conf postfix
     fi
-
-
-    #ynh_system_user_create --username=mlmmj_pfx
-
-    
 }
 #=================================================
 # EXPERIMENTAL HELPERS
