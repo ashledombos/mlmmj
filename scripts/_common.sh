@@ -3,12 +3,15 @@
 #=================================================
 # COMMON VARIABLES
 #=================================================
-# Global variables
+# Install dir variables
+src_dir="$install_dir/src"
+app_dir="$install_dir/app"
 tables_dir="$install_dir/tables"
 transport_file="$tables_dir/transport"
 virtual_file="$tables_dir/virtual"
 
 
+# Data dir variables
 control_dir="$data_dir/control"
 subscribers_dir="$data_dir/subscribers.d"
 ynh_dir="$data_dir/ynh"
@@ -37,9 +40,6 @@ conf_dir="/etc/yunohost/apps/$app"
 install_update_mlmmj() {
         ynh_print_info --message="Building mlmmj software"
         ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
-
-        local src_dir="/var/www/$app/src"
-        local app_dir="/var/www/$app/app"
         
         ynh_setup_source  --full_replace --dest_dir="$src_dir" || ynh_die "Failed to download mlmmj"
 
