@@ -12,7 +12,7 @@
    * sudo /usr/local/bin/mlmmj-unsub -L __INSTALL_DIR__ -h
    * sudo /usr/local/bin/mlmmj-list -L __INSTALL_DIR__ -h
 
-   Example command to subscribe the address nom@domaine.com:
-   sudo /usr/local/bin/mlmmj-sub -L __INSTALL_DIR__ -a nom@domaine.com
+   Example command to subscribe the address name@domain.com:
+   sudo /usr/local/bin/mlmmj-sub -L __INSTALL_DIR__ -a name@domain.com
 
 For administrators seeking advanced customization and management of MLMMJ beyond the Yunohost user interface, it is recommended to familiarize themselves with the configuration files and MLMMJ commands.
