@@ -58,7 +58,6 @@ install_update_mlmmj() {
         popd
         ynh_add_config --template="regenconf_postfix" --destination="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
         yunohost tools regen-conf postfix
-    fi
 }
 #=================================================
 # EXPERIMENTAL HELPERS
