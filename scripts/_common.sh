@@ -52,14 +52,19 @@ install_update_mlmmj() {
     if [ "$required_version" != "$installed_version" ]; then
         ynh_print_info --message="Building mlmmj software"
         ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
-    
-        ynh_setup_source --dest_dir="mlmmj-latest" || ynh_die "Failed to download mlmmj"
-        pushd mlmmj-latest
-    
-        ynh_exec_and_print_stderr_only_if_error autoreconf -i
-        ynh_exec_and_print_stderr_only_if_error ./configure
-        ynh_exec_and_print_stderr_only_if_error make
-        ynh_exec_and_print_stderr_only_if_error sudo make install
+
+        local src_dir="/var/www/$app/src"
+        local app_dir="/var/www/$app/app"
+        
+        ynh_setup_source  --full_replace --dest_dir="$src_dir" || ynh_die "Failed to download mlmmj"
+
+        chown $app:$app "$app_dir" -R
+        pushd "$src_dir"
+
+        ynh_exec_and_print_stderr_only_if_error sudo -u $app autoreconf -i
+        ynh_exec_and_print_stderr_only_if_error sudo -u $app ./configure  --prefix="$app_dir"
+        ynh_exec_and_print_stderr_only_if_error sudo -u $app make
+        ynh_exec_and_print_stderr_only_if_error sudo -u $app make install
     
         if [ $? -ne 0 ]; then
             ynh_die "Failed to install mlmmj binaries"
