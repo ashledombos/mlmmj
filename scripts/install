@@ -52,30 +52,22 @@ if [ -d "$lang_dir" ]; then
 fi
 
 # -------------------------------------------------------------
-# Create symlinks in /var/spool/dir to keep usual organization
-# -------------------------------------------------------------
-
-[ ! -d "$SPOOL_DIR" ] && mkdir -p "$SPOOL_DIR"
-ln -s $data_dir $install_dir/$list_name
-ln -s $data_dir $SPOOL_DIR/$list_name
-
-# -------------------------------------------------------------
 # Setting up conf files transport et virtual
 # -------------------------------------------------------------
 
-[ ! -d "$ETC_DIR" ] && mkdir -p "$ETC_DIR"
+[ ! -d "$tables_dir" ] && mkdir -p "$tables_dir"
 
-[ ! -f "$TRANSPORT_FILE" ] && touch "$TRANSPORT_FILE"
-[ ! -f "$VIRTUAL_FILE" ] && touch "$VIRTUAL_FILE"
+[ ! -f "$transport_file" ] && touch "$transport_file"
+[ ! -f "$virtual_file" ] && touch "$virtual_file"
 
-if ! grep -qF "$transport_entry" "$TRANSPORT_FILE"; then
-    echo "$transport_entry" >> "$TRANSPORT_FILE"
-    postmap "$TRANSPORT_FILE"
+if ! grep -qF "$transport_entry" "$transport_file"; then
+    echo "$transport_entry" >> "$transport_file"
+    postmap "$transport_file"
 fi
 
-if ! grep -qF "$virtual_entry" "$VIRTUAL_FILE"; then
-    echo "$virtual_entry" >> "$VIRTUAL_FILE"
-    postmap "$VIRTUAL_FILE"
+if ! grep -qF "$virtual_entry" "$virtual_file"; then
+    echo "$virtual_entry" >> "$virtual_file"
+    postmap "$virtual_file"
 fi
 
 # -------------------------------------------------------------
