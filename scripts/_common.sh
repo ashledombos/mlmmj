@@ -40,6 +40,9 @@ conf_dir="/etc/yunohost/apps/$app"
 install_update_mlmmj() {
         ynh_print_info --message="Building mlmmj software"
         ynh_install_app_dependencies autoconf make gcc pkg-config libatf-dev
+
+        [ ! -d "$src_dir" ] && mkdir -p "$src_dir"
+        [ ! -d "$app_dir" ] && mkdir -p "$app_dir"
         
         ynh_setup_source  --full_replace --dest_dir="$src_dir" || ynh_die "Failed to download mlmmj"
 
