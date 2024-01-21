@@ -4,10 +4,11 @@
 # COMMON VARIABLES
 #=================================================
 # Global variables
-SPOOL_DIR="/var/spool/mlmmj"
-ETC_DIR="/usr/local/etc/mlmmj"
-TRANSPORT_FILE="$ETC_DIR/transport"
-VIRTUAL_FILE="$ETC_DIR/virtual"
+tables_dir="$install_dir/tables"
+transport_file="$tables_dir/transport"
+virtual_file="$tables_dir/virtual"
+
+
 control_dir="$data_dir/control"
 subscribers_dir="$data_dir/subscribers.d"
 ynh_dir="$data_dir/ynh"
