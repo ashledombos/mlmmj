@@ -33,7 +33,7 @@ For specific functionalities not covered in the panel, users are encouraged to [
 
 ## Screenshots
 
-![Screenshot of mlmmj](./doc/screenshots/Screenshot 2024-01-21 at 19-22-44 mlmmj _ Applications YunoHost Admin.png)
+![Screenshot of mlmmj](./doc/screenshots/panel.png)
 
 ## Documentation and resources
 
