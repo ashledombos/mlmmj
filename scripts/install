@@ -51,6 +51,10 @@ if [ -d "$lang_dir" ]; then
     cp "$lang_dir"/* "$data_dir/text"
 fi
 
+# -------------------------------------------------------------
+# Create symlinks in /var/spool/dir to keep usual organization
+# -------------------------------------------------------------
+
 [ ! -d "$SPOOL_DIR" ] && mkdir -p "$SPOOL_DIR"
 ln -s $data_dir $install_dir/$list_name
 ln -s $data_dir $SPOOL_DIR/$list_name
@@ -73,15 +77,6 @@ if ! grep -qF "$virtual_entry" "$VIRTUAL_FILE"; then
     echo "$virtual_entry" >> "$VIRTUAL_FILE"
     postmap "$VIRTUAL_FILE"
 fi
-
-# -------------------------------------------------------------
-# Symlinks for easier CLI administration
-# -------------------------------------------------------------
-
-if [ ! -d "$symlink_dir" ]; then
-    mkdir -p "$symlink_dir"
-fi
-ln -s "$SPOOL_DIR" "$symlink_dir/$list_name"
 
 # -------------------------------------------------------------
 # Cron
