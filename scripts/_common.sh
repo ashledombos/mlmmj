@@ -46,7 +46,7 @@ install_update_mlmmj() {
         
         ynh_setup_source  --full_replace --dest_dir="$src_dir" || ynh_die "Failed to download mlmmj"
 
-        chown $app:$app "$app_dir" -R
+        chown $app:$app "$src_dir" -R
         pushd "$src_dir"
 
         ynh_exec_and_print_stderr_only_if_error sudo -u $app autoreconf -i
