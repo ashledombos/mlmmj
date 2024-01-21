@@ -24,7 +24,13 @@
 # # BACKUP THE APP MAIN DIR
 # #=================================================
 
-# ynh_backup --src_path="$install_dir"
+ynh_backup --src_path="$install_dir"
+
+#=================================================
+# BACKUP THE DATA DIRECTORY
+#=================================================
+
+ynh_backup --src_path="$data_dir" --is_big
 
 # #=================================================
 # # BACKUP FAIL2BAN CONFIGURATION
