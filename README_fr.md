@@ -33,6 +33,11 @@ Pour des fonctionnalités spécifiques non couvertes dans le panneau de configur
 
 
 **Version incluse :** 1.4.3~ynh1
+
+## Captures d’écran
+
+![Capture d’écran de mlmmj](./doc/screenshots/Screenshot 2024-01-21 at 19-22-44 mlmmj _ Applications YunoHost Admin.png)
+
 ## Documentations et ressources
 
 * Site officiel de l’app : <https://codeberg.org/mlmmj/mlmmj>
