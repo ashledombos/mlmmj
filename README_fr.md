@@ -33,11 +33,6 @@ Pour des fonctionnalités spécifiques non couvertes dans le panneau de configur
 
 
 **Version incluse :** 1.4.3~ynh1
-
-## Captures d’écran
-
-![Capture d’écran de mlmmj](./doc/screenshots/example.jpg)
-
 ## Documentations et ressources
 
 * Site officiel de l’app : <https://codeberg.org/mlmmj/mlmmj>
