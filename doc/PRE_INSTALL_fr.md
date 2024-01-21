@@ -1,1 +1,1 @@
-Ceci est un faux disclaimer à présenter avant l'installation
+Le programme MLMMJ qui va être installé sera compilé directement à partir des sources, sans utiliser le paquet Debian standard. En conséquence, bien que MLMMJ soit réputé pour sa faible empreinte, le processus de compilation des binaires peut prendre un certain temps, en fonction de la puissance de calcul de l'hôte.
