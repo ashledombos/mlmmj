@@ -7,13 +7,13 @@ postfix_main="$pending_dir/../postfix/etc/postfix/main.cf"
 
 [[ "$action" == "pre" ]] || exit 0
 if ! grep -q "mlmmj.*mlmmj-receive" "$postfix_master"; then
-    printf "\n# MLMMJ\nmlmmj   unix  -       n       n       -       -       pipe\n    flags=ORhu user=list argv=/usr/local/bin/mlmmj-receive -F -L /var/spool/mlmmj/files/\$nexthop\n" >> "$postfix_master"
+    printf "\n# __APP__ __LIST_NAME__@__LIST_DOMAIN__\n__APP__   unix  -       n       n       -       -       pipe\n    flags=ORhu user=list argv=/__INSTALL_DIR__/mlmmj-app/bin/mlmmj-receive -F -L /home/yunohost.app/\$nexthop\n" >> "$postfix_master"
 fi
 
 if ! grep -q "hash:/var/spool/mlmmj/tables/virtual" "$postfix_main"; then
-    sed -i "/^virtual_alias_maps = / s/$/,hash:\/usr\/local\/etc\/mlmmj\/virtual/" "$postfix_main"
+    sed -i "/^virtual_alias_maps = / s/$/,hash:\/var\/www\/__APP__\/tables\/virtual/" "$postfix_main"
 fi
 if ! grep -q "hash:/var/spool/mlmmj/tables/transport" "$postfix_main"; then
-    printf "# MLMMJ\ntransport_maps = hash:/usr/local/etc/mlmmj/transport\n" >> "$postfix_main"
+    printf "# __APP__ __LIST_NAME__@__LIST_DOMAIN__\ntransport_maps = hash:/var/www/__APP__/tables/transport\n" >> "$postfix_main"
 fi
 
