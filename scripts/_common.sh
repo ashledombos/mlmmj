@@ -66,7 +66,7 @@ install_update_mlmmj() {
         fi
     
         popd
-        ynh_add_config --template="regenconf_postfix" --destination="/usr/share/yunohost/hooks/conf_regen/98-postfix_mlmmj"
+        ynh_add_config --template="regenconf_postfix" --destination="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
         yunohost tools regen-conf postfix
     fi
 
