@@ -19,20 +19,15 @@ ynh_dir="$data_dir/ynh"
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$list_domain    $app@localhost.mlmmj"
 
-CRON_DIR="/etc/cron.d/mlmmj"
-cron_file="$CRON_DIR/$app.cron"
-MLMMJRECEIVE="/usr/local/bin/mlmmj-receive"
-MLMMJMAINTD="/usr/local/bin/mlmmj-maintd"
+cron_file="/etc/cron.d/$app.cron"
+mlmmjreceive="$install_dir/app/bin/mlmmj-receive"
+mlmmjmaintd="$install_dir/app/bin/mlmmj-maintd"
 
 installed_version=""
 REQUIRED_VERSION=$(cat mlmmj_version)
 
-MLMMJ_SHARE="/usr/local/share/mlmmj"
-lang_dir="$MLMMJ_SHARE/text.skel/$language"
-
-bin_dir=/usr/local/bin
-sudoers_file="/etc/sudoers.d/mlmmj"
-conf_dir="/etc/yunohost/apps/$app"
+mlmmj_share="$install_dir/app/share"
+lang_dir="$mlmmj_share/text.skel/$language"
 
 #=================================================
 # PERSONAL HELPERS
