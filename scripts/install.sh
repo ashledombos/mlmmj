@@ -36,13 +36,16 @@ fi
 # Install MLMMJ if necessary and check Postfix
 # -------------------------------------------------------------
 
+
+ynh_script_progression --message="Source download and binaries compilation;" --weight=5 --time
+
 install_update_mlmmj "$REQUIRED_VERSION"
 
 # -------------------------------------------------------------
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Creating the list $list_name@$list_domain at $data_dir;"
+ynh_script_progression --message="Creating the list $list_name@$list_domain at $data_dir;" --time
 
 echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" > "$data_dir/control/owner"
 echo "$list_name@$list_domain" > "$data_dir/control/listaddress"
@@ -75,11 +78,11 @@ fi
 # -------------------------------------------------------------
 
 rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
-if [ ! -d "$CRON_DIR" ]; then
-    mkdir -p "$CRON_DIR"
-    chmod 644 "$CRON_DIR"
-fi
-echo "$rand_min */2 * * * list $MLMMJMAINTD -F -L $data_dir" > "$cron_file" 
+# if [ ! -d "$CRON_DIR" ]; then
+#     mkdir -p "$CRON_DIR"
+#     chmod 644 "$CRON_DIR"
+# fi
+echo "$rand_min */2 * * * list $mlmmjmaintd -F -L $data_dir" > "$cron_file" 
 
 # -------------------------------------------------------------
 # Default settings
