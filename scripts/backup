@@ -56,7 +56,7 @@ ynh_backup --src_path="$data_dir" --is_big
 # BACKUP VARIOUS FILES
 #=================================================
 
-ynh_backup --src_path="$cron_dir"
+ynh_backup --src_path="$cron_file"
 ynh_backup --src_path="$regen_conf_file"
 
 # ### For apps with huge logs, you might want to pass --is_big,
