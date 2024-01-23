@@ -76,7 +76,7 @@ if ! grep -qF "$virtual_entry" "$virtual_file"; then
 fi
 
 chgrp postfix $install_dir
-chown $app:postfix $install_dir -R
+chown $app:postfix $install_dir/tables -R
 
 # -------------------------------------------------------------
 # Cron
