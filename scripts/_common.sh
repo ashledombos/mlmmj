@@ -26,7 +26,7 @@ regen_conf_file="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
 
 # installed_version=""
 # REQUIRED_VERSION=$(cat mlmmj_version)
-app_version="${version%%~*}"
+# app_version="${version%%~*}"
 
 mlmmj_share="$install_dir/app/share"
 lang_dir="$mlmmj_share/text.skel/$language"
