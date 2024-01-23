@@ -36,31 +36,32 @@ ynh_backup --src_path="$data_dir" --is_big
 # SYSTEM CONFIGURATION
 #=================================================
 
-# Backup the PHP-FPM configuration
-ynh_backup --src_path="/etc/php/$phpversion/fpm/pool.d/$app.conf"
+# # Backup the PHP-FPM configuration
+# ynh_backup --src_path="/etc/php/$phpversion/fpm/pool.d/$app.conf"
 
-# Backup the nginx configuration
-ynh_backup --src_path="/etc/nginx/conf.d/$domain.d/$app.conf"
+# # Backup the nginx configuration
+# ynh_backup --src_path="/etc/nginx/conf.d/$domain.d/$app.conf"
 
-# Backup the systemd service unit
+## Backup the systemd service unit
 # ynh_backup --src_path="/etc/systemd/system/$app.service"
 
-# Backup the logrotate configuration
-ynh_backup --src_path="/etc/logrotate.d/$app"
+# # Backup the logrotate configuration
+# ynh_backup --src_path="/etc/logrotate.d/$app"
 
-# Backup the Fail2Ban config
-ynh_backup --src_path="/etc/fail2ban/jail.d/$app.conf"
-ynh_backup --src_path="/etc/fail2ban/filter.d/$app.conf"
+# # Backup the Fail2Ban config
+# ynh_backup --src_path="/etc/fail2ban/jail.d/$app.conf"
+# ynh_backup --src_path="/etc/fail2ban/filter.d/$app.conf"
 
 #=================================================
 # BACKUP VARIOUS FILES
 #=================================================
 
 ynh_backup --src_path="$cron_dir"
+ynh_backup --src_path="$regen_conf_file"
 
-### For apps with huge logs, you might want to pass --is_big,
-### and in restore script, mkdir and pass --not_mandatory to ynh_restore_file.
-ynh_backup --src_path="/var/log/$app/"
+# ### For apps with huge logs, you might want to pass --is_big,
+# ### and in restore script, mkdir and pass --not_mandatory to ynh_restore_file.
+# ynh_backup --src_path="/var/log/$app/"
 
 #=================================================
 # END OF SCRIPT
