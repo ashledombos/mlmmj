@@ -35,7 +35,7 @@ if ynh_exec_warn_less yunohost service status "$app" >/dev/null; then
     yunohost service remove "$app"
 fi
 
-ynh_remove_nginx_config
+# ynh_remove_nginx_config
 
 # Remove other various files specific to the app... such as :
 
