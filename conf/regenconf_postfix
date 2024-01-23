@@ -13,7 +13,18 @@ fi
 if ! grep -q "hash:/var/spool/mlmmj/tables/virtual" "$postfix_main"; then
     sed -i "/^virtual_alias_maps = / s/$/,hash:\/var\/www\/__APP__\/tables\/virtual/" "$postfix_main"
 fi
-if ! grep -q "hash:/var/spool/mlmmj/tables/transport" "$postfix_main"; then
-    printf "# __APP__ __LIST_NAME__@__LIST_DOMAIN__\ntransport_maps = hash:/var/www/__APP__/tables/transport\n" >> "$postfix_main"
+# if ! grep -q "hash:/var/spool/mlmmj/tables/transport" "$postfix_main"; then
+#     printf "# __APP__ __LIST_NAME__@__LIST_DOMAIN__\ntransport_maps = hash:/var/www/__APP__/tables/transport\n" >> "$postfix_main"
+# fi
+
+if grep -q "^transport_maps = " "$postfix_main"; then
+    # La ligne transport_maps existe, ajouter l'entrée à la fin
+    if ! grep -q "hash:/var/www/__APP__/tables/transport" "$postfix_main"; then
+        sed -i "/^transport_maps = / s/$/,hash:\/var\/www\/__APP__\/tables\/transport/" "$postfix_main"
+    fi
+else
+    # La ligne transport_maps n'existe pas, l'ajouter
+    echo "transport_maps = hash:/var/www/__APP__/tables/transport" >> "$postfix_main"
 fi
+
 
