@@ -22,6 +22,7 @@ virtual_entry="$list_name@$list_domain    $app@localhost.mlmmj"
 cron_file="/etc/cron.d/$app.cron"
 mlmmjreceive="$install_dir/app/bin/mlmmj-receive"
 mlmmjmaintd="$install_dir/app/bin/mlmmj-maintd"
+regen_conf_file="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
 
 installed_version=""
 REQUIRED_VERSION=$(cat mlmmj_version)
@@ -54,7 +55,7 @@ install_update_mlmmj() {
         fi
     
         popd
-        ynh_add_config --template="regenconf_postfix" --destination="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
+        ynh_add_config --template="regenconf_postfix" --destination="$regen_conf_file"
         yunohost tools regen-conf postfix
 }
 #=================================================
