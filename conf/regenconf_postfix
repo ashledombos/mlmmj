@@ -7,7 +7,7 @@ postfix_main="$pending_dir/../postfix/etc/postfix/main.cf"
 
 [[ "$action" == "pre" ]] || exit 0
 if ! grep -q "__APP__ __LIST_NAME__@__LIST_DOMAIN__" "$postfix_master"; then
-    printf "\n# __APP__ __LIST_NAME__@__LIST_DOMAIN__\n__APP__   unix  -       n       n       -       -       pipe\n    flags=ORhu user=__APP__ argv=/__INSTALL_DIR__/app/bin/mlmmj-receive -F -L /home/yunohost.app/\$nexthop\n" >> "$postfix_master"
+    printf "\n# __APP__ __LIST_NAME__@__LIST_DOMAIN__\n__APP__   unix  -       n       n       -       -       pipe\n    flags=ORhu user=__APP__ argv=__INSTALL_DIR__/app/bin/mlmmj-receive -F -L /home/yunohost.app/\$nexthop\n" >> "$postfix_master"
 fi
 
 if ! grep -q "hash:/var/spool/mlmmj/tables/virtual" "$postfix_main"; then
