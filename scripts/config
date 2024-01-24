@@ -369,15 +369,15 @@ ynh_app_config_get() {
     _ynh_app_config_get
 }
 
-# ynh_app_config_apply() {
-#     _ynh_app_config_apply
+ynh_app_config_apply() {
+    _ynh_app_config_apply
 
-#     local files_to_sync=("owner" "moderators" "submod")
+    local files_to_sync=("owner" "moderators" "submod")
 
-#     for file in "${files_to_sync[@]}"; do
-#         [ -f "$ynh_dir/$file.txt" ] && cp -f "$ynh_dir/$file.txt" "$control_dir/$file"
-#     done
-# }
+    for file in "${files_to_sync[@]}"; do
+        [ -f "$ynh_dir/$file.txt" ] && cp -f "$ynh_dir/$file.txt" "$control_dir/$file"
+    done
+}
 
 # -------------------------------------------------------------
 # Config apply
