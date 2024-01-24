@@ -27,7 +27,7 @@ data_dir=$(ynh_app_setting_get --app="$app" --key=data_dir)
 
 control_dir="$data_dir/control"
 ynh_dir="$data_dir/ynh"
-bin_dir="install_dir/app/bin"
+bin_dir="$install_dir/app/bin"
 
 # -------------------------------------------------------------
 # Validators
