@@ -362,9 +362,9 @@ ynh_app_config_get() {
         [ -f "$control_dir/$file" ] && [ "$control_dir/$file" -nt "$ynh_dir/$file.txt" ] && cp -f "$control_dir/$file" "$ynh_dir/$file.txt"
     done
 
-#    for list_dir in "${sub_lists[@]}"; do
-#        [ "$(ls -A $data_dir/${list_dir}.d)" ] && cat "$data_dir/${list_dir}.d/"* | sort > "$ynh_dir/${list_dir}.txt"
-#    done
+   for list_dir in "${sub_lists[@]}"; do
+       [ "$(ls -A $data_dir/${list_dir}.d)" ] && cat "$data_dir/${list_dir}.d/"* | sort > "$ynh_dir/${list_dir}.txt"
+   done
 
     _ynh_app_config_get
 }
