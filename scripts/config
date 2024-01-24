@@ -194,7 +194,7 @@ set__notifymod() {
 
 set__add_subscribers() {
     while IFS= read -r email; do
-        sudo -u list $bin_dir/mlmmj-sub -L $data_dir -a $email -c -s -U
+        sudo -u $app $bin_dir/mlmmj-sub -L $data_dir -a $email -c -s -U
     done <<< "$add_subscribers"
 }
 
