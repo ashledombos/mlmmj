@@ -99,7 +99,7 @@ ynh_app_setting_set -a $app -k display_nomailsubs -v false
 touch "$control_dir/moderators"
 touch "$control_dir/subonlypost"
 echo "[$list_name]" > "$control_dir/prefix"
-touch "$data_dir/ynh/owner.txt"
+touch "$data_dir/control/owner"
 touch "$control_dir/notifysub"
 touch "$control_dir/subonlyget"
 echo "postfix" > "$control_dir/verp"
