@@ -115,7 +115,7 @@ touch $data_dir/ynh/nomailsubs.txt
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
 ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
 
-echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" > "$data_dir/control/owner"
+echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" > "$data_dir/ynh/owner.txt"
 echo "$list_name@$list_domain" > "$data_dir/control/listaddress"
 
 
