@@ -1,14 +1,33 @@
 #!/bin/bash
+# In simple cases, you don't need a config script.
+
+# With a simple config_panel.toml, you can write in the app settings, in the
+# upstream config file or replace complete files (logo ...) and restart services.
+
+# The config scripts allows you to go further, to handle specific cases
+# (validation of several interdependent fields, specific getter/setter for a value,
+# display dynamic informations or choices, pre-loading of config type .cube... ).
 
 #=================================================
-# CONFIG
+# GENERIC STARTING
+#=================================================
+# IMPORT GENERIC HELPERS
 #=================================================
 
-# Import YunoHost helpers
 source /usr/share/yunohost/helpers
-source _common.sh
 
 ynh_abort_if_errors
+
+#=================================================
+# RETRIEVE ARGUMENTS
+#=================================================
+
+install_dir=$(ynh_app_setting_get --app="$app" --key=install_dir)
+data_dir=$(ynh_app_setting_get --app="$app" --key=data_dir)
+
+control_dir="$data_dir/control"
+ynh_dir="$data_dir/ynh"
+bin_dir="install_dir/app/bin"
 
 # -------------------------------------------------------------
 # Validators
