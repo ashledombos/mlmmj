@@ -47,13 +47,14 @@ is_domain_managed_by_yunohost() {
 
 is_domain_mail_set() {
     local list_domain=$1
-    # Verify if mail in and mail out are activated
-    local mail_config=$(yunohost domain show $list_domain --output-as json)
-    local incoming_mail_enabled=yunohost domain config get raph.local feature.mail.mail_in
-    local outgoing_mail_enabled=yunohost domain config get raph.local feature.mail.mail_out
+    
+    # Get mail_in and mail_out settings for the domain
+    local incoming_mail_enabled=$(sudo yunohost domain config get $list_domain feature.mail.mail_in)
+    local outgoing_mail_enabled=$(sudo yunohost domain config get $list_domain feature.mail.mail_out)
 
+    # Check if both mail_in and mail_out are enabled
     if [[ $incoming_mail_enabled != "1" || $outgoing_mail_enabled != "1" ]]; then
-        ynh_print_err --message="Mail in and our mail out not activated for $list_domain"
+        ynh_print_err --message="Mail in and mail out not activated for $list_domain"
         return 1
     fi
 
