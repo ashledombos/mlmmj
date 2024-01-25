@@ -9,51 +9,35 @@ source /usr/share/yunohost/helpers
 source _common.sh
 
 # -------------------------------------------------------------
-# Check name validity
+# Check list email address validity
 # -------------------------------------------------------------
 
 ynh_script_progression --message="Check name validity;" -t
 
 is_valid_list_email() {
-    # Check format
-    # if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
-    #     ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
-    #     return 1
-    # fi
-
-    # # Build the full email address
     local email_address="$1"
 
-    # Check if email address is already used
-    if yunohost user list --output-as json | jq -e '.users[] | .mail, .mail-alias[]' | grep -q "^$email_address$"; then
-        ynh_print_err --message="The email address '$email_address' is already in use. Please choose a different address."
+    # Vérifie si l'adresse est déjà l'adresse principale d'un utilisateur
+    local primary_email_user=$(sudo yunohost user list --output-as json | jq -r --arg email "$email_address" '.users | to_entries[] | select(.value.mail == $email) | .key')
+    if [[ -n "$primary_email_user" ]]; then
+        ynh_print_err --message="The email address '$email_address' is already the primary email of user '$primary_email_user'. Please choose a different email address."
+        return 1
+    fi
+
+    # Vérifie si l'adresse est déjà un alias d'un utilisateur
+    local email_alias_user=$(sudo yunohost user list --fields mail-alias --output-as json | jq -r --arg email "$email_address" '.users | to_entries[] | select(.value["mail-alias"] | index($email)) | .key')
+    if [[ -n "$email_alias_user" ]]; then
+        ynh_print_err --message="The email address '$email_address' is already an alias of user '$email_alias_user'. Please choose a different email address."
         return 1
     fi
 
     return 0
 }
 
-
-# is_valid_list_email() {
-#     # Check format
-#     if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
-#         ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
-#         return 1
-#     fi
-
-#     # Check if name is a username
-#     if yunohost user list --output-as plain | grep -q "^$1$"; then
-#         ynh_print_err --message="The mailing list name '$1' is already in use as a username. Please choose a different name."
-#         return 1
-#     fi
-
-#     return 0
-# }
-
 is_domain_managed_by_yunohost() {
     local list_domain=$1
 
-    # Vérifier si le domaine existe dans Yunohost
+    # Check if domain exist in Yunohost instance
     if ! yunohost domain list --output-as json | jq -r '.domains[]' | grep -q "^$list_domain$"; then
         ynh_print_err --message="The domain '$list_domain' is not managed by this Yunohost instance."
         return 1
@@ -63,7 +47,7 @@ is_domain_managed_by_yunohost() {
 
 is_domain_mail_set() {
     local list_domain=$1
-    # Vérifier si les emails entrants et sortants sont activés pour le domaine
+    # Verify if mail in and mail out are activated
     local mail_config=$(yunohost domain show $list_domain --output-as json)
     local incoming_mail_enabled=yunohost domain config get raph.local feature.mail.mail_in
     local outgoing_mail_enabled=yunohost domain config get raph.local feature.mail.mail_out
@@ -81,7 +65,6 @@ if ! is_valid_list_email "$list_email"; then
 else
     ynh_print_info --message="The domain '$domain_part' is correctly set up with mail in and mail out."
 fi
-
 
 if ! is_domain_managed_by_yunohost "$domain_part"; then
     ynh_die --message="Please add $domain_part in this Yunohost instance domains list."
