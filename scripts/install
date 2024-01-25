@@ -14,6 +14,26 @@ source _common.sh
 
 ynh_script_progression --message="Check name validity;" -t
 
+# is_valid_listname() {
+#     # Check format
+#     if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
+#         ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
+#         return 1
+#     fi
+
+#     # Build the full email address
+#     local email_address="$1@$domain"
+
+#     # Check if email address is already used
+#     if yunohost user list --output-as json | jq -r '.users[].email' | grep -q "^$email_address$"; then
+#         ynh_print_err --message="The email address '$email_address' is already in use. Please choose a different name."
+#         return 1
+#     fi
+
+#     return 0
+# }
+
+
 is_valid_listname() {
     # Check format
     if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
@@ -30,9 +50,39 @@ is_valid_listname() {
     return 0
 }
 
+# is_domain_managed_by_yunohost() {
+#     local domain=$1
+
+#     # Vérifier si le domaine existe dans Yunohost
+#     if ! yunohost domain list --output-as json | jq -r '.domains[]' | grep -q "^$domain$"; then
+#         ynh_print_err --message="Le domaine '$domain' n'est pas géré par Yunohost."
+#         return 1
+#     fi
+
+#     # Vérifier si les emails entrants et sortants sont activés pour le domaine
+#     local mail_config=$(yunohost domain show $domain --output-as json)
+#     local incoming_mail_enabled=$(echo $mail_config | jq -r '.mail.incoming.enabled')
+#     local outgoing_mail_enabled=$(echo $mail_config | jq -r '.mail.outgoing.enabled')
+
+#     if [[ $incoming_mail_enabled != "true" || $outgoing_mail_enabled != "true" ]]; then
+#         ynh_print_err --message="Les services de courriel entrant et/ou sortant ne sont pas activés pour le domaine '$domain'."
+#         return 1
+#     fi
+
+#     return 0
+# }
+
 if ! is_valid_listname "$list_name"; then
     ynh_die --message="Validation failed for list name: $list_name"
 fi
+
+
+# if ! is_domain_managed_by_yunohost "$domain"; then
+#     ynh_die --message="La vérification du domaine a échoué pour : $domain"
+# else
+#     echo "Le domaine '$domain' est correctement configuré avec les emails entrants et sortants activés."
+# fi
+
 
 # -------------------------------------------------------------
 # Install MLMMJ if necessary and check Postfix
