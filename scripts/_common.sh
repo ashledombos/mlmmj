@@ -20,7 +20,7 @@ ynh_dir="$data_dir/ynh"
 local_part="${list_email%@*}"
 domain_part="${list_email#*@}"
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
-virtual_entry="$list_name@$list_domain    $app@localhost.mlmmj"
+virtual_entry="$list_email    $app@localhost.mlmmj"
 
 cron_file="/etc/cron.d/$app.cron"
 mlmmjreceive="$install_dir/app/bin/mlmmj-receive"
