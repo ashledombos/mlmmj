@@ -55,17 +55,21 @@ is_domain_managed_by_yunohost() {
 
     # Vérifier si le domaine existe dans Yunohost
     if ! yunohost domain list --output-as json | jq -r '.domains[]' | grep -q "^$list_domain$"; then
-        ynh_print_err --message="Le domaine '$list_domain' n'est pas géré par Yunohost."
+        ynh_print_err --message="The domain '$list_domain' is not managed by this Yunohost instance."
         return 1
     fi
+}
 
+
+is_domain_mail_set() {
+    local list_domain=$1
     # Vérifier si les emails entrants et sortants sont activés pour le domaine
     local mail_config=$(yunohost domain show $list_domain --output-as json)
-    local incoming_mail_enabled=$(echo $mail_config | jq -r '.mail.incoming.enabled')
-    local outgoing_mail_enabled=$(echo $mail_config | jq -r '.mail.outgoing.enabled')
+    local incoming_mail_enabled=yunohost domain config get raph.local feature.mail.mail_in
+    local outgoing_mail_enabled=yunohost domain config get raph.local feature.mail.mail_out
 
-    if [[ $incoming_mail_enabled != "true" || $outgoing_mail_enabled != "true" ]]; then
-        ynh_print_err --message="Les services de courriel entrant et/ou sortant ne sont pas activés pour le domaine '$list_domain'."
+    if [[ $incoming_mail_enabled != "1" || $outgoing_mail_enabled != "1" ]]; then
+        ynh_print_err --message="Mail in and our mail out not activated for $list_domain"
         return 1
     fi
 
@@ -73,16 +77,23 @@ is_domain_managed_by_yunohost() {
 }
 
 if ! is_valid_list_email "$list_email"; then
-    ynh_die --message="Validation failed for list : $list_email"
+    ynh_die --message="Please choose an available email address"
+else
+    ynh_print_info --message="The domain '$domain_part' is correctly set up with mail in and mail out."
 fi
 
 
 if ! is_domain_managed_by_yunohost "$domain_part"; then
-    ynh_die --message="La vérification du domaine a échoué pour : $domain_part"
+    ynh_die --message="Please add $domain_part in this Yunohost instance domains list."
 else
-    echo "Le domaine '$domain_part' est correctement configuré avec les emails entrants et sortants activés."
+    ynh_print_info --message="The domain '$domain_part' is managed by this Yunohost instance."
 fi
 
+if ! is_domain_mail_set "$domain_part"; then
+    ynh_die --message="Please activate mail in and mail out for the domain $domain_part."
+else
+    ynh_print_info --message="The domain '$domain_part' is correctly set up with mail in and mail out."
+fi
 
 # -------------------------------------------------------------
 # Install MLMMJ if necessary and check Postfix
