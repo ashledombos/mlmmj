@@ -44,17 +44,22 @@ is_domain_managed_by_yunohost() {
     fi
 }
 
-
 is_domain_mail_set() {
     local list_domain=$1
-    
+
     # Get mail_in and mail_out settings for the domain
     local incoming_mail_enabled=$(sudo yunohost domain config get $list_domain feature.mail.mail_in)
     local outgoing_mail_enabled=$(sudo yunohost domain config get $list_domain feature.mail.mail_out)
 
-    # Check if both mail_in and mail_out are enabled
-    if [[ $incoming_mail_enabled != "1" || $outgoing_mail_enabled != "1" ]]; then
-        ynh_print_err --message="Mail in and mail out not activated for $list_domain"
+    # Check if both mail_in and mail_out are enabled and provide detailed error messages
+    if [[ $incoming_mail_enabled != "1" && $outgoing_mail_enabled != "1" ]]; then
+        ynh_print_err --message="Both mail in and mail out are not activated for $list_domain"
+        return 1
+    elif [[ $incoming_mail_enabled != "1" ]]; then
+        ynh_print_err --message="Mail in is not activated for $list_domain"
+        return 1
+    elif [[ $outgoing_mail_enabled != "1" ]]; then
+        ynh_print_err --message="Mail out is not activated for $list_domain"
         return 1
     fi
 
@@ -74,7 +79,7 @@ else
 fi
 
 if ! is_domain_mail_set "$domain_part"; then
-    ynh_die --message="Please activate mail in and mail out for the domain $domain_part."
+    ynh_die --message="Please check the mail configurations for the domain $domain_part."
 else
     ynh_print_info --message="The domain '$domain_part' is correctly set up with mail in and mail out."
 fi
