@@ -25,8 +25,8 @@ is_valid_list_email() {
     local email_address="$1"
 
     # Check if email address is already used
-    if yunohost user list --output-as json | jq -r '.users[].email' | grep -q "^$email_address$"; then
-        ynh_print_err --message="The email address '$email_address' is already in use. Please choose a different name."
+    if yunohost user list --output-as json | jq -e '.users[] | .mail, .mail-alias[]' | grep -q "^$email_address$"; then
+        ynh_print_err --message="The email address '$email_address' is already in use. Please choose a different address."
         return 1
     fi
 
