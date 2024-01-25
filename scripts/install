@@ -72,7 +72,7 @@ is_domain_managed_by_yunohost() {
     return 0
 }
 
-if ! is_valid_listname "$list_email"; then
+if ! is_valid_list_email "$list_email"; then
     ynh_die --message="Validation failed for list : $list_email"
 fi
 
