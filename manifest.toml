@@ -63,12 +63,12 @@ ram.runtime = "1M"
     # pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
     # pattern.error.fr = "Le nom la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
 
-    [install.list_domain]
-    ask.en = "Select the domain of the list email."
-    ask.fr = "Sélectionnez le domaine pour l‘adresse courriel dela liste."
-    help.en = "For the list to be functional, the domain should be configured with ingoing and outgoing email feature."
-    help.fr = "Pour que la liste soit fonctionnelle, le domaine doit être configuré avec la fonctionnalité email entrant et sortant."
-    type = "domain"  
+    # [install.list_domain]
+    # ask.en = "Select the domain of the list email."
+    # ask.fr = "Sélectionnez le domaine pour l‘adresse courriel dela liste."
+    # help.en = "For the list to be functional, the domain should be configured with ingoing and outgoing email feature."
+    # help.fr = "Pour que la liste soit fonctionnelle, le domaine doit être configuré avec la fonctionnalité email entrant et sortant."
+    # type = "domain"  
          
     [install.domain]
     ask.en = "Select the domain for the web access (where you’ll be able to explore the list web archives, for instance)"
