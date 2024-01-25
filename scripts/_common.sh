@@ -16,6 +16,9 @@ control_dir="$data_dir/control"
 subscribers_dir="$data_dir/subscribers.d"
 ynh_dir="$data_dir/ynh"
 
+# List email address variables
+local_part="${list_email%@*}"
+domain_part="${list_email#*@}"
 transport_entry="$app@localhost.mlmmj       mlmmj:$app"
 virtual_entry="$list_name@$list_domain    $app@localhost.mlmmj"
 
