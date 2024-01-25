@@ -14,6 +14,26 @@ source _common.sh
 
 ynh_script_progression --message="Check name validity;" -t
 
+is_valid_list_email() {
+    # Check format
+    # if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
+    #     ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
+    #     return 1
+    # fi
+
+    # # Build the full email address
+    local email_address="$1"
+
+    # Check if email address is already used
+    if yunohost user list --output-as json | jq -r '.users[].email' | grep -q "^$email_address$"; then
+        ynh_print_err --message="The email address '$email_address' is already in use. Please choose a different name."
+        return 1
+    fi
+
+    return 0
+}
+
+
 # is_valid_listname() {
 #     # Check format
 #     if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
@@ -21,67 +41,47 @@ ynh_script_progression --message="Check name validity;" -t
 #         return 1
 #     fi
 
-#     # Build the full email address
-#     local email_address="$1@$domain"
-
-#     # Check if email address is already used
-#     if yunohost user list --output-as json | jq -r '.users[].email' | grep -q "^$email_address$"; then
-#         ynh_print_err --message="The email address '$email_address' is already in use. Please choose a different name."
+#     # Check if name is a username
+#     if yunohost user list --output-as plain | grep -q "^$1$"; then
+#         ynh_print_err --message="The mailing list name '$1' is already in use as a username. Please choose a different name."
 #         return 1
 #     fi
 
 #     return 0
 # }
 
+is_domain_managed_by_yunohost() {
+    local list_domain=$1
 
-is_valid_listname() {
-    # Check format
-    if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
-        ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
+    # Vérifier si le domaine existe dans Yunohost
+    if ! yunohost domain list --output-as json | jq -r '.domains[]' | grep -q "^$list_domain$"; then
+        ynh_print_err --message="Le domaine '$list_domain' n'est pas géré par Yunohost."
         return 1
     fi
 
-    # Check if name is a username
-    if yunohost user list --output-as plain | grep -q "^$1$"; then
-        ynh_print_err --message="The mailing list name '$1' is already in use as a username. Please choose a different name."
+    # Vérifier si les emails entrants et sortants sont activés pour le domaine
+    local mail_config=$(yunohost domain show $list_domain --output-as json)
+    local incoming_mail_enabled=$(echo $mail_config | jq -r '.mail.incoming.enabled')
+    local outgoing_mail_enabled=$(echo $mail_config | jq -r '.mail.outgoing.enabled')
+
+    if [[ $incoming_mail_enabled != "true" || $outgoing_mail_enabled != "true" ]]; then
+        ynh_print_err --message="Les services de courriel entrant et/ou sortant ne sont pas activés pour le domaine '$list_domain'."
         return 1
     fi
 
     return 0
 }
 
-# is_domain_managed_by_yunohost() {
-#     local domain=$1
-
-#     # Vérifier si le domaine existe dans Yunohost
-#     if ! yunohost domain list --output-as json | jq -r '.domains[]' | grep -q "^$domain$"; then
-#         ynh_print_err --message="Le domaine '$domain' n'est pas géré par Yunohost."
-#         return 1
-#     fi
-
-#     # Vérifier si les emails entrants et sortants sont activés pour le domaine
-#     local mail_config=$(yunohost domain show $domain --output-as json)
-#     local incoming_mail_enabled=$(echo $mail_config | jq -r '.mail.incoming.enabled')
-#     local outgoing_mail_enabled=$(echo $mail_config | jq -r '.mail.outgoing.enabled')
-
-#     if [[ $incoming_mail_enabled != "true" || $outgoing_mail_enabled != "true" ]]; then
-#         ynh_print_err --message="Les services de courriel entrant et/ou sortant ne sont pas activés pour le domaine '$domain'."
-#         return 1
-#     fi
-
-#     return 0
-# }
-
-if ! is_valid_listname "$list_name"; then
-    ynh_die --message="Validation failed for list name: $list_name"
+if ! is_valid_listname "$list_email"; then
+    ynh_die --message="Validation failed for list : $list_email"
 fi
 
 
-# if ! is_domain_managed_by_yunohost "$domain"; then
-#     ynh_die --message="La vérification du domaine a échoué pour : $domain"
-# else
-#     echo "Le domaine '$domain' est correctement configuré avec les emails entrants et sortants activés."
-# fi
+if ! is_domain_managed_by_yunohost "$domain_part"; then
+    ynh_die --message="La vérification du domaine a échoué pour : $domain_part"
+else
+    echo "Le domaine '$domain_part' est correctement configuré avec les emails entrants et sortants activés."
+fi
 
 
 # -------------------------------------------------------------
@@ -98,7 +98,7 @@ install_update_mlmmj
 # Mailing List Creation and Activation
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Creating the list $list_name@$list_domain at $data_dir;" --time
+ynh_script_progression --message="Creating the list $list_email at $data_dir;" --time
 
 if [ -d "$lang_dir" ]; then
     cp "$lang_dir"/* "$data_dir/text"
@@ -148,7 +148,7 @@ ynh_app_setting_set -a $app -k display_nomailsubs -v false
 
 touch "$control_dir/moderators"
 touch "$control_dir/subonlypost"
-echo "[$list_name]" > "$control_dir/prefix"
+echo "[$local_part]" > "$control_dir/prefix"
 touch "$data_dir/control/owner"
 touch "$control_dir/notifysub"
 touch "$control_dir/subonlyget"
@@ -166,11 +166,11 @@ touch $data_dir/ynh/nomailsubs.txt
 ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
 
 echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" | tee "$data_dir/control/owner" > "$data_dir/ynh/owner.txt"
-echo "$list_name@$list_domain" > "$data_dir/control/listaddress"
+echo "$list_email" > "$data_dir/control/listaddress"
 
 
 # -------------------------------------------------------------
 # Install completion
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Mailing list $list_name@$list_domain was created successfully." --last
+ynh_script_progression --message="Mailing list $list_email was created successfully." --last
