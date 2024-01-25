@@ -34,7 +34,7 @@ is_valid_list_email() {
 }
 
 
-# is_valid_listname() {
+# is_valid_list_email() {
 #     # Check format
 #     if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
 #         ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
