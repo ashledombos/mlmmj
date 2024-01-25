@@ -28,6 +28,17 @@ ram.runtime = "1M"
 
 [install]
 
+    [install.list_email]
+    ask.en = "Enter the full email address of the mailing list (e.g., mylist@mydomain.com)"
+    ask.fr = "Entrez l'adresse e-mail complète de la liste de diffusion (par exemple, maliste@mondomaine.com)"
+    default = "mylist@mydomain.com"
+    help.en = "The email address must be available and the domain must be managed by this Yunohost instance with incoming and outgoing mail enabled."
+    help.fr = "L'adresse e-mail doit être disponible et le domaine doit être géré par cette instance Yunohost avec le courriel entrant et sortant activé."
+    type = "string"
+    pattern.regexp = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    pattern.error.en = "Please provide a valid email address in the format username@domain.com."
+    pattern.error.fr = "Veuillez fournir une adresse e-mail valide au format utilisateur@domaine.com."
+
     [install.language]
     ask.en = "Choose the application language"
     ask.fr = "Choisissez la langue de l'application"
@@ -42,15 +53,15 @@ ram.runtime = "1M"
     help.fr = "Il est possible d'ajouter ou de supprimer des propriétaires de la liste de diffusion après la configuration initiale via l'interface d'administration de Yunohost."
     type = "user"
 
-    [install.list_name]
-    ask.en = "Enter the name of the mailing list (the email of the list will be list_name@list_domain)"
-    ask.fr = "Entrez le nom de la liste de diffusion (l’adresse courriel de la liste sera nom_liste@domaine_liste)"
-    help.en = "It must not be equal to any existing user name."
-    help.fr = "Il doit être différent de tout nom d’utilisateur existant du systéme."
-    type = "string"
-    pattern.regexp = '^[a-zA-Z0-9.-]+$'
-    pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
-    pattern.error.fr = "Le nom la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
+    # [install.list_name]
+    # ask.en = "Enter the name of the mailing list (the email of the list will be list_name@list_domain)"
+    # ask.fr = "Entrez le nom de la liste de diffusion (l’adresse courriel de la liste sera nom_liste@domaine_liste)"
+    # help.en = "It must not be equal to any existing user name."
+    # help.fr = "Il doit être différent de tout nom d’utilisateur existant du systéme."
+    # type = "string"
+    # pattern.regexp = '^[a-zA-Z0-9.-]+$'
+    # pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
+    # pattern.error.fr = "Le nom la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
 
     [install.list_domain]
     ask.en = "Select the domain of the list email."
