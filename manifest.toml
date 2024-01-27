@@ -28,64 +28,64 @@ ram.runtime = "1M"
 
 [install]
 
-    [install.list_email]
-    ask.en = "Enter the full email address of the mailing list (e.g., mylist@mydomain.com)"
-    ask.fr = "Entrez l'adresse e-mail complète de la liste de diffusion (par exemple, maliste@mondomaine.com)"
-    default = "mylist@mydomain.com"
-    help.en = "The email address must be available and the domain must be managed by this Yunohost instance with incoming and outgoing mail enabled."
-    help.fr = "L'adresse e-mail doit être disponible et le domaine doit être géré par cette instance Yunohost avec le courriel entrant et sortant activé."
-    type = "string"
-    pattern.regexp = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    pattern.error.en = "Please provide a valid email address in the format username@domain.com."
-    pattern.error.fr = "Veuillez fournir une adresse e-mail valide au format utilisateur@domaine.com."
-
-    [install.language]
-    ask.en = "Choose the application language"
-    ask.fr = "Choisissez la langue de l'application"
-    type = "select"
-    choices = ["ast", "cs", "de", "en", "fi", "fr", "gr", "it", "pt", "sk", "zh-cn"]
-    default = "en"
-    
-    [install.owner]
-    ask.en = "Select the owner of the mailing list:"
-    ask.fr = "Sélectionnez le propriétaire de la liste de diffusion :"
-    help.en = "Owners of the mailing list can be added or removed after the initial setup through the Yunohost administration interface."
-    help.fr = "Il est possible d'ajouter ou de supprimer des propriétaires de la liste de diffusion après la configuration initiale via l'interface d'administration de Yunohost."
-    type = "user"
-
-    # [install.list_name]
-    # ask.en = "Enter the name of the mailing list (the email of the list will be list_name@list_domain)"
-    # ask.fr = "Entrez le nom de la liste de diffusion (l’adresse courriel de la liste sera nom_liste@domaine_liste)"
-    # help.en = "It must not be equal to any existing user name."
-    # help.fr = "Il doit être différent de tout nom d’utilisateur existant du systéme."
+    # [install.list_email]
+    # ask.en = "Enter the full email address of the mailing list (e.g., mylist@mydomain.com)"
+    # ask.fr = "Entrez l'adresse e-mail complète de la liste de diffusion (par exemple, maliste@mondomaine.com)"
+    # default = "mylist@mydomain.com"
+    # help.en = "The email address must be available and the domain must be managed by this Yunohost instance with incoming and outgoing mail enabled."
+    # help.fr = "L'adresse e-mail doit être disponible et le domaine doit être géré par cette instance Yunohost avec le courriel entrant et sortant activé."
     # type = "string"
-    # pattern.regexp = '^[a-zA-Z0-9.-]+$'
-    # pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
-    # pattern.error.fr = "Le nom la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
+    # pattern.regexp = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    # pattern.error.en = "Please provide a valid email address in the format username@domain.com."
+    # pattern.error.fr = "Veuillez fournir une adresse e-mail valide au format utilisateur@domaine.com."
 
-    # [install.list_domain]
-    # ask.en = "Select the domain of the list email."
-    # ask.fr = "Sélectionnez le domaine pour l‘adresse courriel dela liste."
-    # help.en = "For the list to be functional, the domain should be configured with ingoing and outgoing email feature."
-    # help.fr = "Pour que la liste soit fonctionnelle, le domaine doit être configuré avec la fonctionnalité email entrant et sortant."
-    # type = "domain"  
+    # [install.language]
+    # ask.en = "Choose the application language"
+    # ask.fr = "Choisissez la langue de l'application"
+    # type = "select"
+    # choices = ["ast", "cs", "de", "en", "fi", "fr", "gr", "it", "pt", "sk", "zh-cn"]
+    # default = "en"
+    
+    # [install.owner]
+    # ask.en = "Select the owner of the mailing list:"
+    # ask.fr = "Sélectionnez le propriétaire de la liste de diffusion :"
+    # help.en = "Owners of the mailing list can be added or removed after the initial setup through the Yunohost administration interface."
+    # help.fr = "Il est possible d'ajouter ou de supprimer des propriétaires de la liste de diffusion après la configuration initiale via l'interface d'administration de Yunohost."
+    # type = "user"
+
+    # # [install.list_name]
+    # # ask.en = "Enter the name of the mailing list (the email of the list will be list_name@list_domain)"
+    # # ask.fr = "Entrez le nom de la liste de diffusion (l’adresse courriel de la liste sera nom_liste@domaine_liste)"
+    # # help.en = "It must not be equal to any existing user name."
+    # # help.fr = "Il doit être différent de tout nom d’utilisateur existant du systéme."
+    # # type = "string"
+    # # pattern.regexp = '^[a-zA-Z0-9.-]+$'
+    # # pattern.error.en = "The name of the list must consist solely of letters, numbers, dots or hyphens."
+    # # pattern.error.fr = "Le nom la liste doit être composé uniquement de lettres, chiffres, points ou tirets."
+
+    # # [install.list_domain]
+    # # ask.en = "Select the domain of the list email."
+    # # ask.fr = "Sélectionnez le domaine pour l‘adresse courriel dela liste."
+    # # help.en = "For the list to be functional, the domain should be configured with ingoing and outgoing email feature."
+    # # help.fr = "Pour que la liste soit fonctionnelle, le domaine doit être configuré avec la fonctionnalité email entrant et sortant."
+    # # type = "domain"  
          
-    [install.domain]
-    ask.en = "Select the domain for the web access (where you’ll be able to explore the list web archives, for instance)"
-    ask.fr = "Sélectionnez le domaine pour l‘accès web (où vous pourrez consulter les archives web, par exemple)"
-    help.en = "It can be the same or different from the list email domain. If different, this one doesn’t need email features."
-    help.fr = "Il peut être le même, ou différent du domaine de l’adresse courriel de la liste. S’il diffère, la fonctionnalité email n’est pas requise."
-    type = "domain"
+    # [install.domain]
+    # ask.en = "Select the domain for the web access (where you’ll be able to explore the list web archives, for instance)"
+    # ask.fr = "Sélectionnez le domaine pour l‘accès web (où vous pourrez consulter les archives web, par exemple)"
+    # help.en = "It can be the same or different from the list email domain. If different, this one doesn’t need email features."
+    # help.fr = "Il peut être le même, ou différent du domaine de l’adresse courriel de la liste. S’il diffère, la fonctionnalité email n’est pas requise."
+    # type = "domain"
 
-    [install.path]
-    type = "path"
-    default = "/mlmmj"
+    # [install.path]
+    # type = "path"
+    # default = "/mlmmj"
 
-    [install.init_main_permission]
-    help.en = "If enabled, mlmmj web interface will be accessible by people who doesn’t have an account. This can be changed later via the webadmin."
-    help.fr = "Si cette case est cochée, l’interface web de mlmmj sera accessible aux personnes n’ayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
-    type = "group"
-    default = "visitors"
+    # [install.init_main_permission]
+    # help.en = "If enabled, mlmmj web interface will be accessible by people who doesn’t have an account. This can be changed later via the webadmin."
+    # help.fr = "Si cette case est cochée, l’interface web de mlmmj sera accessible aux personnes n’ayant pas de compte. Vous pourrez changer ceci plus tard via la webadmin."
+    # type = "group"
+    # default = "visitors"
 
 
 [resources]
