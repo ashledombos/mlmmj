@@ -167,4 +167,4 @@ ynh_script_progression --message="Source download and binaries compilation;" --w
 # Install completion
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Mailing list $list_email was created successfully." --last
+# ynh_script_progression --message="Mailing list $list_email was created successfully." --last
