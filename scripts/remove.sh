@@ -52,34 +52,34 @@
 #!/bin/bash
 
 
-# -------------------------------------------------------------
-# Check for Remaining mlmmj Instances and Remove Binaries
-# -------------------------------------------------------------
+# # -------------------------------------------------------------
+# # Check for Remaining mlmmj Instances and Remove Binaries
+# # -------------------------------------------------------------
 
-mlmmj_instances=$(sudo yunohost app list | grep -c 'id: mlmmj')
+# mlmmj_instances=$(sudo yunohost app list | grep -c 'id: mlmmj')
 
-# Remove mlmmj binaries and man pages only if this is the last remaining instance
-if [ "$mlmmj_instances" -eq 1 ]; then
-    shopt -s nullglob
-    dirbin="/usr/local/bin/"
-    dirman="/usr/local/share/man/man1/"
-    pattern="mlmmj-*"
+# # Remove mlmmj binaries and man pages only if this is the last remaining instance
+# if [ "$mlmmj_instances" -eq 1 ]; then
+#     shopt -s nullglob
+#     dirbin="/usr/local/bin/"
+#     dirman="/usr/local/share/man/man1/"
+#     pattern="mlmmj-*"
 
-    rm -f /usr/local/bin/mlmmj-make-ml.sh
-    rm -f /usr/local/bin/mlmmj-recieve
+#     rm -f /usr/local/bin/mlmmj-make-ml.sh
+#     rm -f /usr/local/bin/mlmmj-recieve
 
-    for file in $dirbin$pattern; do
-        echo "Removing binary file: $file"
-        ynh_secure_remove --file="$file"
-    done
+#     for file in $dirbin$pattern; do
+#         echo "Removing binary file: $file"
+#         ynh_secure_remove --file="$file"
+#     done
 
-    for file in $dirman$pattern; do
-        echo "Removing man page: $file"
-        ynh_secure_remove --file="$file"
-    done
+#     for file in $dirman$pattern; do
+#         echo "Removing man page: $file"
+#         ynh_secure_remove --file="$file"
+#     done
 
-    ynh_secure_remove --file="/usr/local/share/mlmmj"
-    ynh_secure_remove --file="/usr/share/yunohost/hooks/conf_regen/98-postfix_mlmmj"
+#     ynh_secure_remove --file="/usr/local/share/mlmmj"
+#     ynh_secure_remove --file="/usr/share/yunohost/hooks/conf_regen/98-postfix_mlmmj"
 
 
-fi
+# fi
