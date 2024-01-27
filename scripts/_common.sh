@@ -1,40 +1,40 @@
 #!/bin/bash
 
-#=================================================
-# COMMON VARIABLES
-#=================================================
-# Install dir variables
-src_dir="$install_dir/src"
-app_dir="$install_dir/app"
-tables_dir="$install_dir/tables"
-transport_file="$tables_dir/transport"
-virtual_file="$tables_dir/virtual"
+# #=================================================
+# # COMMON VARIABLES
+# #=================================================
+# # Install dir variables
+# src_dir="$install_dir/src"
+# app_dir="$install_dir/app"
+# tables_dir="$install_dir/tables"
+# transport_file="$tables_dir/transport"
+# virtual_file="$tables_dir/virtual"
 
 
-# Data dir variables
-control_dir="$data_dir/control"
-subscribers_dir="$data_dir/subscribers.d"
-ynh_dir="$data_dir/ynh"
+# # Data dir variables
+# control_dir="$data_dir/control"
+# subscribers_dir="$data_dir/subscribers.d"
+# ynh_dir="$data_dir/ynh"
 
-# List email address variables
-# local_part="${list_email%@*}"
-# domain_part="${list_email#*@}"
-local_part="toto"
-domain_part="rototo"
-transport_entry="$app@localhost.mlmmj       mlmmj:$app"
-virtual_entry="$list_email    $app@localhost.mlmmj"
+# # List email address variables
+# # local_part="${list_email%@*}"
+# # domain_part="${list_email#*@}"
+# local_part="toto"
+# domain_part="rototo"
+# transport_entry="$app@localhost.mlmmj       mlmmj:$app"
+# virtual_entry="$list_email    $app@localhost.mlmmj"
 
-cron_file="/etc/cron.d/$app.cron"
-mlmmjreceive="$install_dir/app/bin/mlmmj-receive"
-mlmmjmaintd="$install_dir/app/bin/mlmmj-maintd"
-regen_conf_file="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
+# cron_file="/etc/cron.d/$app.cron"
+# mlmmjreceive="$install_dir/app/bin/mlmmj-receive"
+# mlmmjmaintd="$install_dir/app/bin/mlmmj-maintd"
+# regen_conf_file="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
 
-# installed_version=""
-# REQUIRED_VERSION=$(cat mlmmj_version)
-# app_version="${version%%~*}"
+# # installed_version=""
+# # REQUIRED_VERSION=$(cat mlmmj_version)
+# # app_version="${version%%~*}"
 
-mlmmj_share="$install_dir/app/share"
-lang_dir="$mlmmj_share/text.skel/$language"
+# mlmmj_share="$install_dir/app/share"
+# lang_dir="$mlmmj_share/text.skel/$language"
 
 #=================================================
 # PERSONAL HELPERS
