@@ -84,7 +84,7 @@
 # -------------------------------------------------------------
 
 
-ynh_script_progression --message="Source download and binaries compilation;" --weight=5 --time
+# ynh_script_progression --message="Source download and binaries compilation;" --weight=5 --time
 
 # install_update_mlmmj
 
