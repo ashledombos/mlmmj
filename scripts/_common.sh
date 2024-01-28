@@ -14,7 +14,7 @@ virtual_file="$tables_dir/virtual"
 # Data dir variables
 control_dir="$data_dir/control"
 subscribers_dir="$data_dir/subscribers.d"
-ynh_dir="$data_dir/ynh"
+ynh_dir="$install_dir/ynh"
 
 # List email address variables
 local_part="${list_email%@*}"
