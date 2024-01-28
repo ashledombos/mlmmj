@@ -1,1 +1,103 @@
+#!/bin/bash
 
+#=================================================
+# INSTALL
+#=================================================
+
+# Import YunoHost helpers
+#source /usr/share/yunohost/helpers
+#source _common.sh
+
+
+
+
+
+# -------------------------------------------------------------
+# Install MLMMJ if necessary and check Postfix
+# -------------------------------------------------------------
+
+
+# ynh_script_progression --message="Source download and binaries compilation;" --weight=5 --time
+
+# install_update_mlmmj
+
+# # -------------------------------------------------------------
+# # Mailing List Creation and Activation
+# # -------------------------------------------------------------
+
+# ynh_script_progression --message="Creating the list $list_email at $data_dir;" --time
+
+# if [ -d "$lang_dir" ]; then
+#     cp "$lang_dir"/* "$data_dir/text"
+# fi
+
+# # -------------------------------------------------------------
+# # Setting up conf files transport et virtual
+# # -------------------------------------------------------------
+
+# [ ! -d "$tables_dir" ] && mkdir -p "$tables_dir"
+
+# [ ! -f "$transport_file" ] && touch "$transport_file"
+# [ ! -f "$virtual_file" ] && touch "$virtual_file"
+
+# if ! grep -qF "$transport_entry" "$transport_file"; then
+#     echo "$transport_entry" >> "$transport_file"
+#     postmap "$transport_file"
+# fi
+
+# if ! grep -qF "$virtual_entry" "$virtual_file"; then
+#     echo "$virtual_entry" >> "$virtual_file"
+#     postmap "$virtual_file"
+# fi
+
+# chgrp postfix $install_dir
+# chown $app:postfix $install_dir/tables -R
+
+# # -------------------------------------------------------------
+# # Cron
+# # -------------------------------------------------------------
+
+# rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
+# # if [ ! -d "$CRON_DIR" ]; then
+# #     mkdir -p "$CRON_DIR"
+# #     chmod 644 "$CRON_DIR"
+# # fi
+# echo "$rand_min */2 * * * $app $mlmmjmaintd -F -L $data_dir" > "$cron_file" 
+
+# # -------------------------------------------------------------
+# # Default settings
+# # -------------------------------------------------------------
+
+# ynh_app_setting_set -a $app -k category -v "subscribers"
+# ynh_app_setting_set -a $app -k display_subscribers -v false
+# ynh_app_setting_set -a $app -k display_digesters -v false
+# ynh_app_setting_set -a $app -k display_nomailsubs -v false
+
+# touch "$control_dir/moderators"
+# touch "$control_dir/subonlypost"
+# echo "[$local_part]" > "$control_dir/prefix"
+# touch "$data_dir/control/owner"
+# touch "$control_dir/notifysub"
+# touch "$control_dir/subonlyget"
+# echo "postfix" > "$control_dir/verp"
+# touch "$control_dir/nodigestsub"
+# touch "$control_dir/nonomailsub"
+# echo "10485760" > "$control_dir/maxmailsize"  # 10MB
+# touch $data_dir/ynh/moderators.txt
+# touch $data_dir/ynh/submod.txt
+# touch $data_dir/ynh/subscribers.txt
+# touch $data_dir/ynh/digesters.txt
+# touch $data_dir/ynh/nomailsubs.txt
+
+# [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
+# ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
+
+# echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" | tee "$data_dir/control/owner" > "$data_dir/ynh/owner.txt"
+# echo "$list_email" > "$data_dir/control/listaddress"
+
+
+# -------------------------------------------------------------
+# Install completion
+# -------------------------------------------------------------
+
+# ynh_script_progression --message="Mailing list $list_email was created successfully." --last
