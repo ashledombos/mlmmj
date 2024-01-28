@@ -30,6 +30,11 @@ For specific functionalities not covered in the panel, users are encouraged to [
 
 
 **Shipped version:** 1.4.3~ynh1
+
+## Screenshots
+
+![Screenshot of mlmmj](./doc/screenshots/panel.png)
+
 ## Documentation and resources
 
 * Official app website: <https://codeberg.org/mlmmj/mlmmj>
