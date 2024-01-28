@@ -211,7 +211,7 @@ name.fr = "Paramètres MLMMJ"
     help.fr = "catégorie nomailsubs"
     visible = "category == 'nomailsubs'"
 
-        [main.digesters.enable_nomailsubs]
+        [main.nomailsubs.enable_nomailsubs]
         ask.en = "Enable nomail subscribtion"
         ask.fr = "Autoriser les abonnements en mode envoi uniquement (nomail)"
         type = "boolean"
