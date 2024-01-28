@@ -1,6 +1,6 @@
 
 - **Mailing list email address:** `__LIST_EMAIL__`
-- **List presentation webpage:** `https://__DOMAIN__/__PATH__`
+- **List presentation webpage:** `__DOMAIN____PATH__`
 
 You have the flexibility to manage your mailing list either through the control panel for common operations or, for advanced users familiar with MLMMJ, via editing configuration files and executing commands for subscription management.
 
