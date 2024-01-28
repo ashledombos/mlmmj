@@ -43,28 +43,28 @@
 # }
 
 # is_domain_managed_by_yunohost() {
-#     local list_domain=$1
+#     local list_domain_part=$1
 
-#     if ! yunohost domain list --output-as json | jq -r '.domains[]' | grep -q "^$list_domain$"; then
-#         ynh_print_err --message="The domain '$list_domain' is not managed by this Yunohost instance."
+#     if ! yunohost domain list --output-as json | jq -r '.domains[]' | grep -q "^$list_domain_part$"; then
+#         ynh_print_err --message="The domain '$list_domain_part' is not managed by this Yunohost instance."
 #         return 1
 #     fi
 # }
 
 # is_domain_mail_set() {
-#     local list_domain=$1
+#     local list_domain_part=$1
 
-#     local incoming_mail_enabled=$(sudo yunohost domain config get $list_domain feature.mail.mail_in)
-#     local outgoing_mail_enabled=$(sudo yunohost domain config get $list_domain feature.mail.mail_out)
+#     local incoming_mail_enabled=$(sudo yunohost domain config get $list_domain_part feature.mail.mail_in)
+#     local outgoing_mail_enabled=$(sudo yunohost domain config get $list_domain_part feature.mail.mail_out)
 
 #     if [[ $incoming_mail_enabled != "1" && $outgoing_mail_enabled != "1" ]]; then
-#         ynh_print_err --message="Both mail in and mail out are not activated for $list_domain"
+#         ynh_print_err --message="Both mail in and mail out are not activated for $list_domain_part"
 #         return 1
 #     elif [[ $incoming_mail_enabled != "1" ]]; then
-#         ynh_print_err --message="Mail in is not activated for $list_domain"
+#         ynh_print_err --message="Mail in is not activated for $list_domain_part"
 #         return 1
 #     elif [[ $outgoing_mail_enabled != "1" ]]; then
-#         ynh_print_err --message="Mail out is not activated for $list_domain"
+#         ynh_print_err --message="Mail out is not activated for $list_domain_part"
 #         return 1
 #     fi
 
