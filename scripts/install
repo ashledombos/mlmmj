@@ -92,9 +92,9 @@ install_update_mlmmj
 # Manage user creation and password
 # -------------------------------------------------------------
 
-ynh_system_user_create --username=$app --home_dir="$install_dir"
-user_password=$(openssl rand -base64 12)
-chpasswd <<< "${app}:${user_password}"
+#ynh_system_user_create --username=$app --home_dir="$install_dir"
+#user_password=$(openssl rand -base64 12)
+#chpasswd <<< "${app}:${user_password}"
 
 # -------------------------------------------------------------
 # Mailing List Creation and Activation
