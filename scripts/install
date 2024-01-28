@@ -64,7 +64,7 @@ is_domain_mail_set() {
 if ! is_valid_list_email "$list_email"; then
     ynh_die --message="Please choose an available email address"
 else
-    ynh_print_info --message="The domain '$domain_part' is correctly set up with mail in and mail out."
+    ynh_print_info --message="The email '$list_email' is available."
 fi
 
 if ! is_domain_managed_by_yunohost "$domain_part"; then
