@@ -113,6 +113,22 @@ name.fr = "Paramètres MLMMJ"
         help.fr = "Nom du paramètre : footer"
         type = "text"
         bind = "/home/yunohost.app/__APP__/control/footer"
+      
+        [main.advanced.ssh_access]
+        ask.en = "Activate SSH access for the __APP__ user?"
+        ask.fr = "Activer l'accès SSH pour l'utilisateur __APP__ ?"
+        type = "boolean"
+        default = false
+    
+        [main.advanced.app_password]
+        ask.en = "Enter the new password for user __APP__"
+        ask.fr = "Entrez le nouveau mot de passe pour l'utilisateur __APP__"
+        type = "password"
+        default = ""
+        visible_if = "main.advanced.ssh_access == true"
+        pattern.regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+        pattern.error.en = "The password must be at least 8 characters long and include at least one letter and one number."
+        pattern.error.fr = "Le mot de passe doit contenir au moins 8 caractères, dont une lettre et un chiffre."
 
     [main.sub]
     name.en = "Subscribers" 
