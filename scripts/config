@@ -190,6 +190,12 @@ set__notifymod() {
     set_flag "notifymod" "$notifymod"
 }
 
+# Advanced
+
+set__app_password() {
+    chpasswd <<< "$app:$app_password"
+}
+
 # sub
 
 set__add_subscribers() {
