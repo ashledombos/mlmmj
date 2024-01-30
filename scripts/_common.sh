@@ -34,6 +34,8 @@ regen_conf_file="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
 mlmmj_share="$install_dir/app/share"
 lang_dir="$mlmmj_share/text.skel/$language"
 
+app_password=$(openssl rand -base64 12)
+
 #=================================================
 # PERSONAL HELPERS
 #=================================================
@@ -59,8 +61,6 @@ install_update_mlmmj() {
         fi
     
         popd
-        ynh_add_config --template="regenconf_postfix" --destination="$regen_conf_file"
-        yunohost tools regen-conf postfix
 }
 #=================================================
 # EXPERIMENTAL HELPERS
