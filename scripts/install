@@ -152,6 +152,12 @@ touch $ynh_dir/submod.txt
 touch $ynh_dir/subscribers.txt
 touch $ynh_dir/digesters.txt
 touch $ynh_dir/nomailsubs.txt
+# useful stuff for ssh management
+mkdir $install_dir/bin
+ln -s $data_dir $install_dir/files
+cp /etc/skel/.bashrc $install_dir
+cp /etc/skel/.profile $install_dir
+
 
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
 ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
