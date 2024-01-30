@@ -9,10 +9,13 @@ source /usr/share/yunohost/helpers
 source _common.sh
 
 # -------------------------------------------------------------
-# Check list email address validity
+# Check list main email address validity
+# First it checks that the address is available
+# Next it checks that the domain is managed by the ynh instance
+# Then it checks that the domain has mail in and out set up
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Check name validity;" -t
+ynh_script_progression --message="Check list email address validity;" 
 
 is_valid_list_email() {
     local email_address="$1"
@@ -80,35 +83,22 @@ else
 fi
 
 # -------------------------------------------------------------
-# Install MLMMJ if necessary and check Postfix
+# Download and compile MLMMJ and setup postfix tables
 # -------------------------------------------------------------
 
 
-ynh_script_progression --message="Source download and binaries compilation;" --weight=5 --time
+ynh_script_progression --message="Source download and binaries compilation;" --weight=5
 
 install_update_mlmmj
 
 # -------------------------------------------------------------
-# Manage user creation and password
+# Setting up postfix with new transport and virtual tables
 # -------------------------------------------------------------
 
-#ynh_system_user_create --username=$app --home_dir="$install_dir"
-#user_password=$(openssl rand -base64 12)
-#chpasswd <<< "${app}:${user_password}"
+ynh_script_progression --message="Setting up postfix with new transport and virtual tables;"
 
-# -------------------------------------------------------------
-# Mailing List Creation and Activation
-# -------------------------------------------------------------
-
-ynh_script_progression --message="Creating the list $list_email at $data_dir;" --time
-
-if [ -d "$lang_dir" ]; then
-    cp "$lang_dir"/* "$data_dir/text"
-fi
-
-# -------------------------------------------------------------
-# Setting up conf files transport et virtual
-# -------------------------------------------------------------
+ynh_add_config --template="regenconf_postfix" --destination="$regen_conf_file"
+yunohost tools regen-conf postfix
 
 [ ! -d "$tables_dir" ] && mkdir -p "$tables_dir"
 
@@ -128,26 +118,23 @@ fi
 chgrp postfix $install_dir
 chown $app:postfix $install_dir/tables -R
 
-# -------------------------------------------------------------
-# Cron
-# -------------------------------------------------------------
-
-rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
-# if [ ! -d "$CRON_DIR" ]; then
-#     mkdir -p "$CRON_DIR"
-#     chmod 644 "$CRON_DIR"
-# fi
-echo "$rand_min */2 * * * $app $mlmmjmaintd -F -L $data_dir" > "$cron_file" 
 
 # -------------------------------------------------------------
-# Default settings
+# Language, default settings and ynh config files
 # -------------------------------------------------------------
+
+ynh_script_progression --message="Language, default settings and ynh config files;"
+
+if [ -d "$lang_dir" ]; then
+    cp "$lang_dir"/* "$data_dir/text"
+fi
 
 ynh_app_setting_set -a $app -k category -v "subscribers"
 ynh_app_setting_set -a $app -k display_subscribers -v false
 ynh_app_setting_set -a $app -k display_digesters -v false
 ynh_app_setting_set -a $app -k display_nomailsubs -v false
 
+# create mlmmj control file
 touch "$control_dir/moderators"
 touch "$control_dir/subonlypost"
 echo "[$local_part]" > "$control_dir/prefix"
@@ -158,17 +145,32 @@ echo "postfix" > "$control_dir/verp"
 touch "$control_dir/nodigestsub"
 touch "$control_dir/nonomailsub"
 echo "10485760" > "$control_dir/maxmailsize"  # 10MB
-touch $data_dir/ynh/moderators.txt
-touch $data_dir/ynh/submod.txt
-touch $data_dir/ynh/subscribers.txt
-touch $data_dir/ynh/digesters.txt
-touch $data_dir/ynh/nomailsubs.txt
+# create ynh helper files
+mkdir -p $ynh_dir
+touch $ynh_dir/moderators.txt
+touch $ynh_dir/submod.txt
+touch $ynh_dir/subscribers.txt
+touch $ynh_dir/digesters.txt
+touch $ynh_dir/nomailsubs.txt
 
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
 ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
 
 echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" | tee "$data_dir/control/owner" > "$data_dir/ynh/owner.txt"
 echo "$list_email" > "$data_dir/control/listaddress"
+
+# -------------------------------------------------------------
+# Cron and SSH user password
+# -------------------------------------------------------------
+
+ynh_script_progression --message="Configuring Cron and SSH user;"
+
+ssh_pass=$(ynh_string_random --length=24)
+#ssh_pass=$(openssl rand -base64 12)
+chpasswd <<< "${app}:${ssh_pass}"
+
+rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
+echo "$rand_min */2 * * * $app $mlmmjmaintd -F -L $data_dir" > "$cron_file" 
 
 
 # -------------------------------------------------------------
