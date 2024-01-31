@@ -162,7 +162,7 @@ ln -s $data_dir $install_dir/files
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
 ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
 
-echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" | tee "$data_dir/control/owner" > "$data_dir/ynh/owner.txt"
+echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" | tee "$data_dir/control/owner" > "$ynh_dir/owner.txt"
 echo "$list_email" > "$data_dir/control/listaddress"
 
 # -------------------------------------------------------------
