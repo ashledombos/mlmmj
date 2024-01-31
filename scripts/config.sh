@@ -95,6 +95,12 @@ get__notifymod() {
     get_flag "notifymod"
 }
 
+# Advanced
+
+set__ssh_access() {
+    echo ""
+}
+
 # Sub
 
 get__add_subscribers() {
@@ -193,7 +199,13 @@ set__notifymod() {
 # Advanced
 
 set__app_password() {
-    chpasswd <<< "$app:$app_password"
+    if [[ $ssh_access -eq 1 ]]; then
+        if [[ ! -z $new_password ]]; then
+            # echo "$app:$app_password" | chpasswd
+            chpasswd <<< "$app:$app_password"
+            # ynh_app_setting_set --app=$app --key=app_password --value="" 
+        fi
+    fi
 }
 
 # sub
