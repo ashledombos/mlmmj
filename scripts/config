@@ -97,7 +97,11 @@ get__notifymod() {
 
 # Advanced
 
-set__app_password() {
+get__ssh_access() {
+    echo "0"
+}
+
+get__app_password() {
     echo ""
 }
 
