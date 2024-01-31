@@ -115,7 +115,7 @@ name.fr = "Paramètres MLMMJ"
         bind = "/home/yunohost.app/__APP__/control/footer"
 
         [main.advanced.ssh_access]
-        ask.fr = "Create or change SSH user password for __APP__"
+        ask.en = "Create or change SSH user password for __APP__"
         ask.fr = "Créer ou changer le mot de passe SSH pour l'utilisateur __APP__"
         type = "boolean"
         default = false
