@@ -155,8 +155,8 @@ touch $ynh_dir/nomailsubs.txt
 # useful stuff for ssh management
 mkdir $install_dir/bin
 ln -s $data_dir $install_dir/files
-cp /etc/skel/.bashrc $install_dir
-cp /etc/skel/.profile $install_dir
+#cp /etc/skel/.bashrc $install_dir
+#cp /etc/skel/.profile $install_dir
 
 
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
@@ -171,9 +171,10 @@ echo "$list_email" > "$data_dir/control/listaddress"
 
 ynh_script_progression --message="Configuring Cron and SSH user;"
 
-ssh_pass=$(ynh_string_random --length=24)
+#ssh_pass=$(ynh_string_random --length=24)
 #ssh_pass=$(openssl rand -base64 12)
-chpasswd <<< "${app}:${ssh_pass}"
+#chpasswd <<< "${app}:${ssh_pass}"
+usermod -s /bin/bash $app
 
 rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
 echo "$rand_min */2 * * * $app $mlmmjmaintd -F -L $data_dir" > "$cron_file" 
