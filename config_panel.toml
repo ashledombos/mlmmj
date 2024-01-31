@@ -71,7 +71,7 @@ name.fr = "Paramètres MLMMJ"
         help.en = "Setting name: moderators"
         help.fr = "Nom du paramètre : moderators"
         type = "text"
-        bind = "/var/www/ynh/moderators.txt"
+        bind = "/var/www/__APP__/ynh/moderators.txt"
 
         [main.moderation.modnonsubposts]
         ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
@@ -176,7 +176,7 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Subscribers"
         ask.fr = "Abonnés"
         type = "text"
-        bind = "/home/yunohost.app/__APP__/ynh/subscribers.txt"
+        bind = "/var/www/__APP__/ynh/subscribers.txt"
         visible = "display_subscribers == true"
 
     [main.digesters]
@@ -217,7 +217,7 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Subscribers"
         ask.fr = "Abonnés"
         type = "text"
-        bind = "/home/yunohost.app/__APP__/ynh/digesters.txt"
+        bind = "/var/www/__APP__/ynh/digesters.txt"
         visible = "display_digesters == true"
         
     [main.nomailsubs]
@@ -256,5 +256,5 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "nomailsubs subscribers"
         ask.fr = "abonnés à nomailsubs"
         type = "text"
-        bind = "/home/yunohost.app/__APP__/ynh/nomailsubs.txt"
+        bind = "/var/www/__APP__/ynh/nomailsubs.txt"
         visible = "display_nomailsubs == true"
