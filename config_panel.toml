@@ -35,7 +35,7 @@ name.fr = "Paramètres MLMMJ"
         help.fr = "Nom du paramètre : owner"
         optional = true
         type = "text"
-        bind = "/home/yunohost.app/__APP__/ynh/owner.txt"
+        bind = "/var/www/__APP__/ynh/owner.txt"
         
         [main.owners.notifysub]
         ask.en = "Should owners be notified of subcriptions and unsubscribtions to the list?"
@@ -57,7 +57,7 @@ name.fr = "Paramètres MLMMJ"
         help.en = "Setting name: submod"
         help.fr = "Nom du paramètre : submod"
         type = "text"
-        bind = "/home/yunohost.app/__APP__/ynh/submod.txt"
+        bind = "/var/www/__APP__/ynh/submod.txt"
         visible = "submod == 1"
         
 
@@ -71,7 +71,7 @@ name.fr = "Paramètres MLMMJ"
         help.en = "Setting name: moderators"
         help.fr = "Nom du paramètre : moderators"
         type = "text"
-        bind = "/home/yunohost.app/__APP__/ynh/moderators.txt"
+        bind = "/var/www/ynh/moderators.txt"
 
         [main.moderation.modnonsubposts]
         ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
