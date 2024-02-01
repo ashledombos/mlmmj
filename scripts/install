@@ -17,6 +17,24 @@ source _common.sh
 
 ynh_script_progression --message="Check list email address validity;" 
 
+if ! is_valid_list_email "$list_email"; then
+    ynh_die --message="Please choose an available email address"
+else
+    ynh_print_info --message="The email '$list_email' is available."
+fi
+
+if ! is_domain_managed_by_yunohost "$domain_part"; then
+    ynh_die --message="Please add $domain_part in this Yunohost instance domains list."
+else
+    ynh_print_info --message="The domain '$domain_part' is managed by this Yunohost instance."
+fi
+
+if ! is_domain_mail_set "$domain_part"; then
+    ynh_die --message="Please check the mail configurations for the domain $domain_part."
+else
+    ynh_print_info --message="The domain '$domain_part' is correctly set up with mail in and mail out."
+fi
+
 # -------------------------------------------------------------
 # Download and compile MLMMJ and setup postfix tables
 # -------------------------------------------------------------
