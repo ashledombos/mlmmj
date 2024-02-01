@@ -110,6 +110,32 @@ is_domain_mail_set() {
     return 0
 }
 
+# Vérifie si le courrier entrant est activé pour le domaine
+is_incoming_mail_enabled() {
+    local list_dom="$1"
+    local incoming_mail_enabled=$(sudo yunohost domain config get "$list_dom" feature.mail.mail_in)
+
+    if [[ $incoming_mail_enabled != "1" ]]; then
+        ynh_print_err --message="Mail in is not activated for $list_dom."
+        return 1
+    fi
+
+    return 0
+}
+
+# Vérifie si le courrier sortant est activé pour le domaine
+is_outgoing_mail_enabled() {
+    local list_dom="$1"
+    local outgoing_mail_enabled=$(sudo yunohost domain config get "$list_dom" feature.mail.mail_out)
+
+    if [[ $outgoing_mail_enabled != "1" ]]; then
+        ynh_print_err --message="Mail out is not activated for $list_dom."
+        return 1
+    fi
+
+    return 0
+}
+
 #=================================================
 # EXPERIMENTAL HELPERS
 #=================================================
