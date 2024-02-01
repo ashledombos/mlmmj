@@ -108,6 +108,7 @@ touch "$control_dir/nonomailsub"
 echo "10485760" > "$control_dir/maxmailsize"  # 10MB
 # create ynh helper files
 mkdir -p $ynh_dir
+touch $ynh_dir/listaddress.txt
 touch $ynh_dir/moderators.txt
 touch $ynh_dir/submod.txt
 touch $ynh_dir/subscribers.txt
@@ -124,7 +125,7 @@ ln -s $data_dir $install_dir/files
 ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
 
 echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" | tee "$data_dir/control/owner" > "$ynh_dir/owner.txt"
-echo "$list_email" > "$data_dir/control/listaddress"
+echo "$list_email" | tee "$data_dir/control/listaddress" > "$ynh_dir/listaddress.txt"
 
 # -------------------------------------------------------------
 # Cron and SSH user password
