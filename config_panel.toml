@@ -15,7 +15,7 @@ name.fr = "Paramètres MLMMJ"
         help.fr = "Nom du paramètre : owner"
         optional = true
         type = "text"
-        bind = "/var/www/__APP__/ynh/owner.txt"
+        bind = "/var/www/__APP__/ynh/listaddress.txt"
 
         [main.general.list_status]
         ask.en = "List Subscription Status"
