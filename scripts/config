@@ -204,7 +204,7 @@ set__notifymod() {
 
 set__app_password() {
     if [[ $ssh_access -eq 1 ]]; then
-        if [[ ! -z $new_password ]]; then
+        if [[ ! -z $app_password ]]; then
             # echo "$app:$app_password" | chpasswd
             chpasswd <<< "$app:$app_password"
             # ynh_app_setting_set --app=$app --key=app_password --value="" 
