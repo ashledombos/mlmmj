@@ -29,8 +29,16 @@ else
     ynh_print_info --message="The domain '$domain_part' is managed by this Yunohost instance."
 fi
 
-if ! is_domain_mail_set "$domain_part"; then
-    ynh_die --message="Please check the mail configurations for the domain $domain_part."
+# if ! is_domain_mail_set "$domain_part"; then
+#     ynh_die --message="Please check the mail configurations for the domain $domain_part."
+# else
+#     ynh_print_info --message="The domain '$domain_part' is correctly set up with mail in and mail out."
+# fi
+
+if ! is_incoming_mail_enabled "$domain_part"; then
+    ynh_die --message="Mail in is not activated for the domain $domain_part. Please enable it."
+elif ! is_outgoing_mail_enabled "$domain_part"; then
+    ynh_die --message="Mail out is not activated for the domain $domain_part. Please enable it."
 else
     ynh_print_info --message="The domain '$domain_part' is correctly set up with mail in and mail out."
 fi
