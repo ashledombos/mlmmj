@@ -33,6 +33,11 @@ bin_dir="$install_dir/app/bin"
 # Validators
 # -------------------------------------------------------------
 
+validate__list_addresses() {
+    validate__email_generic "$list_adresses"
+
+}
+
 validate__submod_list() {
     validate__email_generic "$submod_list"
 }
@@ -279,6 +284,46 @@ validate__email_generic() {
     fi
 }
 
+check_list_setup_from_file() {
+    local list_addresses_file="$1" # Chemin vers le fichier contenant les adresses e-mail
+    local first_line=true # Flag pour traiter différemment la première ligne
+
+    # Lire le fichier ligne par ligne
+    while IFS= read -r list_email || [[ -n "$list_email" ]]; do
+        local domain_part="${list_email#*@}" # Extrait le domaine de l'adresse e-mail
+
+        # Vérification de la disponibilité de l'adresse e-mail
+        if ! is_valid_list_email "$list_email"; then
+            ynh_die --message="The email address '$list_email' is not available. Please choose a different email address."
+        else
+            ynh_print_info --message="The email address '$list_email' is available."
+        fi
+
+        # Vérification que le domaine est géré par Yunohost
+        if ! is_domain_managed_by_yunohost "$domain_part"; then
+            ynh_die --message="The domain '$domain_part' is not managed by this Yunohost instance. Please add it to the Yunohost domains list."
+        fi
+
+        # Pour la première ligne uniquement, vérifiez le mail out
+        if [ "$first_line" = true ]; then
+            if ! is_outgoing_mail_enabled "$domain_part"; then
+                ynh_die --message="Mail out is not activated for the domain $domain_part. Please enable it."
+            else
+                ynh_print_info --message="Mail out is enabled for the domain '$domain_part'."
+            fi
+            first_line=false # Reset le flag après la première ligne
+        fi
+
+        # Vérification que le domaine a bien le mail in activé
+        if ! is_incoming_mail_enabled "$domain_part"; then
+            ynh_die --message="Mail in is not activated for the domain $domain_part. Please enable it."
+        else
+            ynh_print_info --message="Mail in is enabled for the domain '$domain_part'."
+        fi
+
+    done < "$list_addresses_file"
+}
+
 get_flag() {
     local flag_name="$1"
     if [ -f "$control_dir/$flag_name" ]; then
@@ -394,7 +439,7 @@ ynh_app_config_get() {
 ynh_app_config_apply() {
     _ynh_app_config_apply
 
-    local files_to_sync=("owner" "moderators" "submod")
+    local files_to_sync=("listaddress" "owner" "moderators" "submod")
 
     for file in "${files_to_sync[@]}"; do
         [ -f "$ynh_dir/$file.txt" ] && cp -f "$ynh_dir/$file.txt" "$control_dir/$file"
