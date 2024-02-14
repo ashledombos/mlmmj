@@ -1,18 +1,42 @@
 #!/bin/bash
+# In simple cases, you don't need a config script.
+
+# With a simple config_panel.toml, you can write in the app settings, in the
+# upstream config file or replace complete files (logo ...) and restart services.
+
+# The config scripts allows you to go further, to handle specific cases
+# (validation of several interdependent fields, specific getter/setter for a value,
+# display dynamic informations or choices, pre-loading of config type .cube... ).
 
 #=================================================
-# CONFIG
+# GENERIC STARTING
+#=================================================
+# IMPORT GENERIC HELPERS
 #=================================================
 
-# Import YunoHost helpers
 source /usr/share/yunohost/helpers
-source _common.sh
 
 ynh_abort_if_errors
+
+#=================================================
+# RETRIEVE ARGUMENTS
+#=================================================
+
+install_dir=$(ynh_app_setting_get --app="$app" --key=install_dir)
+data_dir=$(ynh_app_setting_get --app="$app" --key=data_dir)
+
+control_dir="$data_dir/control"
+ynh_dir="$data_dir/ynh"
+bin_dir="$install_dir/app/bin"
 
 # -------------------------------------------------------------
 # Validators
 # -------------------------------------------------------------
+
+validate__list_addresses() {
+    validate__email_generic "$list_adresses"
+
+}
 
 validate__submod_list() {
     validate__email_generic "$submod_list"
@@ -30,7 +54,7 @@ validate__del() {
     validate__email_generic "$del"
 }
 
-# -------------------------------------------------------------rototo@gege.com
+# -------------------------------------------------------------
 # Getters
 # -------------------------------------------------------------
 
@@ -74,6 +98,16 @@ get__moderated() {
 
 get__notifymod() {
     get_flag "notifymod"
+}
+
+# Advanced
+
+get__ssh_access() {
+    echo "0"
+}
+
+get__app_password() {
+    echo ""
 }
 
 # Sub
@@ -171,17 +205,29 @@ set__notifymod() {
     set_flag "notifymod" "$notifymod"
 }
 
+# Advanced
+
+set__app_password() {
+    if [[ $ssh_access -eq 1 ]]; then
+        if [[ ! -z $app_password ]]; then
+            # echo "$app:$app_password" | chpasswd
+            chpasswd <<< "$app:$app_password"
+            # ynh_app_setting_set --app=$app --key=app_password --value="" 
+        fi
+    fi
+}
+
 # sub
 
 set__add_subscribers() {
     while IFS= read -r email; do
-        sudo -u list $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s -U
+        sudo -u $app $bin_dir/mlmmj-sub -L $data_dir -a $email -c -s -U
     done <<< "$add_subscribers"
 }
 
 set__del_subscribers() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-unsub -L $install_dir -a $email -c -N -s
+        $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
     done <<< "$del_subscribers"
 }
 
@@ -191,13 +237,13 @@ set__enable_digesters() {
 
 set__add_digesters() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s
+        $bin_dir/mlmmj-sub -L $data_dir -a $email -c -s
     done <<< "$add_digesters"
 }
 
 set__del_digesters() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-unsub -L $install_dir -a $email -c -N -s
+        $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
     done <<< "$del_digesters"
 }
 
@@ -207,13 +253,13 @@ set__enable_nomailsubs() {
 
 set__add_nomailsubs() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-sub -L $install_dir -a $email -c -s
+        $bin_dir/mlmmj-sub -L $data_dir -a $email -c -s
     done <<< "$add_nomailsubs"
 }
 
 set__del_nomailsubs() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-unsub -L $install_dir -a $email -c -N -s
+        $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
     done <<< "$del_nomailsubs"
 }
 
@@ -236,6 +282,46 @@ validate__email_generic() {
     if [[ ! -z "$invalid_emails" ]]; then
         echo -e "Invalid email addresses:\n$invalid_emails"
     fi
+}
+
+check_list_setup_from_file() {
+    local list_addresses_file="$1" # Chemin vers le fichier contenant les adresses e-mail
+    local first_line=true # Flag pour traiter différemment la première ligne
+
+    # Lire le fichier ligne par ligne
+    while IFS= read -r list_email || [[ -n "$list_email" ]]; do
+        local domain_part="${list_email#*@}" # Extrait le domaine de l'adresse e-mail
+
+        # Vérification de la disponibilité de l'adresse e-mail
+        if ! is_valid_list_email "$list_email"; then
+            ynh_die --message="The email address '$list_email' is not available. Please choose a different email address."
+        else
+            ynh_print_info --message="The email address '$list_email' is available."
+        fi
+
+        # Vérification que le domaine est géré par Yunohost
+        if ! is_domain_managed_by_yunohost "$domain_part"; then
+            ynh_die --message="The domain '$domain_part' is not managed by this Yunohost instance. Please add it to the Yunohost domains list."
+        fi
+
+        # Pour la première ligne uniquement, vérifiez le mail out
+        if [ "$first_line" = true ]; then
+            if ! is_outgoing_mail_enabled "$domain_part"; then
+                ynh_die --message="Mail out is not activated for the domain $domain_part. Please enable it."
+            else
+                ynh_print_info --message="Mail out is enabled for the domain '$domain_part'."
+            fi
+            first_line=false # Reset le flag après la première ligne
+        fi
+
+        # Vérification que le domaine a bien le mail in activé
+        if ! is_incoming_mail_enabled "$domain_part"; then
+            ynh_die --message="Mail in is not activated for the domain $domain_part. Please enable it."
+        else
+            ynh_print_info --message="Mail in is enabled for the domain '$domain_part'."
+        fi
+
+    done < "$list_addresses_file"
 }
 
 get_flag() {
@@ -335,39 +421,17 @@ get_textfile() {
     fi
 }
 
-sync_from_control_dir() {
-    local control_file="$install_dir/control/$1"
-    local ynh_file="$install_dir/ynh/$1.txt"
-
-    if [ -f "$control_file" ] && [ "$control_file" -nt "$ynh_file" ]; then
-        cp "$control_file" "$ynh_file"
-    fi
-}
-
-sync_from_ynh_dir() {
-    local control_file="$install_dir/control/$1"
-    local ynh_file="$install_dir/ynh/$1.txt"
-
-    if [ -f "$ynh_file" ]; then
-        cp "$ynh_file" "$control_file"
-    fi
-}
-
 ynh_app_config_get() {
     local files_to_sync=("owner" "moderators" "submod")
     local sub_lists=("subscribers" "digesters" "nomailsubs")
 
     for file in "${files_to_sync[@]}"; do
-        sync_from_control_dir "$file"
+        [ -f "$control_dir/$file" ] && [ "$control_dir/$file" -nt "$ynh_dir/$file.txt" ] && cp -f "$control_dir/$file" "$ynh_dir/$file.txt"
     done
 
-    for list_dir in "${sub_lists[@]}"; do
-        list_dir_path="$install_dir/${list_dir}.d/"
-        if [ "$(ls -A $list_dir_path)" ]; then
-            cat "$list_dir_path"* | sort > "$install_dir/ynh/${list_dir}.txt"
-        fi
-    done
-
+   for list_dir in "${sub_lists[@]}"; do
+       [ "$(ls -A $data_dir/${list_dir}.d)" ] && cat "$data_dir/${list_dir}.d/"* | sort > "$ynh_dir/${list_dir}.txt"
+   done
 
     _ynh_app_config_get
 }
@@ -375,10 +439,10 @@ ynh_app_config_get() {
 ynh_app_config_apply() {
     _ynh_app_config_apply
 
-    local files_to_sync=("owner" "moderators" "submod")
+    local files_to_sync=("listaddress" "owner" "moderators" "submod")
 
     for file in "${files_to_sync[@]}"; do
-        sync_from_ynh_dir "$file"
+        [ -f "$ynh_dir/$file.txt" ] && cp -f "$ynh_dir/$file.txt" "$control_dir/$file"
     done
 }
 

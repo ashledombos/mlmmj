@@ -1,2 +1,2 @@
-Para se desinscrever, envie um e-mail vazio para __LIST_NAME__+unsubscribe@__DOMAIN__
-Para ajuda, envie um e-mail vazio para __LIST_NAME__+help@__DOMAIN__
+Para se desinscrever, envie um e-mail vazio para __LOCAL_PART__+unsubscribe@__DOMAIN_PART__
+Para ajuda, envie um e-mail vazio para __LOCAL_PART__+help@__DOMAIN_PART__

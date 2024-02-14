@@ -1,6 +1,3 @@
-ynh_print_info --message="Backing up mlmmj list directory..."
-ynh_backup --src_path="$LISTDIR"
-
 #!/bin/bash
 
 #=================================================
@@ -30,19 +27,41 @@ ynh_print_info --message="Declaring files to be backed up..."
 ynh_backup --src_path="$install_dir"
 
 #=================================================
-# BACKUP FAIL2BAN CONFIGURATION
+# BACKUP THE DATA DIRECTORY
 #=================================================
 
-#ynh_backup --src_path="/etc/fail2ban/jail.d/$app.conf"
-#ynh_backup --src_path="/etc/fail2ban/filter.d/$app.conf"
+ynh_backup --src_path="$data_dir" --is_big
 
 #=================================================
-# SPECIFIC BACKUP
-#=================================================
-# BACKUP LOGROTATE
+# SYSTEM CONFIGURATION
 #=================================================
 
-#ynh_backup --src_path="/etc/logrotate.d/$app"
+# # Backup the PHP-FPM configuration
+# ynh_backup --src_path="/etc/php/$phpversion/fpm/pool.d/$app.conf"
+
+# # Backup the nginx configuration
+# ynh_backup --src_path="/etc/nginx/conf.d/$domain.d/$app.conf"
+
+## Backup the systemd service unit
+# ynh_backup --src_path="/etc/systemd/system/$app.service"
+
+# # Backup the logrotate configuration
+# ynh_backup --src_path="/etc/logrotate.d/$app"
+
+# # Backup the Fail2Ban config
+# ynh_backup --src_path="/etc/fail2ban/jail.d/$app.conf"
+# ynh_backup --src_path="/etc/fail2ban/filter.d/$app.conf"
+
+#=================================================
+# BACKUP VARIOUS FILES
+#=================================================
+
+ynh_backup --src_path="$cron_file"
+ynh_backup --src_path="$regen_conf_file"
+
+# ### For apps with huge logs, you might want to pass --is_big,
+# ### and in restore script, mkdir and pass --not_mandatory to ynh_restore_file.
+# ynh_backup --src_path="/var/log/$app/"
 
 #=================================================
 # END OF SCRIPT

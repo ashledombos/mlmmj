@@ -6,55 +6,87 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
+# Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
+source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# DECLARE VARIABLES
+# RESTORE THE APP MAIN DIR
 #=================================================
+ynh_script_progression --message="Restoring the app main directory..." --weight=1
 
-app=$YNH_APP_INSTANCE_NAME
-SPOOLDIR="/var/spool/mlmmj"
-LISTNAME=$(ynh_app_setting_get --app=$app --key=list_name)
-LISTDIR="$SPOOLDIR/$LISTNAME"
-CRON_FILE="/etc/cron.d/$app"
-ALIAS_FILE="/etc/aliases"
+ynh_restore_file --origin_path="$install_dir"
 
-#=================================================
-# RESTORE DATA DIRECTORY
-#=================================================
-
-ynh_print_info --message="Restoring mlmmj list directory..."
-
-# Remove existing directory if it exists
-ynh_secure_remove --file="$LISTDIR"
-
-# Restore the list directory from backup
-ynh_restore --src_path="$LISTDIR"
+### $install_dir will automatically be initialized with some decent
+### permissions by default ... however, you may need to recursively reapply
+### ownership to all files such as after the ynh_setup_source step
+# chown -R "$app:www-data" "$install_dir"
 
 #=================================================
-# RESTORE CRON FILE
+# RESTORE THE DATA DIRECTORY
+#=================================================
+ynh_script_progression --message="Restoring the data directory..." --weight=1
+
+ynh_restore_file --origin_path="$data_dir" --not_mandatory
+
+### (Same as for install dir)
+# chown -R "$app:www-data" "$data_dir"
+
+# #=================================================
+# # RESTORE SYSTEM CONFIGURATIONS
+# #=================================================
+# ynh_script_progression --message="Restoring system configurations related to $app..." --weight=1
+
+# ### This should be a symetric version of what happens in the install script
+
+# ynh_restore_file --origin_path="/etc/php/$phpversion/fpm/pool.d/$app.conf"
+
+# ynh_restore_file --origin_path="/etc/nginx/conf.d/$domain.d/$app.conf"
+
+# ynh_restore_file --origin_path="/etc/systemd/system/$app.service"
+# systemctl enable "$app.service" --quiet
+
+# yunohost service add "$app" --description="A short description of the app" --log="/var/log/$app/$app.log"
+
+# ynh_restore_file --origin_path="/etc/logrotate.d/$app"
+
+# ynh_restore_file --origin_path="/etc/fail2ban/jail.d/$app.conf"
+# ynh_restore_file --origin_path="/etc/fail2ban/filter.d/$app.conf"
+# ynh_systemd_action --action=restart --service_name=fail2ban
+
+#=================================================
+# RESTORE VARIOUS FILES
 #=================================================
 
-ynh_print_info --message="Restoring mlmmj cron file..."
-ynh_restore --src_path="$CRON_FILE"
+ynh_restore_file --origin_path="$cron_file"
+ynh_restore_file --origin_path="$regen_conf_file"
+
+
+### For apps with huge logs, you might want to not backup logs every time:
+### The mkdir call is just here in case the log directory was not backed up.
+### mkdir -p "/var/log/$app"
+### chown $app:www-data "/var/log/$app"
+### ynh_restore_file --src_path="/var/log/$app/" --not_mandatory
+###
+### For other apps, the simple way is better:
+# ynh_restore_file --origin_path="/var/log/$app/"
 
 #=================================================
-# RESTORE /etc/aliases
+# GENERIC FINALIZATION
 #=================================================
+# RELOAD NGINX AND PHP-FPM OR THE APP SERVICE
+#=================================================
+# ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
-ynh_print_info --message="Updating /etc/aliases..."
+# ynh_systemd_action --service_name=nginx --action=reload
 
-# Remove existing line for the list if it exists
-sed -i "/^$LISTNAME:/d" "$ALIAS_FILE"
-
-# Add the new alias line
-echo "$LISTNAME:     \"|/usr/local/bin/mlmmj-receive -L $LISTDIR\"" >> "$ALIAS_FILE"
-
-# Update aliases database
-newaliases
+# -------------------------------------------------------------
+# Regen postfix conf
+# -------------------------------------------------------------
+yunohost tools regen-conf postfix
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_print_info --message="Restore script completed for $app."
+ynh_script_progression --message="Restoration completed for $app" --last

@@ -1,1 +1,1 @@
-This is a dummy disclaimer to display prior to any upgrade
+The MLMMJ program to be installed will be compiled directly from the sources, not using the standard Debian package. As a result, although MLMMJ is known for its low footprint, the binary compilation process can take some time, depending on the computing power of the host.

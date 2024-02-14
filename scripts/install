@@ -9,130 +9,141 @@ source /usr/share/yunohost/helpers
 source _common.sh
 
 # -------------------------------------------------------------
-# Check name validity
+# Check list main email address validity
+# First it checks that the address is available
+# Next it checks that the domain is managed by the ynh instance
+# Then it checks that the domain has mail in and out set up
 # -------------------------------------------------------------
 
-is_valid_listname() {
-    # Check format
-    if ! [[ $1 =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]]; then
-        ynh_print_err --message="Invalid mailing list name. It must be lowercase and can only contain letters, numbers, dots, and dashes."
-        return 1
-    fi
+ynh_script_progression --message="Check list email address validity;" 
 
-    # Check if name is a username
-    if yunohost user list --output-as plain | grep -q "^$1$"; then
-        ynh_print_err --message="The mailing list name '$1' is already in use as a username. Please choose a different name."
-        return 1
-    fi
+if ! is_valid_list_email "$list_email"; then
+    ynh_die --message="Please choose an available email address"
+else
+    ynh_print_info --message="The email '$list_email' is available."
+fi
 
-    return 0
-}
+if ! is_domain_managed_by_yunohost "$domain_part"; then
+    ynh_die --message="Please add $domain_part in this Yunohost instance domains list."
+else
+    ynh_print_info --message="The domain '$domain_part' is managed by this Yunohost instance."
+fi
 
-if ! is_valid_listname "$list_name"; then
-    ynh_die --message="Validation failed for list name: $list_name"
+# if ! is_domain_mail_set "$domain_part"; then
+#     ynh_die --message="Please check the mail configurations for the domain $domain_part."
+# else
+#     ynh_print_info --message="The domain '$domain_part' is correctly set up with mail in and mail out."
+# fi
+
+if ! is_incoming_mail_enabled "$domain_part"; then
+    ynh_die --message="Mail in is not activated for the domain $domain_part. Please enable it."
+elif ! is_outgoing_mail_enabled "$domain_part"; then
+    ynh_die --message="Mail out is not activated for the domain $domain_part. Please enable it."
+else
+    ynh_print_info --message="The domain '$domain_part' is correctly set up with mail in and mail out."
 fi
 
 # -------------------------------------------------------------
-# Install MLMMJ if necessary and check Postfix
+# Download and compile MLMMJ and setup postfix tables
 # -------------------------------------------------------------
 
-install_update_mlmmj "$REQUIRED_VERSION"
+
+ynh_script_progression --message="Source download and binaries compilation;" --weight=5
+
+install_update_mlmmj
 
 # -------------------------------------------------------------
-# Mailing List Creation and Activation
+# Setting up postfix with new transport and virtual tables
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Creating the list $list_name@$domain at $data_dir;"
+ynh_script_progression --message="Setting up postfix with new transport and virtual tables;"
 
-#for DIR in incoming queue queue/discarded archive text subconf unsubconf \
-#           bounce control moderation subscribers.d digesters.d requeue \
-#           nomailsubs.d ynh
-#do
-#    mkdir -p "$install_dir/$DIR"
-#done
+ynh_add_config --template="regenconf_postfix" --destination="$regen_conf_file"
+yunohost tools regen-conf postfix
 
-echo "postmaster" > "$data_dir/control/owner"
-echo "$list_name@$domain" > "$data_dir/control/listaddress"
+[ ! -d "$tables_dir" ] && mkdir -p "$tables_dir"
+
+[ ! -f "$transport_file" ] && touch "$transport_file"
+[ ! -f "$virtual_file" ] && touch "$virtual_file"
+
+if ! grep -qF "$transport_entry" "$transport_file"; then
+    echo "$transport_entry" >> "$transport_file"
+    postmap "$transport_file"
+fi
+
+if ! grep -qF "$virtual_entry" "$virtual_file"; then
+    echo "$virtual_entry" >> "$virtual_file"
+    postmap "$virtual_file"
+fi
+
+chgrp postfix $install_dir
+chown $app:postfix $install_dir/tables -R
+
+
+# -------------------------------------------------------------
+# Language, default settings and ynh config files
+# -------------------------------------------------------------
+
+ynh_script_progression --message="Language, default settings and ynh config files;"
 
 if [ -d "$lang_dir" ]; then
     cp "$lang_dir"/* "$data_dir/text"
 fi
-
-[ ! -d "$SPOOL_DIR" ] && mkdir -p "$SPOOL_DIR"
-ln -s $data_dir $install_dir/$list_name
-ln -s $data_dir $SPOOL_DIR/$list_name
-
-# -------------------------------------------------------------
-# Setting up conf files transport et virtual
-# -------------------------------------------------------------
-
-[ ! -d "$ETC_DIR" ] && mkdir -p "$ETC_DIR"
-
-[ ! -f "$TRANSPORT_FILE" ] && touch "$TRANSPORT_FILE"
-[ ! -f "$VIRTUAL_FILE" ] && touch "$VIRTUAL_FILE"
-
-if ! grep -qF "$transport_entry" "$TRANSPORT_FILE"; then
-    echo "$transport_entry" >> "$TRANSPORT_FILE"
-    postmap "$TRANSPORT_FILE"
-fi
-
-if ! grep -qF "$virtual_entry" "$VIRTUAL_FILE"; then
-    echo "$virtual_entry" >> "$VIRTUAL_FILE"
-    postmap "$VIRTUAL_FILE"
-fi
-
-# -------------------------------------------------------------
-# Symlinks for easier CLI administration
-# -------------------------------------------------------------
-
-if [ ! -d "$symlink_dir" ]; then
-    mkdir -p "$symlink_dir"
-fi
-ln -s "$SPOOL_DIR" "$symlink_dir/$list_name"
-
-# -------------------------------------------------------------
-# Cron
-# -------------------------------------------------------------
-
-rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
-if [ ! -d "$CRON_DIR" ]; then
-    mkdir -p "$CRON_DIR"
-    chmod 644 "$CRON_DIR"
-fi
-echo "$rand_min */2 * * * list $MLMMJMAINTD -F -L $data_dir" > "$cron_file" 
-
-# -------------------------------------------------------------
-# Default settings
-# -------------------------------------------------------------
 
 ynh_app_setting_set -a $app -k category -v "subscribers"
 ynh_app_setting_set -a $app -k display_subscribers -v false
 ynh_app_setting_set -a $app -k display_digesters -v false
 ynh_app_setting_set -a $app -k display_nomailsubs -v false
 
+# create mlmmj control file
 touch "$control_dir/moderators"
 touch "$control_dir/subonlypost"
-echo "[$list_name]" > "$control_dir/prefix"
-echo "postmaster@$domain" > "$control_dir/owner"
-echo "postmaster@$domain" > "$data_dir/ynh/owner.txt"
+echo "[$local_part]" > "$control_dir/prefix"
+touch "$data_dir/control/owner"
 touch "$control_dir/notifysub"
 touch "$control_dir/subonlyget"
 echo "postfix" > "$control_dir/verp"
 touch "$control_dir/nodigestsub"
 touch "$control_dir/nonomailsub"
 echo "10485760" > "$control_dir/maxmailsize"  # 10MB
-touch $data_dir/ynh/moderators.txt
-touch $data_dir/ynh/submod.txt
-touch $data_dir/ynh/subscribers.txt
-touch $data_dir/ynh/digesters.txt
-touch $data_dir/ynh/nomailsubs.txt
+# create ynh helper files
+mkdir -p $ynh_dir
+touch $ynh_dir/listaddress.txt
+touch $ynh_dir/moderators.txt
+touch $ynh_dir/submod.txt
+touch $ynh_dir/subscribers.txt
+touch $ynh_dir/digesters.txt
+touch $ynh_dir/nomailsubs.txt
+# useful stuff for ssh management
+mkdir $install_dir/bin
+ln -s $data_dir $install_dir/files
+#cp /etc/skel/.bashrc $install_dir
+#cp /etc/skel/.profile $install_dir
+
 
 [ -f "../conf/footer_${language}.tpl" ] && footer_template="footer_${language}.tpl" || footer_template="footer_en.tpl"
 ynh_add_config --template="$footer_template" --destination="$control_dir/footer"
+
+echo "$(yunohost user info "$owner" --output-as plain | awk '/^#mail/ { getline; print $1; exit }')" | tee "$data_dir/control/owner" > "$ynh_dir/owner.txt"
+echo "$list_email" | tee "$data_dir/control/listaddress" > "$ynh_dir/listaddress.txt"
+
+# -------------------------------------------------------------
+# Cron and SSH user password
+# -------------------------------------------------------------
+
+ynh_script_progression --message="Configuring Cron and SSH user;"
+
+#ssh_pass=$(ynh_string_random --length=24)
+#ssh_pass=$(openssl rand -base64 12)
+#chpasswd <<< "${app}:${ssh_pass}"
+usermod -s /bin/bash $app
+
+rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
+echo "$rand_min */2 * * * $app $mlmmjmaintd -F -L $data_dir" > "$cron_file" 
 
 
 # -------------------------------------------------------------
 # Install completion
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Mailing list $list_name@$domain was created successfully." --last
+ynh_script_progression --message="Mailing list $list_email was created successfully." --last
