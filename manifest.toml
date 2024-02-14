@@ -65,6 +65,7 @@ ram.runtime = "1M"
   sha256 = "dcaee66232fa1d10d9d2352ceb03b05879dfba978368988af585b0697506f4a1"
   format = "tar.xz"
   in_subdir = true
+  autoupdate.strategy = "latest_forgejo_release"
 
   [resources.system_user]
   allow_ssh = true
