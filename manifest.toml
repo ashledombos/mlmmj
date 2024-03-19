@@ -34,7 +34,7 @@ ram.runtime = "1M"
     [install.list_email]
     ask.en = "Enter the full email address of the mailing list (e.g., mylist@mydomain.com)"
     ask.fr = "Entrez l'adresse e-mail complète de la liste de diffusion (par exemple, maliste@mondomaine.com)"
-    default = "mylist@mydomain.com"
+    example = "mylist@mydomain.com"
     help.en = "The email address must be available and the domain must be managed by this Yunohost instance with incoming and outgoing mail enabled."
     help.fr = "L'adresse e-mail doit être disponible et le domaine doit être géré par cette instance Yunohost avec le courriel entrant et sortant activé."
     type = "string"
@@ -50,8 +50,8 @@ ram.runtime = "1M"
     default = "en"
     
     [install.owner]
-    ask.en = "Select the owner of the mailing list:"
-    ask.fr = "Sélectionnez le propriétaire de la liste de diffusion :"
+    ask.en = "Select the owner of the mailing list"
+    ask.fr = "Sélectionnez le propriétaire de la liste de diffusion"
     help.en = "Owners of the mailing list can be added or removed after the initial setup through the Yunohost administration interface."
     help.fr = "Il est possible d'ajouter ou de supprimer des propriétaires de la liste de diffusion après la configuration initiale via l'interface d'administration de Yunohost."
     type = "user"
@@ -76,8 +76,8 @@ ram.runtime = "1M"
     [install.domain]
     ask.en = "Select the domain for the web access (where you’ll be able to explore the list web archives, for instance)"
     ask.fr = "Sélectionnez le domaine pour l‘accès web (où vous pourrez consulter les archives web, par exemple)"
-    help.en = "It can be the same or different from the list email domain. If different, this one doesn’t need email features."
-    help.fr = "Il peut être le même, ou différent du domaine de l’adresse courriel de la liste. S’il diffère, la fonctionnalité email n’est pas requise."
+    help.en = "This is where you'll be able to explore the list web archives, for instance. It can be the same or different from the list email domain. If different, this one doesn’t need email features."
+    help.fr = "Il s'agit de là où vous pourrez consulter les archives web, par exemple. Il peut être le même, ou différent du domaine de l’adresse courriel de la liste. S’il diffère, la fonctionnalité email n’est pas requise."
     type = "domain"
 
     [install.path]
