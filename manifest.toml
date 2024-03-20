@@ -94,6 +94,7 @@ ram.runtime = "1M"
   format = "tar.xz"
   in_subdir = true
   autoupdate.strategy = "latest_forgejo_release"
+  autoupdate.asset = "^mlmmj-.*tar.xz$"
         
     [resources.system_user]
     allow_ssh = true
