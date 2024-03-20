@@ -4,8 +4,8 @@
 # UPGRADE
 #=================================================
 
-source /usr/share/yunohost/helpers
 source _common.sh
+source /usr/share/yunohost/helpers
 
 # -------------------------------------------------------------
 # Install MLMMJ binaries if necessary
@@ -13,7 +13,7 @@ source _common.sh
 
 ynh_script_progression --message="Checking existing mlmmj binaries;"
 
-install_update_mlmmj "$REQUIRED_VERSION"
+install_update_mlmmj
 
 
 # -------------------------------------------------------------
