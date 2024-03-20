@@ -108,3 +108,6 @@ ram.runtime = "1M"
     
     [resources.permissions]
     main.url = "/"
+
+    [resources.apt]
+    packages = "autoconf make gcc pkg-config libatf-dev"
