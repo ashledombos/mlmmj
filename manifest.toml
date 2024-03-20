@@ -39,8 +39,7 @@ ram.runtime = "1M"
     help.fr = "L'adresse e-mail doit être disponible et le domaine doit être géré par cette instance Yunohost avec le courriel entrant et sortant activé."
     type = "string"
     pattern.regexp = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    pattern.error.en = "Please provide a valid email address in the format username@domain.com."
-    pattern.error.fr = "Veuillez fournir une adresse e-mail valide au format utilisateur@domaine.com."
+    pattern.error = "Please provide a valid email address in the format username@domain.com."
 
     [install.language]
     ask.en = "Choose the application language"
