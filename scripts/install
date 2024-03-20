@@ -5,8 +5,8 @@
 #=================================================
 
 # Import YunoHost helpers
-source /usr/share/yunohost/helpers
 source _common.sh
+source /usr/share/yunohost/helpers
 
 # -------------------------------------------------------------
 # Check list main email address validity

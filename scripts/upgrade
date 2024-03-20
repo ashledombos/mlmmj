@@ -4,8 +4,8 @@
 # UPGRADE
 #=================================================
 
-source /usr/share/yunohost/helpers
 source _common.sh
+source /usr/share/yunohost/helpers
 
 # -------------------------------------------------------------
 # Install MLMMJ binaries if necessary
