@@ -1,26 +1,7 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
-
-### Settings are automatically loaded as bash variables
-### in every app script context, therefore typically these will exist:
-### - $domain
-### - $path
-### - $language
-### - $install_dir
-### - $port
-### ...
-
-### For remove operations :
-### - the core will deprovision every resource defined in the manifest **after** this script is ran
-### this includes removing the install directory, and data directory (if --purge was used)
 
 #=================================================
 # REMOVE SYSTEM CONFIGURATIONS
@@ -35,22 +16,15 @@ if ynh_exec_warn_less yunohost service status "$app" >/dev/null; then
     yunohost service remove "$app"
 fi
 
-# ynh_remove_nginx_config
-
-# Remove other various files specific to the app... such as :
-
 ynh_secure_remove --file="$cron_file"
 ynh_secure_remove --file="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
 yunohost tools regen-conf postfix
 
-#=================================================
-# END OF SCRIPT
-#=================================================
-
 ynh_script_progression --message="Removal of $app completed" --last
 
-# !/bin/bash
-
+# ============
+# TODO / FIXME
+# ============
 
 # # -------------------------------------------------------------
 # # Check for Remaining mlmmj Instances and Remove Binaries

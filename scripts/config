@@ -1,33 +1,7 @@
 #!/bin/bash
-# In simple cases, you don't need a config script.
 
-# With a simple config_panel.toml, you can write in the app settings, in the
-# upstream config file or replace complete files (logo ...) and restart services.
-
-# The config scripts allows you to go further, to handle specific cases
-# (validation of several interdependent fields, specific getter/setter for a value,
-# display dynamic informations or choices, pre-loading of config type .cube... ).
-
-#=================================================
-# GENERIC STARTING
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
+source _common.sh
 source /usr/share/yunohost/helpers
-
-ynh_abort_if_errors
-
-#=================================================
-# RETRIEVE ARGUMENTS
-#=================================================
-
-install_dir=$(ynh_app_setting_get --app="$app" --key=install_dir)
-data_dir=$(ynh_app_setting_get --app="$app" --key=data_dir)
-
-control_dir="$data_dir/control"
-ynh_dir="$data_dir/ynh"
-bin_dir="$install_dir/app/bin"
 
 # -------------------------------------------------------------
 # Validators
@@ -35,7 +9,6 @@ bin_dir="$install_dir/app/bin"
 
 validate__list_addresses() {
     validate__email_generic "$list_adresses"
-
 }
 
 validate__submod_list() {
@@ -46,12 +19,12 @@ validate__moderators() {
     validate__email_generic "$moderators"
 }
 
-validate__add() {
-    validate__email_generic "$add"
+validate__add_subscribers() {
+    validate__email_generic "$add_subscribers"
 }
 
-validate__del() {
-    validate__email_generic "$del"
+validate__del_subscribers() {
+    validate__email_generic "$del_subscribers"
 }
 
 # -------------------------------------------------------------
@@ -60,11 +33,11 @@ validate__del() {
 
 # General
 
-get__list_status() {
+get__sub_policy() {
     get_3choices "open" "closedlistsub" "closedlist"
 }
 
-get__whocanpost() {
+get__post_policy() {
     get_3choices "all" "subonlypost" "modonlypost"
 }
 
@@ -78,15 +51,7 @@ get__submod() {
     get_flag "submod"
 }
 
-get__submod_list() {
-    get_textfile "submod"
-}
-
 # Moderators
-
-get__moderators() {
-    get_textfile "moderators"
-}
 
 get__modnonsubposts() {
     get_flag "modnonsubposts"
@@ -98,16 +63,6 @@ get__moderated() {
 
 get__notifymod() {
     get_flag "notifymod"
-}
-
-# Advanced
-
-get__ssh_access() {
-    echo "0"
-}
-
-get__app_password() {
-    echo ""
 }
 
 # Sub
@@ -124,40 +79,14 @@ get__display_subscribers() {
     echo ""
 }
 
-get__enable_digesters() {
-    get_reverse_flag "nodigestsub"
+get__subscribers_list() {
+    
+    # cf http://mlmmj.org/mlmmj-list.html
+    $install_dir/app/bin/mlmmj-list -L $data_dir -s
+    $install_dir/app/bin/mlmmj-list -L $data_dir -d
+    $install_dir/app/bin/mlmmj-list -L $data_dir -n
+
 }
-
-get__add_digesters() {
-    echo ""
-}
-
-get__del_digesters() {
-    echo ""
-}
-
-get__display_digesters() {
-    echo ""
-}
-
-get__enable_nomailsubs() {
-    get_reverse_flag "nonomailsub"
-}
-
-get__add_nomailsubs() {
-    echo ""
-}
-
-get__del_nomailsubs() {
-    echo ""
-}
-
-get__display_nomailsubs() {
-    echo ""
-}
-
-# Others
-
 
 # -------------------------------------------------------------
 # Setters
@@ -165,12 +94,12 @@ get__display_nomailsubs() {
 
 # General
 
-set__list_status() {
+set__sub_policy() {
     set_3choices "open" "closedlistsub" "closedlist" "$list_status"
 }
 
-set__whocanpost() {
-    set_3choices "all" "subonlypost" "modonlypost" "$whocanpost"
+set__post_policy() {
+    set_3choices "all" "subonlypost" "modonlypost" "$post_policy"
 }
 
 # Owners
@@ -182,12 +111,12 @@ set__notifysub() {
 set__submod() {
     if [[ $submod == 1 ]]; then
         if [[ -n "$submod_list" ]]; then
-            echo "$submod_list" > "$control_dir/submod"
+            echo "$submod_list" > "$data_dir/control/submod"
         else
-            touch "$control_dir/submod"
+            echo "" > "$data_dir/control/submod"
         fi
     else
-        ynh_secure_remove "$control_dir/submod"
+        ynh_secure_remove "$data_dir/control/submod"
     fi
 }
 
@@ -207,16 +136,6 @@ set__notifymod() {
 
 # Advanced
 
-set__app_password() {
-    if [[ $ssh_access -eq 1 ]]; then
-        if [[ ! -z $app_password ]]; then
-            # echo "$app:$app_password" | chpasswd
-            chpasswd <<< "$app:$app_password"
-            # ynh_app_setting_set --app=$app --key=app_password --value="" 
-        fi
-    fi
-}
-
 # sub
 
 set__add_subscribers() {
@@ -229,38 +148,6 @@ set__del_subscribers() {
     while IFS= read -r email; do
         $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
     done <<< "$del_subscribers"
-}
-
-set__enable_digesters() {
-    set_flag "nodigestsub" "$enable_digesters"
-}
-
-set__add_digesters() {
-    while IFS= read -r email; do
-        $bin_dir/mlmmj-sub -L $data_dir -a $email -c -s
-    done <<< "$add_digesters"
-}
-
-set__del_digesters() {
-    while IFS= read -r email; do
-        $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
-    done <<< "$del_digesters"
-}
-
-set__enable_nomailsubs() {
-    set_flag "nonomail" "$enable_nomailsubs"
-}
-
-set__add_nomailsubs() {
-    while IFS= read -r email; do
-        $bin_dir/mlmmj-sub -L $data_dir -a $email -c -s
-    done <<< "$add_nomailsubs"
-}
-
-set__del_nomailsubs() {
-    while IFS= read -r email; do
-        $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
-    done <<< "$del_nomailsubs"
 }
 
 # -------------------------------------------------------------
@@ -284,49 +171,49 @@ validate__email_generic() {
     fi
 }
 
-check_list_setup_from_file() {
-    local list_addresses_file="$1" # Chemin vers le fichier contenant les adresses e-mail
-    local first_line=true # Flag pour traiter différemment la première ligne
+# check_list_setup_from_file() {
+#     local list_addresses_file="$1" # Chemin vers le fichier contenant les adresses e-mail
+#     local first_line=true # Flag pour traiter différemment la première ligne
 
-    # Lire le fichier ligne par ligne
-    while IFS= read -r list_email || [[ -n "$list_email" ]]; do
-        local domain_part="${list_email#*@}" # Extrait le domaine de l'adresse e-mail
+#     # Lire le fichier ligne par ligne
+#     while IFS= read -r list_email || [[ -n "$list_email" ]]; do
+#         local domain_part="${list_email#*@}" # Extrait le domaine de l'adresse e-mail
 
-        # Vérification de la disponibilité de l'adresse e-mail
-        if ! is_valid_list_email "$list_email"; then
-            ynh_die --message="The email address '$list_email' is not available. Please choose a different email address."
-        else
-            ynh_print_info --message="The email address '$list_email' is available."
-        fi
+#         # Vérification de la disponibilité de l'adresse e-mail
+#         if ! is_valid_list_email "$list_email"; then
+#             ynh_die --message="The email address '$list_email' is not available. Please choose a different email address."
+#         else
+#             ynh_print_info --message="The email address '$list_email' is available."
+#         fi
 
-        # Vérification que le domaine est géré par Yunohost
-        if ! is_domain_managed_by_yunohost "$domain_part"; then
-            ynh_die --message="The domain '$domain_part' is not managed by this Yunohost instance. Please add it to the Yunohost domains list."
-        fi
+#         # Vérification que le domaine est géré par Yunohost
+#         if ! is_domain_managed_by_yunohost "$domain_part"; then
+#             ynh_die --message="The domain '$domain_part' is not managed by this Yunohost instance. Please add it to the Yunohost domains list."
+#         fi
 
-        # Pour la première ligne uniquement, vérifiez le mail out
-        if [ "$first_line" = true ]; then
-            if ! is_outgoing_mail_enabled "$domain_part"; then
-                ynh_die --message="Mail out is not activated for the domain $domain_part. Please enable it."
-            else
-                ynh_print_info --message="Mail out is enabled for the domain '$domain_part'."
-            fi
-            first_line=false # Reset le flag après la première ligne
-        fi
+#         # Pour la première ligne uniquement, vérifiez le mail out
+#         if [ "$first_line" = true ]; then
+#             if ! is_outgoing_mail_enabled "$domain_part"; then
+#                 ynh_die --message="Mail out is not activated for the domain $domain_part. Please enable it."
+#             else
+#                 ynh_print_info --message="Mail out is enabled for the domain '$domain_part'."
+#             fi
+#             first_line=false # Reset le flag après la première ligne
+#         fi
 
-        # Vérification que le domaine a bien le mail in activé
-        if ! is_incoming_mail_enabled "$domain_part"; then
-            ynh_die --message="Mail in is not activated for the domain $domain_part. Please enable it."
-        else
-            ynh_print_info --message="Mail in is enabled for the domain '$domain_part'."
-        fi
+#         # Vérification que le domaine a bien le mail in activé
+#         if ! is_incoming_mail_enabled "$domain_part"; then
+#             ynh_die --message="Mail in is not activated for the domain $domain_part. Please enable it."
+#         else
+#             ynh_print_info --message="Mail in is enabled for the domain '$domain_part'."
+#         fi
 
-    done < "$list_addresses_file"
-}
+#     done < "$list_addresses_file"
+# }
 
 get_flag() {
     local flag_name="$1"
-    if [ -f "$control_dir/$flag_name" ]; then
+    if [ -f "$data_dir/control/$flag_name" ]; then
         echo "1"
     else
         echo "0"
@@ -338,33 +225,11 @@ set_flag() {
     local flag_value="$2"
 
     if [[ $flag_value == 1 ]]; then
-        touch "$control_dir/$flag_name"
-        ynh_print_info "--message='Created $control_dir/$flag_name'"
+        touch "$data_dir/control/$flag_name"
+        #ynh_print_info "--message='Created $data_dir/control/$flag_name'"
     else
-        ynh_secure_remove "$control_dir/$flag_name"
-        ynh_print_info "--message='Removed $control_dir/$flag_name'"
-    fi
-}
-
-get_reverse_flag() {
-    local flag_name="$1"
-    if [ -f "$control_dir/$flag_name" ]; then
-        echo "0"
-    else
-        echo "1"
-    fi
-}
-
-set_reverse_flag() {
-    local flag_name="$1"
-    local flag_value="$2"
-
-    if [[ $flag_value == 0 ]]; then
-        touch "$control_dir/$flag_name"
-        ynh_print_info "--message='Created $control_dir/$flag_name'"
-    else
-        ynh_secure_remove "$control_dir/$flag_name"
-        ynh_print_info "--message='Removed $control_dir/$flag_name'"
+        ynh_secure_remove "$data_dir/control/$flag_name"
+        #ynh_print_info "--message='Removed $data_dir/control/$flag_name'"
     fi
 }
 
@@ -374,9 +239,9 @@ get_3choices() {
     local choice3_file="$3"
 
 
-    if [ -f "$control_dir/$choice3_file" ]; then
+    if [ -f "$data_dir/control/$choice3_file" ]; then
         echo "$choice3_file"
-    elif [ -f "$control_dir/$choice2_file" ]; then
+    elif [ -f "$data_dir/control/$choice2_file" ]; then
         echo "$choice2_file"
     else
         echo "$choice1"
@@ -391,28 +256,28 @@ set_3choices() {
 
     case $config_value in
         "$choice3")
-            ynh_secure_remove "$control_dir/$choice1_file"
-            ynh_secure_remove "$control_dir/$choice2_file"
-            ynh_print_info "--message='Removed $control_dir/$choice1_file and/or $control_dir/$choice2_file'"
+            ynh_secure_remove "$data_dir/control/$choice1_file"
+            ynh_secure_remove "$data_dir/control/$choice2_file"
+            #ynh_print_info "--message='Removed $data_dir/control/$choice1_file and/or $data_dir/control/$choice2_file'"
             ;;
 
         "$choice1_file")
-            touch "$control_dir/$choice1_file"
-            ynh_secure_remove "$control_dir/$choice2_file"
-            ynh_print_info "--message='Created $control_dir/$choice1_file and removed $control_dir/$choice2_file if needed'"
+            touch "$data_dir/control/$choice1_file"
+            ynh_secure_remove "$data_dir/control/$choice2_file"
+            #ynh_print_info "--message='Created $data_dir/control/$choice1_file and removed $data_dir/control/$choice2_file if needed'"
             ;;
 
         "$choice2_file")
-            touch "$control_dir/$choice2_file"
-            ynh_secure_remove "$control_dir/$choice1_file"
-            ynh_print_info "--message='Created $control_dir/$choice2_file and removed $control_dir/$choice1_file if needed'"
+            touch "$data_dir/control/$choice2_file"
+            ynh_secure_remove "$data_dir/control/$choice1_file"
+            #ynh_print_info "--message='Created $data_dir/control/$choice2_file and removed $data_dir/control/$choice1_file if needed'"
             ;;
     esac
 }
 
 get_textfile() {
     local file_name="$1"
-    local file_path="$control_dir/$file_name"
+    local file_path="$data_dir/control/$file_name"
 
     if [ -f "$file_path" ]; then
         cat "$file_path"
@@ -421,30 +286,6 @@ get_textfile() {
     fi
 }
 
-ynh_app_config_get() {
-    local files_to_sync=("owner" "moderators" "submod")
-    local sub_lists=("subscribers" "digesters" "nomailsubs")
-
-    for file in "${files_to_sync[@]}"; do
-        [ -f "$control_dir/$file" ] && [ "$control_dir/$file" -nt "$ynh_dir/$file.txt" ] && cp -f "$control_dir/$file" "$ynh_dir/$file.txt"
-    done
-
-   for list_dir in "${sub_lists[@]}"; do
-       [ "$(ls -A $data_dir/${list_dir}.d)" ] && cat "$data_dir/${list_dir}.d/"* | sort > "$ynh_dir/${list_dir}.txt"
-   done
-
-    _ynh_app_config_get
-}
-
-ynh_app_config_apply() {
-    _ynh_app_config_apply
-
-    local files_to_sync=("listaddress" "owner" "moderators" "submod")
-
-    for file in "${files_to_sync[@]}"; do
-        [ -f "$ynh_dir/$file.txt" ] && cp -f "$ynh_dir/$file.txt" "$control_dir/$file"
-    done
-}
 
 # -------------------------------------------------------------
 # Config apply
