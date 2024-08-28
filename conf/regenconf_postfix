@@ -5,16 +5,15 @@ pending_dir=$4
 postfix_master="$pending_dir/../postfix/etc/postfix/master.cf"
 postfix_main="$pending_dir/../postfix/etc/postfix/main.cf"
 app=__APP__
-list_email=__LIST_EMAIL
+list_email=__LIST_EMAIL__
 install_dir=__INSTALL_DIR__
-data_dir=__DATA_DIR__
 
 [[ "$action" == "pre" ]] || exit 0
 
 cat << EOF >> "$postfix_master"
-# $app $list_email
+# $app for $list_email
 $app   unix  -       n       n       -       -       pipe
-    flags=ORhu user=$app argv=$install_dir/app/bin/mlmmj-receive -F -L $data_dir
+    flags=ORhu user=$app argv=$install_dir/app/bin/mlmmj-receive -F -L $install_dir/list
 EOF
 
 sed -i "/^virtual_alias_maps = / s@\$@,hash:$install_dir/tables/virtual@" "$postfix_main"
@@ -28,10 +27,3 @@ else
     # La ligne transport_maps n'existe pas, l'ajouter
     echo "transport_maps = hash:$install_dir/tables/transport" >> "$postfix_main"
 fi
-
-
-# FIXME?
-
-# Only deliver one message to Mlmmj at a time
-#mlmmj_destination_recipient_limit = 1
-

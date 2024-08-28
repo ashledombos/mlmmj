@@ -100,7 +100,7 @@ create_list() {
 
     local tmpconf=$(sudo -u $app mktemp)
     cat << EOF | sudo -u $app tee $tmpconf >/dev/null
-SPOOLDIR="$data_dir"
+SPOOLDIR="$install_dir"
 LISTNAME="tmp"
 FQDN="$domain_part"
 OWNER="$(yunohost user info $owner --output-as json | jq -r '.mail')"
@@ -113,14 +113,10 @@ EOF
     chmod +r $tmpconf
     sudo -u $app "$install_dir"/app/bin/mlmmj-make-ml -f $tmpconf
 
-    for stuff in $(ls $data_dir/tmp)
-    do
-       mv $data_dir/tmp/$stuff $data_dir/
-    done
-    ynh_secure_remove $data_dir/tmp
-    
+    mv $install_dir/tmp $install_dir/list
+    chmod 700 $install_dir/list
 
-    pushd $data_dir/control
+    pushd $install_dir/list/control
         # cf http://mlmmj.org/TUNABLES.html for documentation about these
         echo "$list_email" > listaddress
         echo "[$local_part]" > prefix
@@ -137,9 +133,9 @@ EOF
     [ -f "../conf/footer_${language}.tpl" ] \
     && footer_template="footer_${language}.tpl" \
     || footer_template="footer_en.tpl"
-    ynh_add_config --template="$footer_template" --destination="$data_dir/control/footer"
+    ynh_add_config --template="$footer_template" --destination="$install_dir/list/control/footer"
     
-    chown -R $app:$app $data_dir/control
+    chown -R $app:$app $install_dir/list/control
 
     mkdir -p "$install_dir/tables"
     touch "$install_dir/tables/transport"

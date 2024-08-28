@@ -61,11 +61,8 @@ ram.runtime = "50M"
   autoupdate.asset = "^mlmmj-.*tar.xz$"
         
     [resources.system_user]
-    allow_ssh = true
     
     [resources.install_dir]
-    
-    [resources.data_dir]
     
     [resources.permissions]
 

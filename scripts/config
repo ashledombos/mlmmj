@@ -34,7 +34,7 @@ validate__del_subscribers() {
 # General
 
 get__listaddress() {
-    echo "\"$(head -n 1 $data_dir/control/listaddress)\""
+    echo "\"$(head -n 1 $install_dir/list/control/listaddress)\""
 }
 
 get__sub_policy() {
@@ -71,7 +71,7 @@ get__notifymod() {
 
 # Emails
 get__prefix() {
-    echo "\"$(cat $data_dir/control/prefix)\""
+    echo "\"$(cat $install_dir/list/control/prefix)\""
 }
 
 # Sub
@@ -91,9 +91,9 @@ get__display_subscribers() {
 get__subscribers_list() {
     
     # cf http://mlmmj.org/mlmmj-list.html
-    sudo -u $app -- $install_dir/app/bin/mlmmj-list -L $data_dir -s
-    sudo -u $app -- $install_dir/app/bin/mlmmj-list -L $data_dir -d
-    sudo -u $app -- $install_dir/app/bin/mlmmj-list -L $data_dir -n
+    sudo -u $app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -s
+    sudo -u $app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -d
+    sudo -u $app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -n
 
     echo ""
 }
@@ -121,12 +121,12 @@ set__notifysub() {
 set__submod() {
     if [[ $submod == 1 ]]; then
         if [[ -n "$submod_list" ]]; then
-            echo "$submod_list" > "$data_dir/control/submod"
+            echo "$submod_list" > "$install_dir/list/control/submod"
         else
-            echo "" > "$data_dir/control/submod"
+            echo "" > "$install_dir/list/control/submod"
         fi
     else
-        ynh_secure_remove "$data_dir/control/submod"
+        ynh_secure_remove "$install_dir/list/control/submod"
     fi
 }
 
@@ -147,20 +147,20 @@ set__notifymod() {
 # Emails
 
 set__prefix() {
-    echo "$prefix" > "$data_dir/control/prefix"
+    echo "$prefix" > "$install_dir/list/control/prefix"
 }
 
 # sub
 
 set__add_subscribers() {
     while IFS= read -r email; do
-        sudo -u $app -- "$install_dir"/app/bin/mlmmj-sub -L $data_dir -a $email -c -s -U
+        sudo -u $app -- "$install_dir"/app/bin/mlmmj-sub -L $install_dir/list -a $email -c -s -U
     done <<< "$add_subscribers"
 }
 
 set__del_subscribers() {
     while IFS= read -r email; do
-        sudo -u $app -- "$install_dir"/app/bin/mlmmj-unsub -L $data_dir -a $email -c -N -s
+        sudo -u $app -- "$install_dir"/app/bin/mlmmj-unsub -L $install_dir/list -a $email -c -N -s
     done <<< "$del_subscribers"
 }
 
@@ -227,7 +227,7 @@ validate__email_generic() {
 
 get_flag() {
     local flag_name="$1"
-    if [ -f "$data_dir/control/$flag_name" ]; then
+    if [ -f "$install_dir/list/control/$flag_name" ]; then
         echo "1"
     else
         echo "0"
@@ -239,11 +239,11 @@ set_flag() {
     local flag_value="$2"
 
     if [[ $flag_value == 1 ]]; then
-        touch "$data_dir/control/$flag_name"
-        #ynh_print_info "--message='Created $data_dir/control/$flag_name'"
+        touch "$install_dir/list/control/$flag_name"
+        #ynh_print_info "--message='Created $install_dir/list/control/$flag_name'"
     else
-        ynh_secure_remove "$data_dir/control/$flag_name"
-        #ynh_print_info "--message='Removed $data_dir/control/$flag_name'"
+        ynh_secure_remove "$install_dir/list/control/$flag_name"
+        #ynh_print_info "--message='Removed $install_dir/list/control/$flag_name'"
     fi
 }
 
@@ -253,9 +253,9 @@ get_3choices() {
     local choice3_file="$3"
 
 
-    if [ -f "$data_dir/control/$choice3_file" ]; then
+    if [ -f "$install_dir/list/control/$choice3_file" ]; then
         echo "$choice3_file"
-    elif [ -f "$data_dir/control/$choice2_file" ]; then
+    elif [ -f "$install_dir/list/control/$choice2_file" ]; then
         echo "$choice2_file"
     else
         echo "$choice1"
@@ -270,28 +270,25 @@ set_3choices() {
 
     case $config_value in
         "$choice3")
-            ynh_secure_remove "$data_dir/control/$choice1_file"
-            ynh_secure_remove "$data_dir/control/$choice2_file"
-            #ynh_print_info "--message='Removed $data_dir/control/$choice1_file and/or $data_dir/control/$choice2_file'"
+            ynh_secure_remove "$install_dir/list/control/$choice1_file"
+            ynh_secure_remove "$install_dir/list/control/$choice2_file"
             ;;
 
         "$choice1_file")
-            touch "$data_dir/control/$choice1_file"
-            ynh_secure_remove "$data_dir/control/$choice2_file"
-            #ynh_print_info "--message='Created $data_dir/control/$choice1_file and removed $data_dir/control/$choice2_file if needed'"
+            touch "$install_dir/list/control/$choice1_file"
+            ynh_secure_remove "$install_dir/list/control/$choice2_file"
             ;;
 
         "$choice2_file")
-            touch "$data_dir/control/$choice2_file"
-            ynh_secure_remove "$data_dir/control/$choice1_file"
-            #ynh_print_info "--message='Created $data_dir/control/$choice2_file and removed $data_dir/control/$choice1_file if needed'"
+            touch "$install_dir/list/control/$choice2_file"
+            ynh_secure_remove "$install_dir/list/control/$choice1_file"
             ;;
     esac
 }
 
 get_textfile() {
     local file_name="$1"
-    local file_path="$data_dir/control/$file_name"
+    local file_path="$install_dir/list/control/$file_name"
 
     if [ -f "$file_path" ]; then
         cat "$file_path"

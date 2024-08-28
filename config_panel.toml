@@ -11,7 +11,7 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
     name.en = "General"
     name.fr = "Général"
 
-        [main.general.listadress]
+        [main.general.listaddress]
         ask.en = "List adress"
         ask.fr = "Adresse de la liste"
         readonly = true
@@ -44,7 +44,7 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
         help.fr = "Nom technique du paramètre : `owner`"
         optional = true
         type = "text"
-        bind = "__DATA_DIR__/control/owner"
+        bind = "__INSTALL_DIR__/list/control/owner"
 
         [main.owners.notifysub]
         ask.en = "Notify owners about subcriptions/unsubscribtions to the list?"
@@ -77,7 +77,7 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
         help.en = "Technical setting name: `moderators`"
         help.fr = "Nom technique du paramètre : `moderators`"
         type = "text"
-        bind = "__DATA_DIR__/control/moderators"
+        bind = "__INSTALL_DIR__/list/control/moderators"
         visible = "moderated == true"
 
         [main.moderation.modnonsubposts]
@@ -113,7 +113,7 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
         help.en = "Technical setting name: `footer`"
         help.fr = "Nom technique du paramètre : `footer`"
         type = "text"
-        bind = "__DATA_DIR__/control/footer"
+        bind = "__INSTALL_DIR__/list/control/footer"
 
     [main.subscribers]
     name.en = "Subscribers"

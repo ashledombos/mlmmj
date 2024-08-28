@@ -27,7 +27,7 @@ yunohost tools regen-conf postfix
 ynh_script_progression --message="Configuring Cron"
 
 rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
-echo "$rand_min */2 * * * $app $install_dir/app/bin/mlmmj-maintd -F -L $data_dir" > "/etc/cron.d/$app" 
+echo "$rand_min */2 * * * $app $install_dir/app/bin/mlmmj-maintd -F -L $install_dir/list" > "/etc/cron.d/$app" 
 
 # -------------------------------------------------------------
 # Upgrade completion
