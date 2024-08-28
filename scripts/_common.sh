@@ -102,7 +102,7 @@ is_outgoing_mail_enabled() {
 
 create_list() {
 
-    sudo -u $app "$install_dir"/app/bin/mlmmj-make-ml -f <(cat << EOF
+    sudo -u $app -- "$install_dir"/app/bin/mlmmj-make-ml -f <(cat << EOF
 SPOOLDIR="$data_dir"
 LISTNAME="tmp"
 FQDN="$domain_part"
