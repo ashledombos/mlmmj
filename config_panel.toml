@@ -147,3 +147,4 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
         ask.fr = "Abonné·e·s"
         type = "text"
         visible = "display_subscribers"
+        bind = "null"
