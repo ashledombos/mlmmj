@@ -102,9 +102,8 @@ is_outgoing_mail_enabled() {
 
 create_list() {
 
-    local tmpconf=$(mktemp)
+    local tmpconf=$(sudo -u $app mktemp)
     cat << EOF > $tmpconf
->>>>>>> Stashed changes
 SPOOLDIR="$data_dir"
 LISTNAME="tmp"
 FQDN="$domain_part"
@@ -115,7 +114,7 @@ DO_CHOWN='y'
 CHOWN='$app'
 ADDCRON='n'
 EOF
-    sudo -u $app "$install_dir"/app/bin/mlmmj-make-ml -f <(cat $tmpconf)
+    sudo -u $app "$install_dir"/app/bin/mlmmj-make-ml -f $tmpconf
 
     for stuff in $(ls $data_dir/tmp)
     do
