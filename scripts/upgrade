@@ -1,20 +1,33 @@
 #!/bin/bash
 
-#=================================================
-# UPGRADE
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 # -------------------------------------------------------------
-# Install MLMMJ binaries if necessary
+# Download and compile MLMMJ and setup postfix tables
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Checking existing mlmmj binaries;"
+ynh_script_progression --message="Building $app" --weight=5
 
 install_update_mlmmj
 
+# -------------------------------------------------------------
+# Setting up postfix with new transport and virtual tables
+# -------------------------------------------------------------
+
+ynh_script_progression --message="Configuring postfix"
+
+ynh_add_config --template="regenconf_postfix" --destination="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
+yunohost tools regen-conf postfix
+
+# -------------------------------------------------------------
+# Cron
+# -------------------------------------------------------------
+
+ynh_script_progression --message="Configuring Cron"
+
+rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
+echo "$rand_min */2 * * * $app $install_dir/app/bin/mlmmj-maintd -F -L $data_dir" > "/etc/cron.d/$app" 
 
 # -------------------------------------------------------------
 # Upgrade completion

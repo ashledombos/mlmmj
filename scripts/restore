@@ -6,7 +6,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # RESTORE THE APP MAIN DIR
 #=================================================
-ynh_script_progression --message="Restoring the app main directory..." --weight=1
+ynh_script_progression --message="Restoring the app main directory..."
 
 ynh_restore_file --origin_path="$install_dir"
 
@@ -15,7 +15,7 @@ chown -R "$app:www-data" "$install_dir"
 #=================================================
 # RESTORE THE DATA DIRECTORY
 #=================================================
-ynh_script_progression --message="Restoring the data directory..." --weight=1
+ynh_script_progression --message="Restoring the data directory..."
 
 ynh_restore_file --origin_path="$data_dir" --not_mandatory
 
@@ -25,9 +25,8 @@ chown -R "$app:www-data" "$data_dir"
 # # RESTORE SYSTEM CONFIGURATIONS
 # #=================================================
 
-ynh_restore_file --origin_path="$cron_file"
-
-ynh_restore_file --origin_path="$regen_conf_file"
+ynh_restore_file --origin_path="/etc/cron.d/$app"
+ynh_restore_file --origin_path="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
 yunohost tools regen-conf postfix
 
 #=================================================

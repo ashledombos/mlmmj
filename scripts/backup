@@ -30,8 +30,8 @@ ynh_backup --src_path="$data_dir" --is_big
 # BACKUP VARIOUS FILES
 #=================================================
 
-ynh_backup --src_path="$cron_file"
-ynh_backup --src_path="$regen_conf_file"
+ynh_backup --src_path="/etc/cron.d/$app"
+ynh_backup --src_path="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
 
 #=================================================
 # END OF SCRIPT
