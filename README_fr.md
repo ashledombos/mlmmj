@@ -24,8 +24,12 @@ Dans cette app YunoHost, une interface de configuration est fournie dans la weba
 - La personnalisation des objets et pieds de page des emails.
 - Ajouter / enlever des abonné·e·s
 
+Néanmoins pour le moment l'application ne dispose pas :
+- d'une interface web pour s'inscrire à la liste (pour le moment les pesonnes souhaitant s'inscrire doivent envoyer un mail à une adresse spéciale, ou demander à un·e admin de les ajouter)
+- d'une interface web pour naviguer dans les archives (mais théoriquement faisable dans le futur)
 
-**Version incluse :** 1.4.3~ynh1
+
+**Version incluse :** 1.4.3~ynh2
 
 ## Captures d’écran
 

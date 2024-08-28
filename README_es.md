@@ -24,8 +24,12 @@ In this YunoHost app, a configuration panel is provided in the webadmin (in the 
 - Customization of email subjects and footers.
 - Add or remove subscribers
 
+However for now, the package lacks:
+- a web user interface to subscribe (for now people willing to subscribe should send an email to a special address, or ask admins to add them) 
+- a web interface to browse the list's archive (but theoretically doable in the future)
 
-**Versión actual:** 1.4.3~ynh1
+
+**Versión actual:** 1.4.3~ynh2
 
 ## Capturas
 
