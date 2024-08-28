@@ -4,8 +4,8 @@ version = "1.0"
 name.en = "List configuration"
 name.fr = "Configuration de la liste"
 
-help.en = "This is a simplified management interface. For advanced options, please refer to the documentation."     
-help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation." 
+help.en = "This is a simplified management interface. For advanced options, please refer to the documentation."
+help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation."
 
     [main.general]
     name.en = "General"
@@ -48,7 +48,7 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
         optional = true
         type = "text"
         bind = "__DATA_DIR__/control/owner"
-        
+
         [main.owners.notifysub]
         ask.en = "Notify owners about subcriptions/unsubscribtions to the list?"
         ask.fr = "Notifier les propriétaires des abonnements/désabonnements à la liste"
@@ -62,7 +62,7 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
         help.en = "Technical setting name: `submod`"
         help.fr = "Nom technique du paramètre : `submod`"
         type = "boolean"
-        
+
     [main.moderation]
     name.en = "Moderation"
     name.fr = "Modération"
@@ -109,7 +109,6 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
         help.en = "Technical setting name: `prefix`"
         help.fr = "Nom technique du paramètre : `prefix`"
         type = "string"
-        bind = "__DATA_DIR__/control/prefix"
 
         [main.mail.footer]
         ask.en = "Footer content"
@@ -120,9 +119,9 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
         bind = "__DATA_DIR__/control/footer"
 
     [main.subscribers]
-    name.en = "Subscribers" 
+    name.en = "Subscribers"
     name.fr = "Abonné·e·s"
- 
+
         [main.subscribers.add_subscribers]
         help.en = "A welcome email will be sent to added addresses."
         help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
@@ -136,7 +135,7 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
         ask.en = "Remove addresses from the list (one per line)"
         ask.fr = "Retirer des adresses de la liste (une par ligne)"
         type = "text"
-        
+
         [main.subscribers.display_subscribers]
         ask.en = "Display subscribers list"
         ask.fr = "Afficher la liste des abonné·e·s"
@@ -147,4 +146,4 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
         ask.en = "Subscribers"
         ask.fr = "Abonné·e·s"
         type = "text"
-        visible = "display_subscribers == true"
+        visible = "display_subscribers"

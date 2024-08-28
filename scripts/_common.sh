@@ -102,7 +102,7 @@ is_outgoing_mail_enabled() {
 
 create_list() {
 
-    "$install_dir"/app/bin/mlmmj-make-ml -f <(cat << EOF
+    sudo -u $app "$install_dir"/app/bin/mlmmj-make-ml -f <(cat << EOF
 SPOOLDIR="$data_dir"
 LISTNAME="tmp"
 FQDN="$domain_part"
@@ -139,6 +139,8 @@ EOF
     && footer_template="footer_${language}.tpl" \
     || footer_template="footer_en.tpl"
     ynh_add_config --template="$footer_template" --destination="$data_dir/control/footer"
+    
+    chown -R $app:$app $data_dir/control
 
     mkdir -p "$install_dir/tables"
     touch "$install_dir/tables/transport"

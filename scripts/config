@@ -65,6 +65,12 @@ get__notifymod() {
     get_flag "notifymod"
 }
 
+# Emails
+
+get__prefix() {
+    cat $data_dir/control/prefix
+}
+
 # Sub
 
 get__add_subscribers() {
@@ -82,9 +88,9 @@ get__display_subscribers() {
 get__subscribers_list() {
     
     # cf http://mlmmj.org/mlmmj-list.html
-    $install_dir/app/bin/mlmmj-list -L $data_dir -s
-    $install_dir/app/bin/mlmmj-list -L $data_dir -d
-    $install_dir/app/bin/mlmmj-list -L $data_dir -n
+    sudo -u $app $install_dir/app/bin/mlmmj-list -L $data_dir -s
+    sudo -u $app $install_dir/app/bin/mlmmj-list -L $data_dir -d
+    sudo -u $app $install_dir/app/bin/mlmmj-list -L $data_dir -n
 
 }
 
@@ -134,7 +140,11 @@ set__notifymod() {
     set_flag "notifymod" "$notifymod"
 }
 
-# Advanced
+# Emails
+
+set__prefix() {
+    echo "$prefix" > "$data_dir/control/prefix"
+}
 
 # sub
 
@@ -146,7 +156,7 @@ set__add_subscribers() {
 
 set__del_subscribers() {
     while IFS= read -r email; do
-        $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
+        sudo -u $app $bin_dir/mlmmj-unsub -L $data_dir -a $email -c -N -s
     done <<< "$del_subscribers"
 }
 
