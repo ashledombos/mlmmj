@@ -3,15 +3,15 @@ N.B.: README ini dibuat secara otomatis oleh <https://github.com/YunoHost/apps/t
 Ini TIDAK boleh diedit dengan tangan.
 -->
 
-# mlmmj untuk YunoHost
+# Mailing List Manager untuk YunoHost
 
 [![Tingkat integrasi](https://dash.yunohost.org/integration/mlmmj.svg)](https://ci-apps.yunohost.org/ci/apps/mlmmj/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/mlmmj.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/mlmmj.maintain.svg)
 
-[![Pasang mlmmj dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=mlmmj)
+[![Pasang Mailing List Manager dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=mlmmj)
 
 *[Baca README ini dengan bahasa yang lain.](./ALL_README.md)*
 
-> *Paket ini memperbolehkan Anda untuk memasang mlmmj secara cepat dan mudah pada server YunoHost.*  
+> *Paket ini memperbolehkan Anda untuk memasang Mailing List Manager secara cepat dan mudah pada server YunoHost.*  
 > *Bila Anda tidak mempunyai YunoHost, silakan berkonsultasi dengan [panduan](https://yunohost.org/install) untuk mempelajari bagaimana untuk memasangnya.*
 
 ## Ringkasan
@@ -33,7 +33,7 @@ For specific functionalities not covered in the panel, users are encouraged to [
 
 ## Tangkapan Layar
 
-![Tangkapan Layar pada mlmmj](./doc/screenshots/panel.png)
+![Tangkapan Layar pada Mailing List Manager](./doc/screenshots/panel.png)
 
 ## Dokumentasi dan sumber daya
 

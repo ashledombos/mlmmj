@@ -3,15 +3,15 @@
 请勿手动编辑。
 -->
 
-# YunoHost 上的 mlmmj
+# YunoHost 上的 Mailing List Manager
 
 [![集成程度](https://dash.yunohost.org/integration/mlmmj.svg)](https://ci-apps.yunohost.org/ci/apps/mlmmj/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/mlmmj.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/mlmmj.maintain.svg)
 
-[![使用 YunoHost 安装 mlmmj](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=mlmmj)
+[![使用 YunoHost 安装 Mailing List Manager](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=mlmmj)
 
 *[阅读此 README 的其它语言版本。](./ALL_README.md)*
 
-> *通过此软件包，您可以在 YunoHost 服务器上快速、简单地安装 mlmmj。*  
+> *通过此软件包，您可以在 YunoHost 服务器上快速、简单地安装 Mailing List Manager。*  
 > *如果您还没有 YunoHost，请参阅[指南](https://yunohost.org/install)了解如何安装它。*
 
 ## 概况
@@ -33,7 +33,7 @@ For specific functionalities not covered in the panel, users are encouraged to [
 
 ## 截图
 
-![mlmmj 的截图](./doc/screenshots/panel.png)
+![Mailing List Manager 的截图](./doc/screenshots/panel.png)
 
 ## 文档与资源
 

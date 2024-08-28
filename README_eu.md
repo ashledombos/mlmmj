@@ -3,15 +3,15 @@ Ohart ongi: README hau automatikoki sortu da <https://github.com/YunoHost/apps/t
 EZ editatu eskuz.
 -->
 
-# mlmmj YunoHost-erako
+# Mailing List Manager YunoHost-erako
 
 [![Integrazio maila](https://dash.yunohost.org/integration/mlmmj.svg)](https://ci-apps.yunohost.org/ci/apps/mlmmj/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/mlmmj.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/mlmmj.maintain.svg)
 
-[![Instalatu mlmmj YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=mlmmj)
+[![Instalatu Mailing List Manager YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=mlmmj)
 
 *[Irakurri README hau beste hizkuntzatan.](./ALL_README.md)*
 
-> *Pakete honek mlmmj YunoHost zerbitzari batean azkar eta zailtasunik gabe instalatzea ahalbidetzen dizu.*  
+> *Pakete honek Mailing List Manager YunoHost zerbitzari batean azkar eta zailtasunik gabe instalatzea ahalbidetzen dizu.*  
 > *YunoHost ez baduzu, kontsultatu [gida](https://yunohost.org/install) nola instalatu ikasteko.*
 
 ## Aurreikuspena
@@ -33,7 +33,7 @@ For specific functionalities not covered in the panel, users are encouraged to [
 
 ## Pantaila-argazkiak
 
-![mlmmj(r)en pantaila-argazkia](./doc/screenshots/panel.png)
+![Mailing List Manager(r)en pantaila-argazkia](./doc/screenshots/panel.png)
 
 ## Dokumentazioa eta baliabideak
 

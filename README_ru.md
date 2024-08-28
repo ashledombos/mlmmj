@@ -3,15 +3,15 @@
 Он НЕ ДОЛЖЕН редактироваться вручную.
 -->
 
-# mlmmj для YunoHost
+# Mailing List Manager для YunoHost
 
 [![Уровень интеграции](https://dash.yunohost.org/integration/mlmmj.svg)](https://ci-apps.yunohost.org/ci/apps/mlmmj/) ![Состояние работы](https://ci-apps.yunohost.org/ci/badges/mlmmj.status.svg) ![Состояние сопровождения](https://ci-apps.yunohost.org/ci/badges/mlmmj.maintain.svg)
 
-[![Установите mlmmj с YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=mlmmj)
+[![Установите Mailing List Manager с YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=mlmmj)
 
 *[Прочтите этот README на других языках.](./ALL_README.md)*
 
-> *Этот пакет позволяет Вам установить mlmmj быстро и просто на YunoHost-сервер.*  
+> *Этот пакет позволяет Вам установить Mailing List Manager быстро и просто на YunoHost-сервер.*  
 > *Если у Вас нет YunoHost, пожалуйста, посмотрите [инструкцию](https://yunohost.org/install), чтобы узнать, как установить его.*
 
 ## Обзор
@@ -33,7 +33,7 @@ For specific functionalities not covered in the panel, users are encouraged to [
 
 ## Снимки экрана
 
-![Снимок экрана mlmmj](./doc/screenshots/panel.png)
+![Снимок экрана Mailing List Manager](./doc/screenshots/panel.png)
 
 ## Документация и ресурсы
 
