@@ -11,14 +11,11 @@ help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des option
     name.en = "General"
     name.fr = "Général"
 
-        [main.general.list_adresses]
-        ask.en = "List adresses (one per line)"
-        ask.fr = "Adresses de la liste (un email par ligne)"
-        help.en = "Technical setting name: `listaddress`"
-        help.fr = "Nom technique du paramètre : `listaddress`"
-        optional = true
+        [main.general.listadress]
+        ask.en = "List adress"
+        ask.fr = "Adresse de la liste"
+        readonly = true
         type = "text"
-        bind = "__DATA_DIR__/control/listaddress"
 
         [main.general.sub_policy]
         ask.en = "Subscription policy"
