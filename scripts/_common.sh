@@ -103,7 +103,7 @@ is_outgoing_mail_enabled() {
 create_list() {
 
     local tmpconf=$(sudo -u $app mktemp)
-    cat << EOF > $tmpconf
+    cat << EOF | sudo -u $app tee $tmpconf >/dev/null
 SPOOLDIR="$data_dir"
 LISTNAME="tmp"
 FQDN="$domain_part"
