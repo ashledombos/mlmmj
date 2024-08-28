@@ -1,37 +1,37 @@
 version = "1.0"
 
 [main]
-name.en = "MLMMJ settings"
-name.fr = "Paramètres MLMMJ"
+name.en = "List configuration"
+name.fr = "Configuration de la liste"
+
+help.en = "This is a simplified management interface. For advanced options, please refer to the documentation."
+help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation."
 
     [main.general]
     name.en = "General"
     name.fr = "Général"
 
-        [main.general.list_adresses]
-        ask.en = "List owners (one email per line)"
-        ask.fr = "Propriétaires de la liste (un email par ligne)"
-        help.en = "Setting name: owner"
-        help.fr = "Nom du paramètre : owner"
-        optional = true
+        [main.general.listaddress]
+        ask.en = "List adress"
+        ask.fr = "Adresse de la liste"
+        readonly = true
         type = "text"
-        bind = "/var/www/__APP__/ynh/listaddress.txt"
 
-        [main.general.list_status]
-        ask.en = "List Subscription Status"
-        ask.fr = "Statut d'abonnement à la liste"
-        help.en = "'open' allows anyone to subscribe or unsubscribe by email, 'closedlistsub' restricts new subscriptions, and 'closedlist' restricts both new subscriptions and unsubscriptions."
-        help.fr = "'open' permet à tout le monde de s'abonner ou se désabonner par courriel, 'closedlistsub' restreint les nouveaux abonnements et 'closedlist' restreint à la fois les nouveaux abonnements et les désabonnements."
+        [main.general.sub_policy]
+        ask.en = "Subscription policy"
+        ask.fr = "Politique d'abonnement"
         type = "select"
-        choices = {"open" = "open", "closedlistsub" = "closedlistsub", "closedlist" = "closedlist"}
+        choices.open = "Anyone can subscribe or unsubscribe by email"
+        choices.closedlistsub = "Restrict new subscriptions"
+        choices.closedlist = "Restricts both new subscriptions and unsubscriptions"
 
-        [main.general.whocanpost]
-        ask.en = "Who is able to post on the list"
-        ask.fr = "Qui est autorisé à publier sur la liste ?"
-        help.en = "'all' allows anyone to post, 'subonlypost' allows only people who are subscribed to the list, and 'modonlypost' allows only moderators to post (see moderation section below)."
-        help.fr = "'all' permet à n’importe qui de publier sur la liste, 'subonlypost' permet uniquement aux abonnés de publier, 'modonlypost' permet uniquement aux abonnés de publier (voir la section modération ci-dessous)."
+        [main.general.post_policy]
+        ask.en = "Posting policy"
+        ask.fr = "Politique d'envoi de messages"
         type = "select"
-        choices = {"all" = "all", "subonlypost" = "subonlypost", "modonlypost" = "modonlypost"}
+        choices.all = "Anyone can post"
+        choices.subonlypost = "Only people subscribed to the list can post"
+        choices.modonlypost = "Only moderators can post"
 
     [main.owners]
     name.en = "Owners"
@@ -40,111 +40,85 @@ name.fr = "Paramètres MLMMJ"
         [main.owners.owner]
         ask.en = "List owners (one email per line)"
         ask.fr = "Propriétaires de la liste (un email par ligne)"
-        help.en = "Setting name: owner"
-        help.fr = "Nom du paramètre : owner"
+        help.en = "Technical setting name: `owner`"
+        help.fr = "Nom technique du paramètre : `owner`"
         optional = true
         type = "text"
-        bind = "/var/www/__APP__/ynh/owner.txt"
-        
+        bind = "__INSTALL_DIR__/list/control/owner"
+
         [main.owners.notifysub]
-        ask.en = "Should owners be notified of subcriptions and unsubscribtions to the list?"
-        ask.fr = "Les propriétaire doivent-ils être notifiés des abonnements et désabonnements à la liste ?"
-        help.en = "Setting name: notifysub"
-        help.fr = "Nom du paramètre : notifysub"
+        ask.en = "Notify owners about subcriptions/unsubscribtions to the list?"
+        ask.fr = "Notifier les propriétaires des abonnements/désabonnements à la liste"
+        help.en = "Technical setting name: `notifysub`"
+        help.fr = "Nom technique du paramètre : `notifysub`"
         type = "boolean"
 
         [main.owners.submod]
-        ask.en = "Should subscription to the list be accepted by owners?"
-        ask.fr = "L’abonnement à la liste doit-il être accepté par les propriétaires?"
-        help.en = "Setting name: submod"
-        help.fr = "Nom du paramètre : submod"
+        ask.en = "Subscriptions to the list must be validated by owners"
+        ask.fr = "Faire valider les inscriptions à la liste par les propriétaires"
+        help.en = "Technical setting name: `submod`"
+        help.fr = "Nom technique du paramètre : `submod`"
         type = "boolean"
-
-        [main.owners.submod_list]
-        ask.en = "Optional: it is possible to delegate the acceptation of subscriptions to addresses other than those of the owners (one e-mail address per line if used)."
-        ask.fr = "Facultatif : il est possible de déléguer l’acceptation des abonnements à d’autres adresses que celles des propriétaires (une adresse courriel par ligne si utilisé)"
-        help.en = "Setting name: submod"
-        help.fr = "Nom du paramètre : submod"
-        type = "text"
-        bind = "/var/www/__APP__/ynh/submod.txt"
-        visible = "submod == 1"
-        
 
     [main.moderation]
     name.en = "Moderation"
     name.fr = "Modération"
 
+        [main.moderation.moderated]
+        ask.en = "Enable moderation"
+        ask.fr = "Activer la modération"
+        help.en = "Technical setting name: `moderated`"
+        help.fr = "Nom technique du paramètre : `moderated`"
+        type = "boolean"
+
         [main.moderation.moderators]
         ask.en = "List moderators (one email per line)"
-        ask.fr = "Modérateurs de la liste (une adresse courriel par ligne)"
-        help.en = "Setting name: moderators"
-        help.fr = "Nom du paramètre : moderators"
+        ask.fr = "Modérateur·ice·s de la liste (une adresse courriel par ligne)"
+        help.en = "Technical setting name: `moderators`"
+        help.fr = "Nom technique du paramètre : `moderators`"
         type = "text"
-        bind = "/var/www/__APP__/ynh/moderators.txt"
+        bind = "__INSTALL_DIR__/list/control/moderators"
+        visible = "moderated == true"
 
         [main.moderation.modnonsubposts]
-        ask.en = "Should all postings from people who are not allowed to post to the list will be moderated instead of denied?"
-        ask.fr = "Tous les messages provenant de personnes qui ne sont pas autorisées à publier sur la liste devraient-ils être modérés au lieu d'être refusés ?"
-        help.en = "Setting name: modnonsubposts"
-        help.fr = "Nom du paramètre : modnonsubposts"
+        ask.en = "Send posts to moderation if they are from unauthorized people (instead of simply denying them)"
+        ask.fr = "Faire valider les messages par les modérateur·ice·s si ils provinnent de personnes non autorisées à poster (plutôt qu de simplement refuser les messages)"
+        help.en = "Technical setting name: `modnonsubposts`"
+        help.fr = "Nom technique du paramètre : `modnonsubposts`"
         type = "boolean"
-
-        [main.moderation.moderated]
-        ask.en = "Should legit messages be moderated (note: moderators messages will not be moderated)?"
-        ask.fr = "Les messages légitimes doivent-ils être modérés (note: les messages des modérateurs ne seront pas modérés)?"
-        help.en = "Setting name: moderated"
-        help.fr = "Nom du paramètre : moderated"
-        type = "boolean"
+        visible = "moderated == true"
 
         [main.moderation.notifymod]
-        ask.en = "Should posters get an email when their post is being moderated?"
-        ask.fr = "Les auteurs de messages devraient-ils recevoir un courrier électronique lorsque leur message est en cours de modération ?"
-        help.en = "Setting name: notifymod"
-        help.fr = "Nom du paramètre : notifymod"
+        ask.en = "Notify authors that their post is pending moderation"
+        ask.fr = "Notifier les personnes lorsque leur message est en attente de modération"
+        help.en = "Technical setting name: `notifymod`"
+        help.fr = "Nom technique du paramètre : `notifymod`"
         type = "boolean"
+        visible = "moderated == true"
 
-    [main.advanced]
-    name.en = "Advanced settings"
-    name.fr = "Paramètres avancés"
+    [main.mail]
+    name.en = "Mail configuration"
+    name.fr = "Configuration des emails"
 
-        [main.advanced.prefix]
+        [main.mail.prefix]
         ask.en = "Prefix for the Subject line of emails"
         ask.fr = "Préfixe pour la ligne d'objet des emails"
-        help.en = "Setting name: prefix"
-        help.fr = "Nom du paramètre : prefix"
-        type = "text"
-        bind = "/home/yunohost.app/__APP__/control/prefix"
+        help.en = "Technical setting name: `prefix`"
+        help.fr = "Nom technique du paramètre : `prefix`"
+        type = "string"
 
-        [main.advanced.footer]
+        [main.mail.footer]
         ask.en = "Footer content"
         ask.fr = "Contenu du pied de page"
-        help.en = "Setting name: footer"
-        help.fr = "Nom du paramètre : footer"
+        help.en = "Technical setting name: `footer`"
+        help.fr = "Nom technique du paramètre : `footer`"
         type = "text"
-        bind = "/home/yunohost.app/__APP__/control/footer"
-
-    [main.sub]
-    name.en = "Subscribers" 
-    name.fr = "Abonnés" 
-    help.en = "This is a simplified management interface. For advanced options, please refer to the documentation."     
-    help.fr = "Il s’agit d’une interface de gestion simplifiée. Pour des options avancées, veuillez vous référer à la documentation." 
-
-        [main.sub.category]
-        ask.en = "Select a list category to manage"
-        ask.fr = "Sélectionnez une catégorie de liste à gérer"
-        help.en = "Choose from subscribers, digesters, or nomail subscribers to manage specific list categories."
-        help.fr = "Choisissez entre les abonnés, les abonnés en mode digest ou les abonnés sans mail pour gérer des catégories spécifiques de liste."
-        type = "select"
-        default = "subscribers"
-        choices = {"subscribers" = "subscribers", "digesters" = "digesters", "nomailsubs" = "nomailsubs"}
+        bind = "__INSTALL_DIR__/list/control/footer"
 
     [main.subscribers]
-    name.en = "" 
-    name.fr = ""
-    help.en = "subscribers category"
-    help.fr = "catégorie subscribers"
-    visible = "category == 'subscribers'"
- 
+    name.en = "Subscribers"
+    name.fr = "Abonné·e·s"
+
         [main.subscribers.add_subscribers]
         help.en = "A welcome email will be sent to added addresses."
         help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
@@ -158,96 +132,16 @@ name.fr = "Paramètres MLMMJ"
         ask.en = "Remove addresses from the list (one per line)"
         ask.fr = "Retirer des adresses de la liste (une par ligne)"
         type = "text"
-        
+
         [main.subscribers.display_subscribers]
         ask.en = "Display subscribers list"
-        ask.fr = "Afficher la liste des abonnés (subscribers)"
+        ask.fr = "Afficher la liste des abonné·e·s"
         type = "boolean"
 
         [main.subscribers.subscribers_list]
         readonly = true
         ask.en = "Subscribers"
-        ask.fr = "Abonnés"
+        ask.fr = "Abonné·e·s"
         type = "text"
-        bind = "/var/www/__APP__/ynh/subscribers.txt"
-        visible = "display_subscribers == true"
-
-    [main.digesters]
-    name.en = "" 
-    name.fr = ""
-    help.en = "digesters category"
-    help.fr = "catégorie abonnés au résumé"
-    visible = "category == 'digesters'"
-
-        [main.digesters.enable_digesters]
-        ask.en = "Enable digest subscribtion"
-        ask.fr = "Autoriser les abonnements en mode résumé (digest)"
-        type = "boolean"
- 
-        [main.digesters.add_digesters]
-        help.en = "A welcome email will be sent to added addresses."
-        help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
-        example = "turtle@sweethome.org"
-        ask.en = "Add addresses to the digest subscribers listlist (one per line)"
-        ask.fr = "Ajouter des adresses à la liste résumé (une par ligne)"
-        type = "text"
-
-        [main.digesters.del_digesters]
-        help.en = "A goodbye email will be sent to the removed addresses."
-        help.fr = "Un courriel d’au revoir sera envoyé aux adresses supprimées."
-        example = "turtle@sweethome.org"
-        ask.en = "Remove addresses from the list (one per line)"
-        ask.fr = "Retirer des adresses de la liste (une par ligne)"
-        type = "text"
-
-        [main.digesters.display_digesters]
-        ask.en = "Display digesters list"
-        ask.fr = "Afficher la liste des abonnés en mode résumé (digesters)"
-        type = "boolean"
-
-        [main.digesters.digesters_list]
-        readonly = true
-        ask.en = "Subscribers"
-        ask.fr = "Abonnés"
-        type = "text"
-        bind = "/var/www/__APP__/ynh/digesters.txt"
-        visible = "display_digesters == true"
-        
-    [main.nomailsubs]
-    name.en = "" 
-    name.fr = ""
-    help.en = "nomailsubs category"
-    help.fr = "catégorie nomailsubs"
-    visible = "category == 'nomailsubs'"
-
-        [main.nomailsubs.enable_nomailsubs]
-        ask.en = "Enable nomail subscribtion"
-        ask.fr = "Autoriser les abonnements en mode envoi uniquement (nomail)"
-        type = "boolean"
- 
-        [main.nomailsubs.add_nomailsubs]
-        help.en = "A welcome email will be sent to added addresses."
-        help.fr = "Un courriel de bienvenue sera envoyé aux adresses ajoutées."
-        ask.en = "Add addresses to the nomailsubs category (one per line)"
-        ask.fr = "Ajouter des adresses à la liste nomailsubs (une par ligne)"
-        type = "text"
-
-        [main.nomailsubs.del_nomailsubs]
-        help.en = "A goodbye email will be sent to the removed addresses."
-        help.fr = "Un courriel d’au revoir sera envoyé aux adresses supprimées."
-        ask.en = "Remove addresses from the category (one per line)"
-        ask.fr = "Retirer des adresses de la catégorie (une par ligne)"
-        type = "text"
-
-        [main.nomailsubs.display_nomailsubs]
-        ask.en = "Display nomailsubs list"
-        ask.fr = "Afficher la liste des abonnés en mode envoi uniquement (nomailsubs)"
-        type = "boolean"
-
-        [main.nomailsubs.nomailsubs_list]
-        readonly = true
-        ask.en = "nomailsubs subscribers"
-        ask.fr = "abonnés à nomailsubs"
-        type = "text"
-        bind = "/var/www/__APP__/ynh/nomailsubs.txt"
-        visible = "display_nomailsubs == true"
+        visible = "display_subscribers"
+        bind = "null"

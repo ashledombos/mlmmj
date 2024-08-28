@@ -1,18 +1,13 @@
-1. **Limited Management via Configuration Panel**:
-   Not all configurable options (TUNABLES) of MLMMJ are directly editable through the Yunohost configuration panel. For a complete list of options and advanced features, consult the TUNABLES documentation on [Codeberg MLMMJ TUNABLES](https://codeberg.org/mlmmj/mlmmj/src/branch/master/documentation/tunables.text).
+People that want to subscribe to the list can do so by sending an empty email to `__LOCAL_PART__+subscribe@__DOMAIN_PART__`.
 
-2. **Direct Modification of Configuration Files**:
-   The names of the corresponding configuration files are provided to allow modifications either via the control panel or directly through the TUNABLES files. This flexibility is important for administrators who wish to further customize the configuration of their mailing lists. On this server, the files are located in the `__INSTALL_DIR__/config` directory.
+This list can be configured via the YunoHost configuration panel.
 
-3. **Adding Subscribers**:
-   Administrators can add subscribers to mailing lists through the Yunohost configuration panel. Additionally, MLMMJ commands are available to manage subscribers. Note that using MLMMJ commands currently requires sudo rights.
-   To manage subscriptions, the following commands mlmmj-sub, mlmmj-unsub, and mlmmj-list can be used to subscribe, unsubscribe, or list subscriptions, respectively.
-   The full path of the lists is required to use these commands. For more help on these commands, run the commands with the -h option:
-   * sudo /usr/local/bin/mlmmj-sub -L __INSTALL_DIR__ -h
-   * sudo /usr/local/bin/mlmmj-unsub -L __INSTALL_DIR__ -h
-   * sudo /usr/local/bin/mlmmj-list -L __INSTALL_DIR__ -h
+However, not all settings are available in this interface. It is possible to tweak configurations in `__INSTALL_DIR__/list` and according to the documentation available [here](https://mlmmj.org/TUNABLES.html)
 
-   Example command to subscribe the address name@domain.com:
-   sudo /usr/local/bin/mlmmj-sub -L __INSTALL_DIR__ -a name@domain.com
+You can also run the various `mlmmj` commands from the CLI, such as
 
-For administrators seeking advanced customization and management of MLMMJ beyond the Yunohost user interface, it is recommended to familiarize themselves with the configuration files and MLMMJ commands.
+- **List subscribers**: `sudo -u mlmmj -- __INSTALL_DIR__/app/bin/mlmmj-list -L __INSTALL_DIR__/list`
+- **Add a subscriber**: `sudo -u mlmmj -- __INSTALL_DIR__/app/bin/mlmmj-sub -L __INSTALL_DIR__/list -a sasha@domain.tld`
+- **Remove a subscriber**: `sudo -u mlmmj -- __INSTALL_DIR__/app/bin/mlmmj-unsub -L __INSTALL_DIR__/list -a sasha@domain.tld`
+
+More info about those commands can be obtained by adding the `-h` flag.
