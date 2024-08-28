@@ -114,6 +114,7 @@ DO_CHOWN='y'
 CHOWN='$app'
 ADDCRON='n'
 EOF
+    chmod +r $tmpconf
     sudo -u $app "$install_dir"/app/bin/mlmmj-make-ml -f $tmpconf
 
     for stuff in $(ls $data_dir/tmp)
