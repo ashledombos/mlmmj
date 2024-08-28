@@ -4,9 +4,9 @@ packaging_format = 2
 
 id = "mlmmj"
 name = "Mailing List Manager"
-description.en = "Mailing List Manager Made Joyful, a simple and efficient mailing list manager"
-description.fr = "Gestionnaire de listes de diffusion efficace et simple d'utilisation"
-version = "1.4.3~ynh1"
+description.en = "A simple and efficient mailing list manager"
+description.fr = "Un gestionnaire de liste de diffusion simple et efficace"
+version = "1.4.3~ynh2"
 maintainers = ["Raph"]
 
 [upstream]
