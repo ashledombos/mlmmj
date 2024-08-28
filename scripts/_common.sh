@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# List email address variables
-local_part="${list_email%@*}"
-domain_part="${list_email#*@}"
-
 #=================================================
 # PERSONAL HELPERS
 #=================================================

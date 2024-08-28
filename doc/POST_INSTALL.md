@@ -1,7 +1,5 @@
 **Mailing list email address:** `__LIST_EMAIL__`
 
-The mailing list can be managed through the YunoHost's app control panel for common operations or, for advanced users familiar with MLMMJ, via editing configuration files and executing commands for subscription management.
+People that want to subscribe to the list can do so by sending an empty email to `__LOCAL_PART__+subscribe@__DOMAIN_PART__`.
 
-The directory containing the program, configuration files for Postfix and Yunohost, and translation files is `__INSTALL_DIR__`. The MLMMJ data directory is `__DATA_DIR__`.
-
-For more details, please refer to this package's admin documentation and the official MLMMJ documentation for advanced users.
+This list can be configured via the YunoHost configuration panel (in Applications > __APP__ > List configuration tab).

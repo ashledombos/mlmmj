@@ -12,16 +12,19 @@ source /usr/share/yunohost/helpers
 
 ynh_script_progression --message="Validating install parameters"
 
+ynh_app_setting_set_default --key=local_part --value="${list_email%@*}"
+ynh_app_setting_set_default --key=domain_part --value="${list_email#*@}"
+
 if ! is_valid_list_email "$list_email"; then
     ynh_die --message="Please choose an available email address"
 else
-    echo --message="The email '$list_email' is available."
+    echo "The email '$list_email' is available."
 fi
 
 if ! is_domain_managed_by_yunohost "$domain_part"; then
     ynh_die --message="Please add $domain_part in this Yunohost instance domains list."
 else
-    echo --message="The domain '$domain_part' is managed by this Yunohost instance."
+    echo "The domain '$domain_part' is managed by this Yunohost instance."
 fi
 
 if ! is_incoming_mail_enabled "$domain_part"; then
@@ -29,7 +32,7 @@ if ! is_incoming_mail_enabled "$domain_part"; then
 elif ! is_outgoing_mail_enabled "$domain_part"; then
     ynh_die --message="Mail out is not activated for the domain $domain_part. Please enable it."
 else
-    echo --message="The domain '$domain_part' is correctly set up with mail in and mail out."
+    echo "The domain '$domain_part' is correctly set up with mail in and mail out."
 fi
 
 # -------------------------------------------------------------
