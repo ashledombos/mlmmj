@@ -89,11 +89,11 @@ get__display_subscribers() {
 }
 
 get__subscribers_list() {
-    
+
     # cf http://mlmmj.org/mlmmj-list.html
-    sudo -u $app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -s
-    sudo -u $app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -d
-    sudo -u $app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -n
+    ynh_exec_as_app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -s
+    ynh_exec_as_app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -d
+    ynh_exec_as_app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -n
 
     echo ""
 }
@@ -126,7 +126,7 @@ set__submod() {
             echo "" > "$install_dir/list/control/submod"
         fi
     else
-        ynh_secure_remove "$install_dir/list/control/submod"
+        ynh_safe_rm "$install_dir/list/control/submod"
     fi
 }
 
@@ -154,13 +154,13 @@ set__prefix() {
 
 set__add_subscribers() {
     while IFS= read -r email; do
-        sudo -u $app -- "$install_dir"/app/bin/mlmmj-sub -L $install_dir/list -a $email -c -s -U
+        ynh_exec_as_app -- "$install_dir"/app/bin/mlmmj-sub -L $install_dir/list -a $email -c -s -U
     done <<< "$add_subscribers"
 }
 
 set__del_subscribers() {
     while IFS= read -r email; do
-        sudo -u $app -- "$install_dir"/app/bin/mlmmj-unsub -L $install_dir/list -a $email -c -N -s
+        ynh_exec_as_app -- "$install_dir"/app/bin/mlmmj-unsub -L $install_dir/list -a $email -c -N -s
     done <<< "$del_subscribers"
 }
 
@@ -195,31 +195,31 @@ validate__email_generic() {
 
 #         # Vérification de la disponibilité de l'adresse e-mail
 #         if ! is_valid_list_email "$list_email"; then
-#             ynh_die --message="The email address '$list_email' is not available. Please choose a different email address."
+#             ynh_die "The email address '$list_email' is not available. Please choose a different email address."
 #         else
-#             ynh_print_info --message="The email address '$list_email' is available."
+#             ynh_print_info "The email address '$list_email' is available."
 #         fi
 
 #         # Vérification que le domaine est géré par Yunohost
 #         if ! is_domain_managed_by_yunohost "$domain_part"; then
-#             ynh_die --message="The domain '$domain_part' is not managed by this Yunohost instance. Please add it to the Yunohost domains list."
+#             ynh_die "The domain '$domain_part' is not managed by this Yunohost instance. Please add it to the Yunohost domains list."
 #         fi
 
 #         # Pour la première ligne uniquement, vérifiez le mail out
 #         if [ "$first_line" = true ]; then
 #             if ! is_outgoing_mail_enabled "$domain_part"; then
-#                 ynh_die --message="Mail out is not activated for the domain $domain_part. Please enable it."
+#                 ynh_die "Mail out is not activated for the domain $domain_part. Please enable it."
 #             else
-#                 ynh_print_info --message="Mail out is enabled for the domain '$domain_part'."
+#                 ynh_print_info "Mail out is enabled for the domain '$domain_part'."
 #             fi
 #             first_line=false # Reset le flag après la première ligne
 #         fi
 
 #         # Vérification que le domaine a bien le mail in activé
 #         if ! is_incoming_mail_enabled "$domain_part"; then
-#             ynh_die --message="Mail in is not activated for the domain $domain_part. Please enable it."
+#             ynh_die "Mail in is not activated for the domain $domain_part. Please enable it."
 #         else
-#             ynh_print_info --message="Mail in is enabled for the domain '$domain_part'."
+#             ynh_print_info "Mail in is enabled for the domain '$domain_part'."
 #         fi
 
 #     done < "$list_addresses_file"
@@ -240,10 +240,10 @@ set_flag() {
 
     if [[ $flag_value == 1 ]]; then
         touch "$install_dir/list/control/$flag_name"
-        #ynh_print_info "--message='Created $install_dir/list/control/$flag_name'"
+        #ynh_print_info "'Created $install_dir/list/control/$flag_name'"
     else
-        ynh_secure_remove "$install_dir/list/control/$flag_name"
-        #ynh_print_info "--message='Removed $install_dir/list/control/$flag_name'"
+        ynh_safe_rm "$install_dir/list/control/$flag_name"
+        #ynh_print_info "'Removed $install_dir/list/control/$flag_name'"
     fi
 }
 
@@ -251,7 +251,6 @@ get_3choices() {
     local choice1="$1"
     local choice2_file="$2"
     local choice3_file="$3"
-
 
     if [ -f "$install_dir/list/control/$choice3_file" ]; then
         echo "$choice3_file"
@@ -270,18 +269,18 @@ set_3choices() {
 
     case $config_value in
         "$choice3")
-            ynh_secure_remove "$install_dir/list/control/$choice1_file"
-            ynh_secure_remove "$install_dir/list/control/$choice2_file"
+            ynh_safe_rm "$install_dir/list/control/$choice1_file"
+            ynh_safe_rm "$install_dir/list/control/$choice2_file"
             ;;
 
         "$choice1_file")
             touch "$install_dir/list/control/$choice1_file"
-            ynh_secure_remove "$install_dir/list/control/$choice2_file"
+            ynh_safe_rm "$install_dir/list/control/$choice2_file"
             ;;
 
         "$choice2_file")
             touch "$install_dir/list/control/$choice2_file"
-            ynh_secure_remove "$install_dir/list/control/$choice1_file"
+            ynh_safe_rm "$install_dir/list/control/$choice1_file"
             ;;
     esac
 }
@@ -296,7 +295,6 @@ get_textfile() {
         echo ""
     fi
 }
-
 
 # -------------------------------------------------------------
 # Config apply

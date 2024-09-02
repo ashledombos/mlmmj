@@ -10,27 +10,27 @@ source /usr/share/yunohost/helpers
 # Then it checks that the domain has mail in and out set up
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Validating install parameters"
+ynh_script_progression "Validating install parameters"
 
 ynh_app_setting_set_default --key=local_part --value="${list_email%@*}"
 ynh_app_setting_set_default --key=domain_part --value="${list_email#*@}"
 
 if ! is_valid_list_email "$list_email"; then
-    ynh_die --message="Please choose an available email address"
+    ynh_die "Please choose an available email address"
 else
     echo "The email '$list_email' is available."
 fi
 
 if ! is_domain_managed_by_yunohost "$domain_part"; then
-    ynh_die --message="Please add $domain_part in this Yunohost instance domains list."
+    ynh_die "Please add $domain_part in this Yunohost instance domains list."
 else
     echo "The domain '$domain_part' is managed by this Yunohost instance."
 fi
 
 if ! is_incoming_mail_enabled "$domain_part"; then
-    ynh_die --message="Mail in is not activated for the domain $domain_part. Please enable it."
+    ynh_die "Mail in is not activated for the domain $domain_part. Please enable it."
 elif ! is_outgoing_mail_enabled "$domain_part"; then
-    ynh_die --message="Mail out is not activated for the domain $domain_part. Please enable it."
+    ynh_die "Mail out is not activated for the domain $domain_part. Please enable it."
 else
     echo "The domain '$domain_part' is correctly set up with mail in and mail out."
 fi
@@ -39,11 +39,11 @@ fi
 # Download and compile MLMMJ and setup postfix tables
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Building $app" --weight=5
+ynh_script_progression "Building $app"
 
 install_update_mlmmj
 
-ynh_script_progression --message="Creating list"
+ynh_script_progression "Creating list"
 
 create_list
 
@@ -51,22 +51,22 @@ create_list
 # Setting up postfix with new transport and virtual tables
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Configuring postfix"
+ynh_script_progression "Configuring postfix"
 
-ynh_add_config --template="regenconf_postfix" --destination="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
+ynh_config_add --template="regenconf_postfix" --destination="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
 yunohost tools regen-conf postfix
 
 # -------------------------------------------------------------
 # Cron
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Configuring Cron"
+ynh_script_progression "Configuring Cron"
 
 rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
-echo "$rand_min */2 * * * $app $install_dir/app/bin/mlmmj-maintd -F -L $install_dir/list" > "/etc/cron.d/$app" 
+echo "$rand_min */2 * * * $app $install_dir/app/bin/mlmmj-maintd -F -L $install_dir/list" > "/etc/cron.d/$app"
 
 # -------------------------------------------------------------
 # Install completion
 # -------------------------------------------------------------
 
-ynh_script_progression --message="Mailing list $list_email was created successfully." --last
+ynh_script_progression "Mailing list $list_email was created successfully."

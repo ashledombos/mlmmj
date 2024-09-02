@@ -1,22 +1,19 @@
 #!/bin/bash
 
-#=================================================
-# PERSONAL HELPERS
-#=================================================
 install_update_mlmmj() {
 
     mkdir -p "$install_dir/src"
     mkdir -p "$install_dir/app"
-    
-    ynh_setup_source  --full_replace=1 --dest_dir="$install_dir/src" || ynh_die "Failed to download mlmmj"
+
+    ynh_setup_source  --full_replace --dest_dir="$install_dir/src" || ynh_die "Failed to download mlmmj"
 
     chown -R $app:$app "$install_dir/src"
     chown -R $app:$app "$install_dir/app"
     pushd "$install_dir/src"
-        ynh_exec_and_print_stderr_only_if_error sudo -u $app autoreconf -i
-        ynh_exec_and_print_stderr_only_if_error sudo -u $app ./configure  --prefix="$install_dir/app"
-        ynh_exec_and_print_stderr_only_if_error sudo -u $app make
-        ynh_exec_and_print_stderr_only_if_error sudo -u $app make install
+        ynh_exec_and_print_stderr_only_if_error ynh_exec_as_app autoreconf -i
+        ynh_exec_and_print_stderr_only_if_error ynh_exec_as_app ./configure  --prefix="$install_dir/app"
+        ynh_exec_and_print_stderr_only_if_error ynh_exec_as_app make
+        ynh_exec_and_print_stderr_only_if_error ynh_exec_as_app make install
         [ $? -eq 0 ] || ynh_die "Failed to install mlmmj binaries"
     popd
 
@@ -28,13 +25,13 @@ is_valid_list_email() {
 
     local primary_email_user=$(yunohost user list --output-as json | jq -r --arg email "$email_address" '.users | to_entries[] | select(.value.mail == $email) | .key')
     if [[ -n "$primary_email_user" ]]; then
-        ynh_print_err --message="The email address '$email_address' is already the primary email of user '$primary_email_user'. Please choose a different email address."
+        ynh_print_warn "The email address '$email_address' is already the primary email of user '$primary_email_user'. Please choose a different email address."
         return 1
     fi
 
     local email_alias_user=$(yunohost user list --fields mail-alias --output-as json | jq -r --arg email "$email_address" '.users | to_entries[] | select(.value["mail-alias"] | index($email)) | .key')
     if [[ -n "$email_alias_user" ]]; then
-        ynh_print_err --message="The email address '$email_address' is already an alias of user '$email_alias_user'. Please choose a different email address."
+        ynh_print_warn "The email address '$email_address' is already an alias of user '$email_alias_user'. Please choose a different email address."
         return 1
     fi
 
@@ -45,7 +42,7 @@ is_domain_managed_by_yunohost() {
     local list_dom=$1
 
     if ! yunohost domain list --output-as json | jq -r '.domains[]' | grep -q "^$list_dom$"; then
-        ynh_print_err --message="The domain '$list_dom' is not managed by this Yunohost instance."
+        ynh_print_warn "The domain '$list_dom' is not managed by this Yunohost instance."
         return 1
     fi
 }
@@ -57,13 +54,13 @@ is_domain_mail_set() {
     local outgoing_mail_enabled=$(yunohost domain config get $list_dom feature.mail.mail_out)
 
     if [[ $incoming_mail_enabled != "1" && $outgoing_mail_enabled != "1" ]]; then
-        ynh_print_err --message="Both mail in and mail out are not activated for $list_dom"
+        ynh_print_warn "Both mail in and mail out are not activated for $list_dom"
         return 1
     elif [[ $incoming_mail_enabled != "1" ]]; then
-        ynh_print_err --message="Mail in is not activated for $list_dom"
+        ynh_print_warn "Mail in is not activated for $list_dom"
         return 1
     elif [[ $outgoing_mail_enabled != "1" ]]; then
-        ynh_print_err --message="Mail out is not activated for $list_dom"
+        ynh_print_warn "Mail out is not activated for $list_dom"
         return 1
     fi
 
@@ -76,7 +73,7 @@ is_incoming_mail_enabled() {
     local incoming_mail_enabled=$(yunohost domain config get "$list_dom" feature.mail.mail_in)
 
     if [[ $incoming_mail_enabled != "1" ]]; then
-        ynh_print_err --message="Mail in is not activated for $list_dom."
+        ynh_print_warn "Mail in is not activated for $list_dom."
         return 1
     fi
 
@@ -89,7 +86,7 @@ is_outgoing_mail_enabled() {
     local outgoing_mail_enabled=$(yunohost domain config get "$list_dom" feature.mail.mail_out)
 
     if [[ $outgoing_mail_enabled != "1" ]]; then
-        ynh_print_err --message="Mail out is not activated for $list_dom."
+        ynh_print_warn "Mail out is not activated for $list_dom."
         return 1
     fi
 
@@ -98,8 +95,8 @@ is_outgoing_mail_enabled() {
 
 create_list() {
 
-    local tmpconf=$(sudo -u $app mktemp)
-    cat << EOF | sudo -u $app tee $tmpconf >/dev/null
+    local tmpconf=$(ynh_exec_as_app mktemp)
+    cat << EOF | ynh_exec_as_app tee $tmpconf >/dev/null
 SPOOLDIR="$install_dir"
 LISTNAME="tmp"
 FQDN="$domain_part"
@@ -111,7 +108,7 @@ CHOWN='$app'
 ADDCRON='n'
 EOF
     chmod +r $tmpconf
-    sudo -u $app "$install_dir"/app/bin/mlmmj-make-ml -f $tmpconf
+    ynh_exec_as_app "$install_dir"/app/bin/mlmmj-make-ml -f $tmpconf
 
     mv $install_dir/tmp $install_dir/list
     chmod 700 $install_dir/list
@@ -129,12 +126,12 @@ EOF
         echo "10485760" > maxmailsize  # 10MB
         echo "postfix" > verp
     popd
-    
+
     [ -f "../conf/footer_${language}.tpl" ] \
     && footer_template="footer_${language}.tpl" \
     || footer_template="footer_en.tpl"
-    ynh_add_config --template="$footer_template" --destination="$install_dir/list/control/footer"
-    
+    ynh_config_add --template="$footer_template" --destination="$install_dir/list/control/footer"
+
     chown -R $app:$app $install_dir/list/control
 
     mkdir -p "$install_dir/tables"
