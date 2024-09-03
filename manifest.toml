@@ -27,6 +27,13 @@ ram.runtime = "50M"
 
 [install]
 
+    [install.domain]
+    type = "domain"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+    
     [install.list_email]
     ask.en = "Enter the full email address of the mailing list (e.g., mylist@mydomain.com)"
     ask.fr = "Entrez l'adresse e-mail complète de la liste de diffusion (par exemple, maliste@mondomaine.com)"
