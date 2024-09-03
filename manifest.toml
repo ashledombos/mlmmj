@@ -70,5 +70,7 @@ ram.runtime = "50M"
     
     [resources.permissions]
 
+    [resources.ports]
+
     [resources.apt]
     packages = "autoconf make gcc pkg-config libatf-dev"
