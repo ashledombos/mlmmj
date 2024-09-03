@@ -59,6 +59,10 @@ ram.runtime = "50M"
   in_subdir = true
   autoupdate.strategy = "latest_forgejo_release"
   autoupdate.asset = "^mlmmj-.*tar.xz$"
+
+  [resources.sources.web]
+  url = "https://github.com/ashledombos/mlmmj-simple-web-interface/archive/refs/tags/test.tar.gz"
+  sha256 = "bcc09a7a573f84f8f15d82306a1cc5430ae6b6c440221a92ba7d4a92174f09bd"
         
     [resources.system_user]
     

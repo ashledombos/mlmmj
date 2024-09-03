@@ -1,0 +1,44 @@
+{
+  "server": {
+    "address": "127.0.0.1",
+    "port": "__PORT__"
+  },
+  "app": {
+    "name": "Mlmmj Web Interface"
+  },
+  "groups": {
+    "admin": {
+      "access": ["flags", "values", "texts", "lists"]
+    },
+    "moderator": {
+      "access": ["flags", "texts"]
+    },
+    "custom": {
+      "access": {
+        "flags": "*",
+        "texts": "*",
+        "lists": ["custom headers"]
+      }
+    }
+  },
+  "users": [
+    {
+      "username": "admin",
+      "password": "secret",
+      "group": "admin"
+    },
+    {
+      "username": "moderator",
+      "password": "modpass",
+      "group": "moderator"
+    },
+    {
+      "username": "customuser",
+      "password": "custompass",
+      "group": "custom"
+    }
+  ],
+  "mlmmj": {
+    "path": "/var/spool/mlmmj/files"
+  }
+}

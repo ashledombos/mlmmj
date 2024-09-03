@@ -3,6 +3,9 @@
 #=================================================
 # PERSONAL HELPERS
 #=================================================
+
+nodejs_version=20
+
 install_update_mlmmj() {
 
     mkdir -p "$install_dir/src"
