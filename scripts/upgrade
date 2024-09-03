@@ -11,6 +11,22 @@ ynh_script_progression --message="Building $app" --weight=5
 
 install_update_mlmmj
 
+#=================================================
+# STOP SYSTEMD SERVICE
+#=================================================
+ynh_script_progression --message="Stopping a systemd service..." --weight=1
+
+ynh_systemd_action --service_name=$app --action="stop" --log_path="systemd"
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression --message="Upgrading source files..." --weight=1
+
+ynh_setup_source --dest_dir="$install_dir" --source_id="web"
+
+chown -R $app:www-data "$install_dir"
+
 # -------------------------------------------------------------
 # Setting up postfix with new transport and virtual tables
 # -------------------------------------------------------------
@@ -28,6 +44,34 @@ ynh_script_progression --message="Configuring Cron"
 
 rand_min=$(shuf -i 0-59 -n 1) # Generate random minute execution (between 0 and 59)
 echo "$rand_min */2 * * * $app $install_dir/app/bin/mlmmj-maintd -F -L $install_dir/list" > "/etc/cron.d/$app" 
+
+#=================================================
+# REAPPLY SYSTEM CONFIGURATIONS
+#=================================================
+ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+
+ynh_add_nginx_config
+
+ynh_add_systemd_config
+
+yunohost service add $app --description="Frontend for Mlmmj mailing list management" --log="/var/log/$app/$app.log"
+
+#=================================================
+# INSTALL NODE PACKAGES
+#=================================================
+ynh_script_progression --message="Installing Node.js packages..." --weight=10
+
+pushd "$install_dir"
+	ynh_use_nodejs
+	ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install
+popd
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression --message="Starting a systemd service..." --weight=1
+
+ynh_systemd_action --service_name=$app --action="start" --log_path="systemd"
 
 # -------------------------------------------------------------
 # Upgrade completion

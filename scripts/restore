@@ -21,6 +21,27 @@ ynh_restore_file --origin_path="/usr/share/yunohost/hooks/conf_regen/98-postfix_
 yunohost tools regen-conf postfix
 
 #=================================================
+# RESTORE SYSTEM CONFIGURATIONS
+#=================================================
+ynh_script_progression --message="Restoring system configurations related to $app..." --weight=1
+
+ynh_restore_file --origin_path="/etc/nginx/conf.d/$domain.d/$app.conf"
+
+ynh_restore_file --origin_path="/etc/systemd/system/$app.service"
+systemctl enable $app.service --quiet
+
+yunohost service add $app --description="Frontend for Mlmmj mailing list management" --log="/var/log/$app/$app.log"
+
+#=================================================
+# RELOAD NGINX AND PHP-FPM OR THE APP SERVICE
+#=================================================
+ynh_script_progression --message="Reloading NGINX web server and $app's service..." --weight=1
+
+ynh_systemd_action --service_name=$app --action="start" --log_path="systemd"
+
+ynh_systemd_action --service_name=nginx --action=reload
+
+#=================================================
 # END OF SCRIPT
 #=================================================
 

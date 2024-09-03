@@ -27,6 +27,13 @@ ram.runtime = "50M"
 
 [install]
 
+    [install.domain]
+    type = "domain"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+    
     [install.list_email]
     ask.en = "Enter the full email address of the mailing list (e.g., mylist@mydomain.com)"
     ask.fr = "Entrez l'adresse e-mail complète de la liste de diffusion (par exemple, maliste@mondomaine.com)"
@@ -59,6 +66,10 @@ ram.runtime = "50M"
   in_subdir = true
   autoupdate.strategy = "latest_forgejo_release"
   autoupdate.asset = "^mlmmj-.*tar.xz$"
+
+  [resources.sources.web]
+  url = "https://github.com/ashledombos/mlmmj-simple-web-interface/archive/refs/tags/test.tar.gz"
+  sha256 = "bcc09a7a573f84f8f15d82306a1cc5430ae6b6c440221a92ba7d4a92174f09bd"
         
     [resources.system_user]
     
@@ -66,5 +77,7 @@ ram.runtime = "50M"
     
     [resources.permissions]
 
+    [resources.ports]
+
     [resources.apt]
-    packages = "autoconf make gcc pkg-config libatf-dev"
+    packages = "autoconf, make, gcc, pkg-config, libatf-dev"

@@ -27,6 +27,10 @@ ynh_backup --src_path="$install_dir"
 ynh_backup --src_path="/etc/cron.d/$app"
 ynh_backup --src_path="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
 
+ynh_backup --src_path="/etc/nginx/conf.d/$domain.d/$app.conf"
+
+ynh_backup --src_path="/etc/systemd/system/$app.service"
+
 #=================================================
 # END OF SCRIPT
 #=================================================
