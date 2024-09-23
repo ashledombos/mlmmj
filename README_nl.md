@@ -29,7 +29,7 @@ However for now, the package lacks:
 - a web interface to browse the list's archive (but theoretically doable in the future)
 
 
-**Geleverde versie:** 1.4.3~ynh2
+**Geleverde versie:** 1.4.7~ynh1
 
 ## Schermafdrukken
 
