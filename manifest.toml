@@ -16,7 +16,7 @@ admindoc = "https://mlmmj.org/README.html"
 code = "https://codeberg.org/mlmmj/mlmmj"
 
 [integration]
-yunohost = ">= 11.2.18"
+yunohost = ">= 11.2.30"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
@@ -68,4 +68,4 @@ ram.runtime = "50M"
     [resources.permissions]
 
     [resources.apt]
-    packages = "autoconf make gcc pkg-config libatf-dev"
+    packages = "autoconf, make, gcc, pkg-config, libatf-dev"
