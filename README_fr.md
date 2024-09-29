@@ -29,7 +29,7 @@ Néanmoins pour le moment l'application ne dispose pas :
 - d'une interface web pour naviguer dans les archives (mais théoriquement faisable dans le futur)
 
 
-**Version incluse :** 1.4.3~ynh2
+**Version incluse :** 1.4.7~ynh1
 
 ## Captures d’écran
 
