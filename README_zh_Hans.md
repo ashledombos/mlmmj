@@ -29,7 +29,7 @@ However for now, the package lacks:
 - a web interface to browse the list's archive (but theoretically doable in the future)
 
 
-**分发版本：** 1.4.3~ynh2
+**分发版本：** 1.4.7~ynh1
 
 ## 截图
 

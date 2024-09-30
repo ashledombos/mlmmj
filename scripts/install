@@ -54,7 +54,7 @@ create_list
 ynh_script_progression "Configuring postfix"
 
 ynh_config_add --template="regenconf_postfix" --destination="/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
-yunohost tools regen-conf postfix
+YNH_HELPERS_VERSION=2 yunohost tools regen-conf postfix
 
 # -------------------------------------------------------------
 # Cron

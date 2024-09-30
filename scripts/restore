@@ -10,14 +10,13 @@ ynh_script_progression "Restoring the app main directory..."
 
 ynh_restore "$install_dir"
 
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:$app" "$install_dir"
 # #=================================================
 # # RESTORE SYSTEM CONFIGURATIONS
 # #=================================================
 
 ynh_restore "/etc/cron.d/$app"
 ynh_restore "/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
-yunohost tools regen-conf postfix
+YNH_HELPERS_VERSION=2 yunohost tools regen-conf postfix
 
 #=================================================
 # END OF SCRIPT

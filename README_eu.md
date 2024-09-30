@@ -29,7 +29,7 @@ However for now, the package lacks:
 - a web interface to browse the list's archive (but theoretically doable in the future)
 
 
-**Paketatutako bertsioa:** 1.4.3~ynh2
+**Paketatutako bertsioa:** 1.4.7~ynh1
 
 ## Pantaila-argazkiak
 

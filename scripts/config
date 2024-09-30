@@ -91,9 +91,9 @@ get__display_subscribers() {
 get__subscribers_list() {
 
     # cf http://mlmmj.org/mlmmj-list.html
-    ynh_exec_as_app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -s
-    ynh_exec_as_app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -d
-    ynh_exec_as_app -- $install_dir/app/bin/mlmmj-list -L $install_dir/list -n
+    ynh_exec_as_app $install_dir/app/bin/mlmmj-list -L $install_dir/list -s
+    ynh_exec_as_app $install_dir/app/bin/mlmmj-list -L $install_dir/list -d
+    ynh_exec_as_app $install_dir/app/bin/mlmmj-list -L $install_dir/list -n
 
     echo ""
 }

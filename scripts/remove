@@ -10,6 +10,6 @@ ynh_script_progression "Removing system configurations related to $app..."
 
 ynh_safe_rm "/etc/cron.d/$app"
 ynh_safe_rm "/usr/share/yunohost/hooks/conf_regen/98-postfix_$app"
-yunohost tools regen-conf postfix
+YNH_HELPERS_VERSION=2 yunohost tools regen-conf postfix
 
 ynh_script_progression "Removal of $app completed"
